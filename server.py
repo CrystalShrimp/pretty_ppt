@@ -16,6 +16,7 @@ from core.templates import (
     delete_custom_template,
     extract_template_from_deck,
     apply_template_to_deck,
+    render_component_with_template,
 )
 from core.ai_builder import (
     get_ai_tools_specification,
@@ -166,11 +167,60 @@ def delete_template_api(template_id: str):
         raise HTTPException(status_code=404, detail=str(e))
 
 
+@app.post("/api/templates/{template_id}/render-component")
+def render_component_by_template_api(template_id: str, payload: dict = Body(...)):
+    comp = payload.get("component") or payload
+    box = payload.get("box")
+    return render_component_with_template(comp, template_id=template_id, box=box)
+
+
+@app.post("/api/templates/{template_id}/render-deck")
+def render_deck_by_template_api(template_id: str, payload: dict = Body(...)):
+    deck_id = payload.get("deckId")
+    deck = payload.get("deck")
+    if not deck and deck_id:
+        fpath = os.path.join(DECKS_DIR, f"{deck_id}.json")
+        if not os.path.exists(fpath):
+            raise HTTPException(status_code=404, detail=f"未找到工程: {deck_id}")
+        with open(fpath, "r", encoding="utf-8") as f:
+            deck = json.load(f)
+    if not deck:
+        raise HTTPException(status_code=400, detail="请提供 deck 或 deckId")
+
+    rerender_components = bool(payload.get("rerenderComponents", True))
+    adapt_canvas = bool(payload.get("adaptCanvas", True))
+    updated = apply_template_to_deck(
+        deck,
+        template_id=template_id,
+        scope="deck",
+        rerender_components=rerender_components,
+        adapt_canvas=adapt_canvas
+    )
+    if deck_id and payload.get("save", False):
+        save_deck(deck_id, updated)
+
+    if payload.get("outputPath") or payload.get("returnFile"):
+        out_path = os.path.abspath(payload["outputPath"]) if payload.get("outputPath") else os.path.join(OUTPUT_DIR, f"{deck_id or 'deck'}_{template_id}.pptx")
+        export_deck_to_pptx(updated, out_path)
+        if payload.get("returnFile"):
+            encoded_name = quote(os.path.basename(out_path))
+            return FileResponse(
+                out_path,
+                media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                headers={"Content-Disposition": f"attachment; filename*=UTF-8''{encoded_name}"}
+            )
+        return {"status": "ok", "templateId": template_id, "slideCount": len(updated.get("slides", [])), "pptxPath": out_path, "deck": updated}
+
+    return updated
+
+
 @app.post("/api/decks/{deck_id}/apply-template")
 def apply_template_api(deck_id: str, payload: dict = Body(...)):
     template_id = payload.get("templateId") or DEFAULT_TEMPLATE_ID
     scope = payload.get("scope", "deck")
     slide_index = payload.get("slideIndex")
+    rerender_components = bool(payload.get("rerenderComponents", True))
+    adapt_canvas = bool(payload.get("adaptCanvas", scope == "deck"))
     deck = payload.get("deck")
 
     if not deck:
@@ -180,7 +230,14 @@ def apply_template_api(deck_id: str, payload: dict = Body(...)):
         with open(fpath, "r", encoding="utf-8") as f:
             deck = json.load(f)
 
-    updated = apply_template_to_deck(deck, template_id=template_id, scope=scope, slide_index=slide_index)
+    updated = apply_template_to_deck(
+        deck,
+        template_id=template_id,
+        scope=scope,
+        slide_index=slide_index,
+        rerender_components=rerender_components,
+        adapt_canvas=adapt_canvas
+    )
     if payload.get("save", True):
         save_deck(deck_id, updated)
     return updated

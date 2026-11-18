@@ -1,8 +1,8 @@
 {
   "id": "component_showcase",
-  "title": "Pretty PPT · 15 类标准元件全景示范集",
+  "title": "Pretty PPT · 17 类标准元件全景示范集",
   "templateId": "academic",
-  "sourceFile": "d:\\ForRunning\\ForDev\\PPT\\component_showcase.pptx",
+  "sourceFile": "D:\\ForRunning\\ForDev\\PPT\\component_showcase.pptx",
   "canvas": {
     "width": 1020.67,
     "height": 680.33,
@@ -22,6 +22,7 @@
   },
   "componentStats": {
     "cover-divider": 1,
+    "section-divider": 1,
     "slide-header": 4,
     "toc-list": 1,
     "tag-badge": 1,
@@ -33,26 +34,28 @@
     "rule-checklist": 2,
     "stage-funnel": 1,
     "iteration-lanes": 1,
-    "process-flow": 1,
+    "milestone-timeline": 1,
     "kpi-card": 1,
-    "image-frame": 1
+    "image-frame": 1,
+    "process-flow": 1
   },
   "slides": [
     {
       "id": "component_showcase_slide_1",
       "index": 1,
-      "title": "15 类标准元件全景示范集",
+      "title": "17 类标准元件全景示范集",
       "background": {
         "type": "color",
         "color": "#FFFFFF",
         "image": null
       },
+      "decorations": [],
       "components": [
         {
           "id": "sc_s1_c1",
           "type": "cover-divider",
           "subType": "cover",
-          "name": "cover-divider: 15 类标准元件全景示范集",
+          "name": "cover-divider: 17 类标准元件全景示范集",
           "x": 0.0,
           "y": 0.0,
           "w": 1020.67,
@@ -81,12 +84,12 @@
           },
           "content": {
             "tag": "PRETTY PPT · ACADEMIC",
-            "title": "15 类可复用标准元件全景示范集",
-            "subtitle": "面向学术汇报与外部 AI 工具调用的声明式排版架构，支持自由拖拽、局部间距微调、多风格模板一键切换与 PPTX 100% 无损往返解析。",
+            "title": "17 类可复用标准元件全景示范集",
+            "subtitle": "面向学术汇报、商业展示与外部 AI 一键调度的声明式排版引擎，支持模板级元件重渲染、渐变光晕与 PPTX 无损往返解析。",
             "meta": [
               "默认风格：学术深蓝 (#1B365D) + 学术酒红 (#7A2048) · 纯矢量零敏感依赖",
-              "元件体系：基础展示 (5 类) + 复合架构 (5 类) + 多媒体/原语 (5 类)",
-              "工具生态：支持 /api/templates 多模板管理与 /api/ai/generate 一键生稿"
+              "高阶皮肤：新增 terra_quest 16:9 机能工业风与 section-divider / milestone-timeline 元件",
+              "工具生态：支持 /api/templates/{id}/render-deck 元件级重渲染与 /api/ai/generate 一键生稿"
             ]
           },
           "children": [
@@ -98,11 +101,11 @@
               "x": 0.0,
               "y": 0.0,
               "w": 1020.67,
-              "h": 426.34,
+              "h": 426.57,
               "relX": 0.0,
               "relY": 0.0,
               "relW": 1020.67,
-              "relH": 426.34,
+              "relH": 426.57,
               "geom": "rect",
               "fill": "#1B365D",
               "borderColor": null,
@@ -117,11 +120,11 @@
               "x": 860.0,
               "y": 0.0,
               "w": 160.67,
-              "h": 426.34,
+              "h": 426.57,
               "relX": 860.0,
               "relY": 0.0,
               "relW": 160.67,
-              "relH": 426.34,
+              "relH": 426.57,
               "geom": "rect",
               "fill": "#2B547E",
               "borderColor": null,
@@ -134,11 +137,11 @@
               "role": "divider",
               "name": "中部强调色条",
               "x": 0.0,
-              "y": 426.34,
+              "y": 426.57,
               "w": 1020.67,
               "h": 7.94,
               "relX": 0.0,
-              "relY": 426.34,
+              "relY": 426.57,
               "relW": 1020.67,
               "relH": 7.94,
               "geom": "rect",
@@ -203,11 +206,11 @@
               "name": "封面主副标题框",
               "x": 64.0,
               "y": 136.0,
-              "w": 860.0,
+              "w": 860.67,
               "h": 250.0,
               "relX": 64.0,
               "relY": 136.0,
-              "relW": 860.0,
+              "relW": 860.67,
               "relH": 250.0,
               "geom": "rect",
               "fill": null,
@@ -231,7 +234,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "15 类可复用标准元件全景示范集",
+                        "text": "17 类可复用标准元件全景示范集",
                         "fontSize": 27.0,
                         "bold": true,
                         "italic": false,
@@ -239,7 +242,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "15 类可复用标准元件全景示范集"
+                    "text": "17 类可复用标准元件全景示范集"
                   },
                   {
                     "align": "left",
@@ -249,7 +252,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "面向学术汇报与外部 AI 工具调用的声明式排版架构，支持自由拖拽、局部间距微调、多风格模板一键切换与 PPTX 100% 无损往返解析。",
+                        "text": "面向学术汇报、商业展示与外部 AI 一键调度的声明式排版引擎，支持模板级元件重渲染、渐变光晕与 PPTX 无损往返解析。",
                         "fontSize": 13.5,
                         "bold": false,
                         "italic": false,
@@ -257,7 +260,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "面向学术汇报与外部 AI 工具调用的声明式排版架构，支持自由拖拽、局部间距微调、多风格模板一键切换与 PPTX 100% 无损往返解析。"
+                    "text": "面向学术汇报、商业展示与外部 AI 一键调度的声明式排版引擎，支持模板级元件重渲染、渐变光晕与 PPTX 无损往返解析。"
                   }
                 ]
               }
@@ -268,11 +271,11 @@
               "role": "subtitle",
               "name": "封面底部信息区",
               "x": 84.0,
-              "y": 478.0,
+              "y": 476.57,
               "w": 740.0,
               "h": 175.0,
               "relX": 84.0,
-              "relY": 478.0,
+              "relY": 476.57,
               "relW": 740.0,
               "relH": 175.0,
               "geom": "rect",
@@ -323,7 +326,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "元件体系：",
+                        "text": "高阶皮肤：",
                         "fontSize": 12.0,
                         "bold": true,
                         "italic": false,
@@ -331,7 +334,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "基础展示 (5 类) + 复合架构 (5 类) + 多媒体/原语 (5 类)",
+                        "text": "新增 terra_quest 16:9 机能工业风与 section-divider / milestone-timeline 元件",
                         "fontSize": 12.0,
                         "bold": false,
                         "italic": false,
@@ -339,7 +342,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "元件体系：基础展示 (5 类) + 复合架构 (5 类) + 多媒体/原语 (5 类)"
+                    "text": "高阶皮肤：新增 terra_quest 16:9 机能工业风与 section-divider / milestone-timeline 元件"
                   },
                   {
                     "align": "left",
@@ -357,7 +360,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "支持 /api/templates 多模板管理与 /api/ai/generate 一键生稿",
+                        "text": "支持 /api/templates/{id}/render-deck 元件级重渲染与 /api/ai/generate 一键生稿",
                         "fontSize": 12.0,
                         "bold": false,
                         "italic": false,
@@ -365,7 +368,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "工具生态：支持 /api/templates 多模板管理与 /api/ai/generate 一键生稿"
+                    "text": "工具生态：支持 /api/templates/{id}/render-deck 元件级重渲染与 /api/ai/generate 一键生稿"
                   }
                 ]
               }
@@ -377,15 +380,203 @@
     {
       "id": "component_showcase_slide_2",
       "index": 2,
-      "title": "基础展示与信息组织元件示范（P02）",
+      "title": "PART 01 · 核心元件谱系",
       "background": {
         "type": "color",
         "color": "#FFFFFF",
         "image": null
       },
+      "decorations": [],
       "components": [
         {
           "id": "sc_s2_c1",
+          "type": "section-divider",
+          "subType": "declarative",
+          "name": "section-divider",
+          "x": 0.0,
+          "y": 0.0,
+          "w": 1020.67,
+          "h": 680.33,
+          "layout": {
+            "paddingX": 48.0,
+            "paddingY": 20.0,
+            "headerGap": 8.0,
+            "itemGap": 8.0,
+            "lineHeight": 1.2,
+            "align": "center",
+            "valign": "middle"
+          },
+          "style": {
+            "fill": "#1B365D",
+            "borderColor": "#1B365D",
+            "borderWidth": 0.0,
+            "borderRadius": 0.0,
+            "titleColor": "#1B365D",
+            "titleSize": 40.0,
+            "titleBold": true,
+            "bodyColor": "#334155",
+            "bodySize": 14.0,
+            "accentColor": "#7A2048",
+            "fontFamily": "微软雅黑"
+          },
+          "content": {
+            "sectionNumber": "PART 01",
+            "title": "核心元件谱系与声明式编译范式",
+            "leftLabel": "ARCHITECTURE",
+            "rightLabel": "17 COMPONENTS"
+          },
+          "children": [
+            {
+              "id": "sc_s2_c1_ch1",
+              "rawType": "shape",
+              "role": "container",
+              "name": "章节背景横带",
+              "x": 0.0,
+              "y": 204.1,
+              "w": 1020.67,
+              "h": 272.13,
+              "relX": 0.0,
+              "relY": 204.1,
+              "relW": 1020.67,
+              "relH": 272.13,
+              "geom": "rect",
+              "fill": "#1B365D",
+              "borderColor": null,
+              "borderWidth": 0.0,
+              "textBody": null
+            },
+            {
+              "id": "sc_s2_c1_ch2",
+              "rawType": "shape",
+              "role": "step-num",
+              "name": "章节号",
+              "x": 80.0,
+              "y": 224.51,
+              "w": 360.0,
+              "h": 60.0,
+              "relX": 80.0,
+              "relY": 224.51,
+              "relW": 360.0,
+              "relH": 60.0,
+              "geom": "rect",
+              "fill": null,
+              "borderColor": null,
+              "borderWidth": 0.0,
+              "textBody": {
+                "valign": "middle",
+                "wrap": false,
+                "padding": {
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
+                },
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "PART 01",
+                        "fontSize": 20.0,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#E2E8F0",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "PART 01"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "sc_s2_c1_ch3",
+              "rawType": "shape",
+              "role": "title",
+              "name": "章节主标题",
+              "x": 80.0,
+              "y": 285.74,
+              "w": 860.67,
+              "h": 90.0,
+              "relX": 80.0,
+              "relY": 285.74,
+              "relW": 860.67,
+              "relH": 90.0,
+              "geom": "rect",
+              "fill": null,
+              "borderColor": null,
+              "borderWidth": 0.0,
+              "textBody": {
+                "valign": "middle",
+                "wrap": true,
+                "padding": {
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
+                },
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "核心元件谱系与声明式编译范式",
+                        "fontSize": 34.0,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#FFFFFF",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "核心元件谱系与声明式编译范式"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "sc_s2_c1_ch4",
+              "rawType": "shape",
+              "role": "divider",
+              "name": "强调细带",
+              "x": 80.0,
+              "y": 421.8,
+              "w": 260.0,
+              "h": 5.0,
+              "relX": 80.0,
+              "relY": 421.8,
+              "relW": 260.0,
+              "relH": 5.0,
+              "geom": "rect",
+              "fill": "#7A2048",
+              "borderColor": null,
+              "borderWidth": 0.0,
+              "textBody": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "component_showcase_slide_3",
+      "index": 3,
+      "title": "基础展示与信息组织元件示范（P03）",
+      "background": {
+        "type": "color",
+        "color": "#FFFFFF",
+        "image": null
+      },
+      "decorations": [],
+      "components": [
+        {
+          "id": "sc_s3_c1",
           "type": "slide-header",
           "subType": "default",
           "name": "slide-header",
@@ -417,13 +608,13 @@
           },
           "content": {
             "sectionTag": "01 基础与信息元件",
-            "title": "基础展示与信息组织元件示范（P02）",
+            "title": "基础展示与信息组织元件示范（P03）",
             "subtitle": "完整呈现 slide-header / toc-list / tag-badge / info-card / data-table / footer-banner 六类高频元件",
-            "pageNumber": "2 / 5"
+            "pageNumber": "3 / 6"
           },
           "children": [
             {
-              "id": "sc_s2_c1_ch1",
+              "id": "sc_s3_c1_ch1",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-主色",
@@ -442,7 +633,7 @@
               "textBody": null
             },
             {
-              "id": "sc_s2_c1_ch2",
+              "id": "sc_s3_c1_ch2",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-强调色",
@@ -461,7 +652,7 @@
               "textBody": null
             },
             {
-              "id": "sc_s2_c1_ch3",
+              "id": "sc_s3_c1_ch3",
               "rawType": "shape",
               "role": "step-box",
               "name": "章节胶囊标签",
@@ -510,7 +701,7 @@
               "adj": 20000
             },
             {
-              "id": "sc_s2_c1_ch4",
+              "id": "sc_s3_c1_ch4",
               "rawType": "shape",
               "role": "page-num",
               "name": "页码",
@@ -530,10 +721,10 @@
                 "valign": "middle",
                 "wrap": false,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -544,7 +735,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "2 / 5",
+                        "text": "3 / 6",
                         "fontSize": 9.5,
                         "bold": false,
                         "italic": false,
@@ -552,13 +743,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "2 / 5"
+                    "text": "3 / 6"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c1_ch5",
+              "id": "sc_s3_c1_ch5",
               "rawType": "shape",
               "role": "title",
               "name": "页面主标题",
@@ -578,10 +769,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -592,7 +783,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "基础展示与信息组织元件示范（P02）",
+                        "text": "基础展示与信息组织元件示范（P03）",
                         "fontSize": 19.0,
                         "bold": true,
                         "italic": false,
@@ -600,13 +791,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "基础展示与信息组织元件示范（P02）"
+                    "text": "基础展示与信息组织元件示范（P03）"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c1_ch6",
+              "id": "sc_s3_c1_ch6",
               "rawType": "shape",
               "role": "subtitle",
               "name": "页面副标题",
@@ -626,10 +817,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -654,7 +845,7 @@
               }
             },
             {
-              "id": "sc_s2_c1_ch7",
+              "id": "sc_s3_c1_ch7",
               "rawType": "shape",
               "role": "divider",
               "name": "页眉分割线",
@@ -675,7 +866,7 @@
           ]
         },
         {
-          "id": "sc_s2_c2",
+          "id": "sc_s3_c2",
           "type": "toc-list",
           "subType": "default",
           "name": "toc-list",
@@ -708,25 +899,25 @@
           "content": {
             "title": "目录索引",
             "items": [
-              "01 | 封面与页眉 | 统一导航栏、章节胶囊与页码基准",
-              "02 | 复合架构图 | 纵向阶梯、决策门禁、筛选漏斗",
-              "03 | 演进与规则 | 多轮迭代泳道、红线规则清单矩阵",
-              "04 | 图表与原语 | KPI 图卡、流程链与正交折线原语"
+              "01 | 封面与章节 | 全幅标题横幅、穿透色带与序号水印",
+              "02 | 复合架构图 | 纵向阶梯、决策门禁、筛选漏斗与规则矩阵",
+              "03 | 演进泳道图 | 四态语义流转与强制回退保护门禁",
+              "04 | 时间轴与原语 | 双环科技图标轴、KPI 图卡与渐变矢量原语"
             ]
           },
           "children": [
             {
-              "id": "sc_s2_c2_ch1",
+              "id": "sc_s3_c2_ch1",
               "rawType": "shape",
               "role": "step-num",
               "name": "目录序号 01",
               "x": 48.0,
               "y": 138.0,
-              "w": 56.0,
+              "w": 58.0,
               "h": 47.0,
               "relX": 0.0,
               "relY": 0.0,
-              "relW": 56.0,
+              "relW": 58.0,
               "relH": 47.0,
               "geom": "roundRect",
               "fill": "#1B365D",
@@ -765,15 +956,15 @@
               "adj": 14000
             },
             {
-              "id": "sc_s2_c2_ch2",
+              "id": "sc_s3_c2_ch2",
               "rawType": "shape",
               "role": "title",
               "name": "章节标题 01",
-              "x": 122.0,
+              "x": 124.0,
               "y": 141.0,
               "w": 160.0,
               "h": 41.0,
-              "relX": 74.0,
+              "relX": 76.0,
               "relY": 3.0,
               "relW": 160.0,
               "relH": 41.0,
@@ -799,7 +990,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "封面与页眉",
+                        "text": "封面与章节",
                         "fontSize": 16.0,
                         "bold": true,
                         "italic": false,
@@ -807,23 +998,23 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "封面与页眉"
+                    "text": "封面与章节"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c2_ch3",
+              "id": "sc_s3_c2_ch3",
               "rawType": "shape",
               "role": "subtitle",
               "name": "章节摘要 01",
-              "x": 296.0,
+              "x": 298.0,
               "y": 141.0,
-              "w": 198.0,
+              "w": 196.0,
               "h": 41.0,
-              "relX": 248.0,
+              "relX": 250.0,
               "relY": 3.0,
-              "relW": 198.0,
+              "relW": 196.0,
               "relH": 41.0,
               "geom": "rect",
               "fill": null,
@@ -847,7 +1038,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "统一导航栏、章节胶囊与页码基准",
+                        "text": "全幅标题横幅、穿透色带与序号水印",
                         "fontSize": 10.5,
                         "bold": false,
                         "italic": false,
@@ -855,13 +1046,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "统一导航栏、章节胶囊与页码基准"
+                    "text": "全幅标题横幅、穿透色带与序号水印"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c2_ch4",
+              "id": "sc_s3_c2_ch4",
               "rawType": "shape",
               "role": "divider",
               "name": "目录分割线",
@@ -880,17 +1071,17 @@
               "textBody": null
             },
             {
-              "id": "sc_s2_c2_ch5",
+              "id": "sc_s3_c2_ch5",
               "rawType": "shape",
               "role": "step-num",
               "name": "目录序号 02",
               "x": 48.0,
               "y": 203.0,
-              "w": 56.0,
+              "w": 58.0,
               "h": 47.0,
               "relX": 0.0,
               "relY": 65.0,
-              "relW": 56.0,
+              "relW": 58.0,
               "relH": 47.0,
               "geom": "roundRect",
               "fill": "#EDF2F8",
@@ -929,15 +1120,15 @@
               "adj": 14000
             },
             {
-              "id": "sc_s2_c2_ch6",
+              "id": "sc_s3_c2_ch6",
               "rawType": "shape",
               "role": "title",
               "name": "章节标题 02",
-              "x": 122.0,
+              "x": 124.0,
               "y": 206.0,
               "w": 160.0,
               "h": 41.0,
-              "relX": 74.0,
+              "relX": 76.0,
               "relY": 68.0,
               "relW": 160.0,
               "relH": 41.0,
@@ -977,17 +1168,17 @@
               }
             },
             {
-              "id": "sc_s2_c2_ch7",
+              "id": "sc_s3_c2_ch7",
               "rawType": "shape",
               "role": "subtitle",
               "name": "章节摘要 02",
-              "x": 296.0,
+              "x": 298.0,
               "y": 206.0,
-              "w": 198.0,
+              "w": 196.0,
               "h": 41.0,
-              "relX": 248.0,
+              "relX": 250.0,
               "relY": 68.0,
-              "relW": 198.0,
+              "relW": 196.0,
               "relH": 41.0,
               "geom": "rect",
               "fill": null,
@@ -1011,7 +1202,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "纵向阶梯、决策门禁、筛选漏斗",
+                        "text": "纵向阶梯、决策门禁、筛选漏斗与规则矩阵",
                         "fontSize": 10.5,
                         "bold": false,
                         "italic": false,
@@ -1019,13 +1210,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "纵向阶梯、决策门禁、筛选漏斗"
+                    "text": "纵向阶梯、决策门禁、筛选漏斗与规则矩阵"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c2_ch8",
+              "id": "sc_s3_c2_ch8",
               "rawType": "shape",
               "role": "divider",
               "name": "目录分割线",
@@ -1044,17 +1235,17 @@
               "textBody": null
             },
             {
-              "id": "sc_s2_c2_ch9",
+              "id": "sc_s3_c2_ch9",
               "rawType": "shape",
               "role": "step-num",
               "name": "目录序号 03",
               "x": 48.0,
               "y": 268.0,
-              "w": 56.0,
+              "w": 58.0,
               "h": 47.0,
               "relX": 0.0,
               "relY": 130.0,
-              "relW": 56.0,
+              "relW": 58.0,
               "relH": 47.0,
               "geom": "roundRect",
               "fill": "#EDF2F8",
@@ -1093,15 +1284,15 @@
               "adj": 14000
             },
             {
-              "id": "sc_s2_c2_ch10",
+              "id": "sc_s3_c2_ch10",
               "rawType": "shape",
               "role": "title",
               "name": "章节标题 03",
-              "x": 122.0,
+              "x": 124.0,
               "y": 271.0,
               "w": 160.0,
               "h": 41.0,
-              "relX": 74.0,
+              "relX": 76.0,
               "relY": 133.0,
               "relW": 160.0,
               "relH": 41.0,
@@ -1127,7 +1318,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "演进与规则",
+                        "text": "演进泳道图",
                         "fontSize": 16.0,
                         "bold": true,
                         "italic": false,
@@ -1135,23 +1326,23 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "演进与规则"
+                    "text": "演进泳道图"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c2_ch11",
+              "id": "sc_s3_c2_ch11",
               "rawType": "shape",
               "role": "subtitle",
               "name": "章节摘要 03",
-              "x": 296.0,
+              "x": 298.0,
               "y": 271.0,
-              "w": 198.0,
+              "w": 196.0,
               "h": 41.0,
-              "relX": 248.0,
+              "relX": 250.0,
               "relY": 133.0,
-              "relW": 198.0,
+              "relW": 196.0,
               "relH": 41.0,
               "geom": "rect",
               "fill": null,
@@ -1175,7 +1366,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "多轮迭代泳道、红线规则清单矩阵",
+                        "text": "四态语义流转与强制回退保护门禁",
                         "fontSize": 10.5,
                         "bold": false,
                         "italic": false,
@@ -1183,13 +1374,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "多轮迭代泳道、红线规则清单矩阵"
+                    "text": "四态语义流转与强制回退保护门禁"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c2_ch12",
+              "id": "sc_s3_c2_ch12",
               "rawType": "shape",
               "role": "divider",
               "name": "目录分割线",
@@ -1208,17 +1399,17 @@
               "textBody": null
             },
             {
-              "id": "sc_s2_c2_ch13",
+              "id": "sc_s3_c2_ch13",
               "rawType": "shape",
               "role": "step-num",
               "name": "目录序号 04",
               "x": 48.0,
               "y": 333.0,
-              "w": 56.0,
+              "w": 58.0,
               "h": 47.0,
               "relX": 0.0,
               "relY": 195.0,
-              "relW": 56.0,
+              "relW": 58.0,
               "relH": 47.0,
               "geom": "roundRect",
               "fill": "#EDF2F8",
@@ -1257,15 +1448,15 @@
               "adj": 14000
             },
             {
-              "id": "sc_s2_c2_ch14",
+              "id": "sc_s3_c2_ch14",
               "rawType": "shape",
               "role": "title",
               "name": "章节标题 04",
-              "x": 122.0,
+              "x": 124.0,
               "y": 336.0,
               "w": 160.0,
               "h": 41.0,
-              "relX": 74.0,
+              "relX": 76.0,
               "relY": 198.0,
               "relW": 160.0,
               "relH": 41.0,
@@ -1291,7 +1482,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "图表与原语",
+                        "text": "时间轴与原语",
                         "fontSize": 16.0,
                         "bold": true,
                         "italic": false,
@@ -1299,23 +1490,23 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "图表与原语"
+                    "text": "时间轴与原语"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s2_c2_ch15",
+              "id": "sc_s3_c2_ch15",
               "rawType": "shape",
               "role": "subtitle",
               "name": "章节摘要 04",
-              "x": 296.0,
+              "x": 298.0,
               "y": 336.0,
-              "w": 198.0,
+              "w": 196.0,
               "h": 41.0,
-              "relX": 248.0,
+              "relX": 250.0,
               "relY": 198.0,
-              "relW": 198.0,
+              "relW": 196.0,
               "relH": 41.0,
               "geom": "rect",
               "fill": null,
@@ -1339,7 +1530,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "KPI 图卡、流程链与正交折线原语",
+                        "text": "双环科技图标轴、KPI 图卡与渐变矢量原语",
                         "fontSize": 10.5,
                         "bold": false,
                         "italic": false,
@@ -1347,7 +1538,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "KPI 图卡、流程链与正交折线原语"
+                    "text": "双环科技图标轴、KPI 图卡与渐变矢量原语"
                   }
                 ]
               }
@@ -1355,13 +1546,13 @@
           ]
         },
         {
-          "id": "sc_s2_c3",
+          "id": "sc_s3_c3",
           "type": "tag-badge",
           "subType": "pill",
           "name": "tag-badge",
           "x": 516.0,
           "y": 138.0,
-          "w": 200.0,
+          "w": 220.0,
           "h": 30.0,
           "layout": {
             "paddingX": 10.0,
@@ -1386,22 +1577,22 @@
             "fontFamily": "微软雅黑"
           },
           "content": {
-            "title": "学术深蓝 · 标准卡片规范",
+            "title": "元件化皮肤编译 · 规范基准",
             "tone": "primary"
           },
           "children": [
             {
-              "id": "sc_s2_c3_ch1",
+              "id": "sc_s3_c3_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
               "x": 516.0,
               "y": 138.0,
-              "w": 200.0,
+              "w": 220.0,
               "h": 30.0,
               "relX": 0.0,
               "relY": 0.0,
-              "relW": 200.0,
+              "relW": 220.0,
               "relH": 30.0,
               "geom": "roundRect",
               "fill": "#1B365D",
@@ -1425,7 +1616,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "学术深蓝 · 标准卡片规范",
+                        "text": "元件化皮肤编译 · 规范基准",
                         "fontSize": 11.0,
                         "bold": true,
                         "italic": false,
@@ -1433,7 +1624,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "学术深蓝 · 标准卡片规范"
+                    "text": "元件化皮肤编译 · 规范基准"
                   }
                 ]
               },
@@ -1442,7 +1633,7 @@
           ]
         },
         {
-          "id": "sc_s2_c4",
+          "id": "sc_s3_c4",
           "type": "info-card",
           "subType": "titled-list",
           "name": "info-card",
@@ -1474,17 +1665,17 @@
             "fontFamily": "微软雅黑"
           },
           "content": {
-            "title": "学术信息卡片设计规范（info-card）",
+            "title": "学术信息卡片与全皮肤重渲染（info-card）",
             "items": [
-              "语义纯化：全部采用标准化 type 与结构化 content 驱动编译器",
-              "顶部色条：默认学术风格启用 3.5px 顶栏强调条并自动区分主/辅色",
-              "多模板切换：一键套用 academic / tech_blue / emerald 或本地私有模板",
-              "同类联动：支持单元件、本页同类、全篇同类实时同步 Padding 与字体"
+              "内容水合：自动还原解析态元件的结构化标题、要点与语义状态色调",
+              "跨风格重绘：支持 academic 顶部色条与 terra_quest 左能量条渐变光晕无缝切换",
+              "防失真护栏：PASS / WARN / REJECT 红绿琥珀语义色受换肤保护不丢失",
+              "画布自适应：3:2 学术版式可按安全区自动映射至 16:9 宽屏演示版式"
             ]
           },
           "children": [
             {
-              "id": "sc_s2_c4_ch1",
+              "id": "sc_s3_c4_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
@@ -1518,7 +1709,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "学术信息卡片设计规范（info-card）",
+                        "text": "学术信息卡片与全皮肤重渲染（info-card）",
                         "fontSize": 12.0,
                         "bold": true,
                         "italic": false,
@@ -1526,7 +1717,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "学术信息卡片设计规范（info-card）"
+                    "text": "学术信息卡片与全皮肤重渲染（info-card）"
                   },
                   {
                     "align": "left",
@@ -1536,7 +1727,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "语义纯化：",
+                        "text": "内容水合：",
                         "fontSize": 10.0,
                         "bold": true,
                         "italic": false,
@@ -1544,7 +1735,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "全部采用标准化 type 与结构化 content 驱动编译器",
+                        "text": "自动还原解析态元件的结构化标题、要点与语义状态色调",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -1552,7 +1743,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "语义纯化：全部采用标准化 type 与结构化 content 驱动编译器"
+                    "text": "内容水合：自动还原解析态元件的结构化标题、要点与语义状态色调"
                   },
                   {
                     "align": "left",
@@ -1562,7 +1753,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "顶部色条：",
+                        "text": "跨风格重绘：",
                         "fontSize": 10.0,
                         "bold": true,
                         "italic": false,
@@ -1570,7 +1761,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "默认学术风格启用 3.5px 顶栏强调条并自动区分主/辅色",
+                        "text": "支持 academic 顶部色条与 terra_quest 左能量条渐变光晕无缝切换",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -1578,7 +1769,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "顶部色条：默认学术风格启用 3.5px 顶栏强调条并自动区分主/辅色"
+                    "text": "跨风格重绘：支持 academic 顶部色条与 terra_quest 左能量条渐变光晕无缝切换"
                   },
                   {
                     "align": "left",
@@ -1588,7 +1779,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "多模板切换：",
+                        "text": "防失真护栏：",
                         "fontSize": 10.0,
                         "bold": true,
                         "italic": false,
@@ -1596,7 +1787,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "一键套用 academic / tech_blue / emerald 或本地私有模板",
+                        "text": "PASS / WARN / REJECT 红绿琥珀语义色受换肤保护不丢失",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -1604,7 +1795,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "多模板切换：一键套用 academic / tech_blue / emerald 或本地私有模板"
+                    "text": "防失真护栏：PASS / WARN / REJECT 红绿琥珀语义色受换肤保护不丢失"
                   },
                   {
                     "align": "left",
@@ -1614,7 +1805,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "同类联动：",
+                        "text": "画布自适应：",
                         "fontSize": 10.0,
                         "bold": true,
                         "italic": false,
@@ -1622,7 +1813,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "支持单元件、本页同类、全篇同类实时同步 Padding 与字体",
+                        "text": "3:2 学术版式可按安全区自动映射至 16:9 宽屏演示版式",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -1630,14 +1821,14 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "同类联动：支持单元件、本页同类、全篇同类实时同步 Padding 与字体"
+                    "text": "画布自适应：3:2 学术版式可按安全区自动映射至 16:9 宽屏演示版式"
                   }
                 ]
               },
               "adj": 6000
             },
             {
-              "id": "sc_s2_c4_ch2",
+              "id": "sc_s3_c4_ch2",
               "rawType": "shape",
               "role": "divider",
               "name": "顶部强调色条",
@@ -1658,7 +1849,7 @@
           ]
         },
         {
-          "id": "sc_s2_c5",
+          "id": "sc_s3_c5",
           "type": "data-table",
           "subType": "default",
           "name": "data-table",
@@ -1689,43 +1880,43 @@
             "fontFamily": "微软雅黑"
           },
           "content": {
-            "title": "标准元件能力与工程特性对照",
+            "title": "17 类标准元件与工程能力对照表",
             "headers": [
               "元件大类",
               "代表 type 列表",
               "核心布局能力",
-              "AI-API 友好度"
+              "皮肤重渲染特性"
             ],
             "rows": [
               [
-                "信息骨架类",
-                "slide-header / cover-divider / toc-list / info-card",
-                "顶栏双色带 + 卡片强调条 + 自适应分段",
-                "自动填充坐标与字号"
+                "信息骨架 (7)",
+                "cover-divider / section-divider / slide-header / toc-list / info-card / tag-badge / footer-banner",
+                "顶栏铭牌 + 穿透色带 + 光晕卡片",
+                "支持全模板骨架与装饰层切换"
               ],
               [
-                "逻辑架构类",
-                "vertical-stack / decision-gate / stage-funnel / iteration-lanes",
-                "菱形分叉、燕尾漏斗、虚线回退自动连接",
-                "传声明式 JSON 即出图"
+                "逻辑架构 (6)",
+                "vertical-stack / decision-gate / stage-funnel / iteration-lanes / milestone-timeline / rule-checklist",
+                "六边形门禁、双环图标轴、虚线回退",
+                "语义红绿琥珀与品牌皮肤联动"
               ],
               [
-                "数据原语类",
-                "kpi-card / data-table / image-frame / rule-checklist / process-flow",
-                "表格斑马纹、高清内嵌图表与正交折线",
-                "支持模板级一键换肤"
+                "数据原语 (4)",
+                "kpi-card / data-table / image-frame / process-flow",
+                "平行四边形纹带、HUD 取景框、正交连线",
+                "免手算坐标一键导出标准 PPTX"
               ]
             ],
             "colRatios": [
-              1.3,
-              3.0,
-              2.7,
-              1.8
+              1.2,
+              3.1,
+              2.5,
+              2.0
             ]
           },
           "children": [
             {
-              "id": "sc_s2_c5_ch1",
+              "id": "sc_s3_c5_ch1",
               "rawType": "table",
               "role": "table",
               "name": "table",
@@ -1738,10 +1929,10 @@
               "relW": 924.67,
               "relH": 166.0,
               "colWidths": [
-                136.6,
-                315.23,
-                283.71,
-                189.14
+                126.09,
+                325.74,
+                262.69,
+                210.15
               ],
               "rowHeights": [
                 41.5,
@@ -1803,7 +1994,7 @@
                     "border": {}
                   },
                   {
-                    "text": "AI-API 友好度",
+                    "text": "皮肤重渲染特性",
                     "fill": "#1B365D",
                     "color": "#FFFFFF",
                     "fontSize": 10.5,
@@ -1822,7 +2013,7 @@
                 ],
                 [
                   {
-                    "text": "信息骨架类",
+                    "text": "信息骨架 (7)",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1839,7 +2030,7 @@
                     "border": {}
                   },
                   {
-                    "text": "slide-header / cover-divider / toc-list / info-card",
+                    "text": "cover-divider / section-divider / slide-header / toc-list / info-card / tag-badge / footer-banner",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1856,7 +2047,7 @@
                     "border": {}
                   },
                   {
-                    "text": "顶栏双色带 + 卡片强调条 + 自适应分段",
+                    "text": "顶栏铭牌 + 穿透色带 + 光晕卡片",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1873,7 +2064,7 @@
                     "border": {}
                   },
                   {
-                    "text": "自动填充坐标与字号",
+                    "text": "支持全模板骨架与装饰层切换",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1892,7 +2083,7 @@
                 ],
                 [
                   {
-                    "text": "逻辑架构类",
+                    "text": "逻辑架构 (6)",
                     "fill": "#FFFFFF",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1909,7 +2100,7 @@
                     "border": {}
                   },
                   {
-                    "text": "vertical-stack / decision-gate / stage-funnel / iteration-lanes",
+                    "text": "vertical-stack / decision-gate / stage-funnel / iteration-lanes / milestone-timeline / rule-checklist",
                     "fill": "#FFFFFF",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1926,7 +2117,7 @@
                     "border": {}
                   },
                   {
-                    "text": "菱形分叉、燕尾漏斗、虚线回退自动连接",
+                    "text": "六边形门禁、双环图标轴、虚线回退",
                     "fill": "#FFFFFF",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1943,7 +2134,7 @@
                     "border": {}
                   },
                   {
-                    "text": "传声明式 JSON 即出图",
+                    "text": "语义红绿琥珀与品牌皮肤联动",
                     "fill": "#FFFFFF",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1962,7 +2153,7 @@
                 ],
                 [
                   {
-                    "text": "数据原语类",
+                    "text": "数据原语 (4)",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1979,7 +2170,7 @@
                     "border": {}
                   },
                   {
-                    "text": "kpi-card / data-table / image-frame / rule-checklist / process-flow",
+                    "text": "kpi-card / data-table / image-frame / process-flow",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -1996,7 +2187,7 @@
                     "border": {}
                   },
                   {
-                    "text": "表格斑马纹、高清内嵌图表与正交折线",
+                    "text": "平行四边形纹带、HUD 取景框、正交连线",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -2013,7 +2204,7 @@
                     "border": {}
                   },
                   {
-                    "text": "支持模板级一键换肤",
+                    "text": "免手算坐标一键导出标准 PPTX",
                     "fill": "#F4F6F9",
                     "color": "#334155",
                     "fontSize": 10.0,
@@ -2035,7 +2226,7 @@
           ]
         },
         {
-          "id": "sc_s2_c6",
+          "id": "sc_s3_c6",
           "type": "footer-banner",
           "subType": "default",
           "name": "footer-banner",
@@ -2067,11 +2258,11 @@
           },
           "content": {
             "prefix": "基础元件小结：",
-            "subtitle": "基础类元件承担约 75% 常见科研汇报页面骨架，保证全篇页眉对齐与信息密度可控。"
+            "subtitle": "基础骨架与表格元件承担全篇规范导航与数据表达，确保跨页面边距与字体等级完全收敛。"
           },
           "children": [
             {
-              "id": "sc_s2_c6_ch1",
+              "id": "sc_s3_c6_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
@@ -2113,7 +2304,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "基础类元件承担约 75% 常见科研汇报页面骨架，保证全篇页眉对齐与信息密度可控。",
+                        "text": "基础骨架与表格元件承担全篇规范导航与数据表达，确保跨页面边距与字体等级完全收敛。",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -2121,7 +2312,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "基础元件小结：基础类元件承担约 75% 常见科研汇报页面骨架，保证全篇页眉对齐与信息密度可控。"
+                    "text": "基础元件小结：基础骨架与表格元件承担全篇规范导航与数据表达，确保跨页面边距与字体等级完全收敛。"
                   }
                 ]
               },
@@ -2132,17 +2323,18 @@
       ]
     },
     {
-      "id": "component_showcase_slide_3",
-      "index": 3,
-      "title": "复合逻辑架构元件示范（P03）",
+      "id": "component_showcase_slide_4",
+      "index": 4,
+      "title": "复合逻辑架构元件示范（P04）",
       "background": {
         "type": "color",
         "color": "#FFFFFF",
         "image": null
       },
+      "decorations": [],
       "components": [
         {
-          "id": "sc_s3_c1",
+          "id": "sc_s4_c1",
           "type": "slide-header",
           "subType": "default",
           "name": "slide-header",
@@ -2174,13 +2366,13 @@
           },
           "content": {
             "sectionTag": "02 复合逻辑架构",
-            "title": "复合逻辑架构元件示范（P03）",
+            "title": "复合逻辑架构元件示范（P04）",
             "subtitle": "展示 vertical-stack（纵向架构栈）、decision-gate（分支裁决）与 rule-checklist（红线规则清单）的声明式重排能力",
-            "pageNumber": "3 / 5"
+            "pageNumber": "4 / 6"
           },
           "children": [
             {
-              "id": "sc_s3_c1_ch1",
+              "id": "sc_s4_c1_ch1",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-主色",
@@ -2199,7 +2391,7 @@
               "textBody": null
             },
             {
-              "id": "sc_s3_c1_ch2",
+              "id": "sc_s4_c1_ch2",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-强调色",
@@ -2218,7 +2410,7 @@
               "textBody": null
             },
             {
-              "id": "sc_s3_c1_ch3",
+              "id": "sc_s4_c1_ch3",
               "rawType": "shape",
               "role": "step-box",
               "name": "章节胶囊标签",
@@ -2267,7 +2459,7 @@
               "adj": 20000
             },
             {
-              "id": "sc_s3_c1_ch4",
+              "id": "sc_s4_c1_ch4",
               "rawType": "shape",
               "role": "page-num",
               "name": "页码",
@@ -2287,10 +2479,10 @@
                 "valign": "middle",
                 "wrap": false,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -2301,7 +2493,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "3 / 5",
+                        "text": "4 / 6",
                         "fontSize": 9.5,
                         "bold": false,
                         "italic": false,
@@ -2309,13 +2501,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "3 / 5"
+                    "text": "4 / 6"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s3_c1_ch5",
+              "id": "sc_s4_c1_ch5",
               "rawType": "shape",
               "role": "title",
               "name": "页面主标题",
@@ -2335,10 +2527,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -2349,7 +2541,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "复合逻辑架构元件示范（P03）",
+                        "text": "复合逻辑架构元件示范（P04）",
                         "fontSize": 19.0,
                         "bold": true,
                         "italic": false,
@@ -2357,13 +2549,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "复合逻辑架构元件示范（P03）"
+                    "text": "复合逻辑架构元件示范（P04）"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s3_c1_ch6",
+              "id": "sc_s4_c1_ch6",
               "rawType": "shape",
               "role": "subtitle",
               "name": "页面副标题",
@@ -2383,10 +2575,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -2411,7 +2603,7 @@
               }
             },
             {
-              "id": "sc_s3_c1_ch7",
+              "id": "sc_s4_c1_ch7",
               "rawType": "shape",
               "role": "divider",
               "name": "页眉分割线",
@@ -2432,7 +2624,7 @@
           ]
         },
         {
-          "id": "sc_s3_c2",
+          "id": "sc_s4_c2",
           "type": "vertical-stack",
           "subType": "declarative",
           "name": "vertical-stack",
@@ -2494,7 +2686,7 @@
           },
           "children": [
             {
-              "id": "sc_s3_c2_ch1",
+              "id": "sc_s4_c2_ch1",
               "rawType": "shape",
               "role": "header-bar",
               "name": "header-bar",
@@ -2508,7 +2700,7 @@
               "relH": 28.0,
               "geom": "roundRect",
               "fill": "#1B365D",
-              "borderColor": "#1B365D",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -2543,17 +2735,17 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c2_ch2",
+              "id": "sc_s4_c2_ch2",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_1",
               "x": 48.0,
               "y": 176.0,
-              "w": 54.0,
+              "w": 70.7,
               "h": 43.5,
               "relX": 0.0,
               "relY": 38.0,
-              "relW": 54.0,
+              "relW": 70.7,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#1B365D",
@@ -2592,17 +2784,17 @@
               "adj": 10000
             },
             {
-              "id": "sc_s3_c2_ch3",
+              "id": "sc_s4_c2_ch3",
               "rawType": "shape",
               "role": "layer-card",
               "name": "layer-card_1",
-              "x": 108.0,
+              "x": 126.7,
               "y": 176.0,
-              "w": 382.0,
+              "w": 363.3,
               "h": 43.5,
-              "relX": 60.0,
+              "relX": 78.7,
               "relY": 38.0,
-              "relW": 382.0,
+              "relW": 363.3,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#F4F6F9",
@@ -2659,7 +2851,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c2_ch4",
+              "id": "sc_s4_c2_ch4",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_1",
@@ -2679,17 +2871,17 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s3_c2_ch5",
+              "id": "sc_s4_c2_ch5",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_2",
               "x": 48.0,
               "y": 235.5,
-              "w": 54.0,
+              "w": 70.7,
               "h": 43.5,
               "relX": 0.0,
               "relY": 97.5,
-              "relW": 54.0,
+              "relW": 70.7,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#1E6CFF",
@@ -2728,17 +2920,17 @@
               "adj": 10000
             },
             {
-              "id": "sc_s3_c2_ch6",
+              "id": "sc_s4_c2_ch6",
               "rawType": "shape",
               "role": "layer-card",
               "name": "layer-card_2",
-              "x": 108.0,
+              "x": 126.7,
               "y": 235.5,
-              "w": 382.0,
+              "w": 363.3,
               "h": 43.5,
-              "relX": 60.0,
+              "relX": 78.7,
               "relY": 97.5,
-              "relW": 382.0,
+              "relW": 363.3,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#F0F5FF",
@@ -2795,7 +2987,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c2_ch7",
+              "id": "sc_s4_c2_ch7",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_2",
@@ -2815,17 +3007,17 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s3_c2_ch8",
+              "id": "sc_s4_c2_ch8",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_3",
               "x": 48.0,
               "y": 295.0,
-              "w": 54.0,
+              "w": 70.7,
               "h": 43.5,
               "relX": 0.0,
               "relY": 157.0,
-              "relW": 54.0,
+              "relW": 70.7,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#7A2048",
@@ -2864,17 +3056,17 @@
               "adj": 10000
             },
             {
-              "id": "sc_s3_c2_ch9",
+              "id": "sc_s4_c2_ch9",
               "rawType": "shape",
               "role": "layer-card",
               "name": "layer-card_3",
-              "x": 108.0,
+              "x": 126.7,
               "y": 295.0,
-              "w": 382.0,
+              "w": 363.3,
               "h": 43.5,
-              "relX": 60.0,
+              "relX": 78.7,
               "relY": 157.0,
-              "relW": 382.0,
+              "relW": 363.3,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#FAF4F6",
@@ -2931,7 +3123,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c2_ch10",
+              "id": "sc_s4_c2_ch10",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_3",
@@ -2951,17 +3143,17 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s3_c2_ch11",
+              "id": "sc_s4_c2_ch11",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_4",
               "x": 48.0,
               "y": 354.5,
-              "w": 54.0,
+              "w": 70.7,
               "h": 43.5,
               "relX": 0.0,
               "relY": 216.5,
-              "relW": 54.0,
+              "relW": 70.7,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#16A34A",
@@ -3000,17 +3192,17 @@
               "adj": 10000
             },
             {
-              "id": "sc_s3_c2_ch12",
+              "id": "sc_s4_c2_ch12",
               "rawType": "shape",
               "role": "layer-card",
               "name": "layer-card_4",
-              "x": 108.0,
+              "x": 126.7,
               "y": 354.5,
-              "w": 382.0,
+              "w": 363.3,
               "h": 43.5,
-              "relX": 60.0,
+              "relX": 78.7,
               "relY": 216.5,
-              "relW": 382.0,
+              "relW": 363.3,
               "relH": 43.5,
               "geom": "roundRect",
               "fill": "#F0FDF4",
@@ -3069,7 +3261,7 @@
           ]
         },
         {
-          "id": "sc_s3_c3",
+          "id": "sc_s4_c3",
           "type": "decision-gate",
           "subType": "declarative",
           "name": "decision-gate",
@@ -3134,30 +3326,30 @@
           },
           "children": [
             {
-              "id": "sc_s3_c3_ch1",
+              "id": "sc_s4_c3_ch1",
               "rawType": "shape",
               "role": "gate-node",
               "name": "gate-node",
               "x": 560.9,
               "y": 138.0,
               "w": 360.9,
-              "h": 72.0,
+              "h": 70.0,
               "relX": 50.9,
               "relY": 0.0,
               "relW": 360.9,
-              "relH": 72.0,
+              "relH": 70.0,
               "geom": "diamond",
               "fill": "#EDF2F8",
               "borderColor": "#1B365D",
-              "borderWidth": 1.5,
+              "borderWidth": 1.6,
               "textBody": {
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
                   "left": 38.0,
-                  "top": 6.0,
+                  "top": 5.0,
                   "right": 38.0,
-                  "bottom": 6.0
+                  "bottom": 5.0
                 },
                 "paragraphs": [
                   {
@@ -3182,16 +3374,16 @@
               }
             },
             {
-              "id": "sc_s3_c3_ch2",
+              "id": "sc_s4_c3_ch2",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_stem",
               "x": 741.34,
-              "y": 210.0,
+              "y": 208.0,
               "w": 0.0,
               "h": 12.96,
               "relX": 231.34,
-              "relY": 72.0,
+              "relY": 70.0,
               "relW": 0.0,
               "relH": 12.96,
               "geom": "line",
@@ -3201,16 +3393,16 @@
               "textBody": null
             },
             {
-              "id": "sc_s3_c3_ch3",
+              "id": "sc_s4_c3_ch3",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_bus_1",
               "x": 582.44,
-              "y": 222.96,
+              "y": 220.96,
               "w": 158.9,
               "h": 0.0,
               "relX": 72.44,
-              "relY": 84.96,
+              "relY": 82.96,
               "relW": 158.9,
               "relH": 0.0,
               "geom": "line",
@@ -3220,16 +3412,16 @@
               "textBody": null
             },
             {
-              "id": "sc_s3_c3_ch4",
+              "id": "sc_s4_c3_ch4",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_drop_1",
               "x": 582.44,
-              "y": 222.96,
+              "y": 220.96,
               "w": 0.0,
               "h": 14.84,
               "relX": 72.44,
-              "relY": 84.96,
+              "relY": 82.96,
               "relW": 0.0,
               "relH": 14.84,
               "geom": "line",
@@ -3240,21 +3432,21 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s3_c3_ch5",
+              "id": "sc_s4_c3_ch5",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_1",
               "x": 510.0,
-              "y": 238.8,
+              "y": 236.8,
               "w": 144.89,
-              "h": 22.0,
+              "h": 24.0,
               "relX": 0.0,
-              "relY": 100.8,
+              "relY": 98.8,
               "relW": 144.89,
-              "relH": 22.0,
+              "relH": 24.0,
               "geom": "roundRect",
               "fill": "#16A34A",
-              "borderColor": "#16A34A",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -3289,18 +3481,18 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c3_ch6",
+              "id": "sc_s4_c3_ch6",
               "rawType": "shape",
               "role": "branch-card",
               "name": "branch-card_1",
               "x": 510.0,
-              "y": 264.8,
+              "y": 263.8,
               "w": 144.89,
-              "h": 133.2,
+              "h": 134.2,
               "relX": 0.0,
-              "relY": 126.8,
+              "relY": 125.8,
               "relW": 144.89,
-              "relH": 133.2,
+              "relH": 134.2,
               "geom": "roundRect",
               "fill": "#F0FDF4",
               "borderColor": "#16A34A",
@@ -3374,16 +3566,16 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c3_ch7",
+              "id": "sc_s4_c3_ch7",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_drop_2",
               "x": 741.33,
-              "y": 222.96,
+              "y": 220.96,
               "w": 0.0,
               "h": 14.84,
               "relX": 231.33,
-              "relY": 84.96,
+              "relY": 82.96,
               "relW": 0.0,
               "relH": 14.84,
               "geom": "line",
@@ -3394,21 +3586,21 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s3_c3_ch8",
+              "id": "sc_s4_c3_ch8",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_2",
               "x": 668.89,
-              "y": 238.8,
+              "y": 236.8,
               "w": 144.89,
-              "h": 22.0,
+              "h": 24.0,
               "relX": 158.89,
-              "relY": 100.8,
+              "relY": 98.8,
               "relW": 144.89,
-              "relH": 22.0,
+              "relH": 24.0,
               "geom": "roundRect",
               "fill": "#D97706",
-              "borderColor": "#D97706",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -3443,18 +3635,18 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c3_ch9",
+              "id": "sc_s4_c3_ch9",
               "rawType": "shape",
               "role": "branch-card",
               "name": "branch-card_2",
               "x": 668.89,
-              "y": 264.8,
+              "y": 263.8,
               "w": 144.89,
-              "h": 133.2,
+              "h": 134.2,
               "relX": 158.89,
-              "relY": 126.8,
+              "relY": 125.8,
               "relW": 144.89,
-              "relH": 133.2,
+              "relH": 134.2,
               "geom": "roundRect",
               "fill": "#FFFBEB",
               "borderColor": "#D97706",
@@ -3528,16 +3720,16 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c3_ch10",
+              "id": "sc_s4_c3_ch10",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_bus_3",
               "x": 741.34,
-              "y": 222.96,
+              "y": 220.96,
               "w": 158.88,
               "h": 0.0,
               "relX": 231.34,
-              "relY": 84.96,
+              "relY": 82.96,
               "relW": 158.88,
               "relH": 0.0,
               "geom": "line",
@@ -3548,16 +3740,16 @@
               "dashStyle": "dash"
             },
             {
-              "id": "sc_s3_c3_ch11",
+              "id": "sc_s4_c3_ch11",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_drop_3",
               "x": 900.22,
-              "y": 222.96,
+              "y": 220.96,
               "w": 0.0,
               "h": 14.84,
               "relX": 390.22,
-              "relY": 84.96,
+              "relY": 82.96,
               "relW": 0.0,
               "relH": 14.84,
               "geom": "line",
@@ -3569,21 +3761,21 @@
               "dashStyle": "dash"
             },
             {
-              "id": "sc_s3_c3_ch12",
+              "id": "sc_s4_c3_ch12",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_3",
               "x": 827.78,
-              "y": 238.8,
+              "y": 236.8,
               "w": 144.89,
-              "h": 22.0,
+              "h": 24.0,
               "relX": 317.78,
-              "relY": 100.8,
+              "relY": 98.8,
               "relW": 144.89,
-              "relH": 22.0,
+              "relH": 24.0,
               "geom": "roundRect",
               "fill": "#DC2626",
-              "borderColor": "#DC2626",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -3618,18 +3810,18 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c3_ch13",
+              "id": "sc_s4_c3_ch13",
               "rawType": "shape",
               "role": "branch-card",
               "name": "branch-card_3",
               "x": 827.78,
-              "y": 264.8,
+              "y": 263.8,
               "w": 144.89,
-              "h": 133.2,
+              "h": 134.2,
               "relX": 317.78,
-              "relY": 126.8,
+              "relY": 125.8,
               "relW": 144.89,
-              "relH": 133.2,
+              "relH": 134.2,
               "geom": "roundRect",
               "fill": "#FEF2F2",
               "borderColor": "#DC2626",
@@ -3705,7 +3897,7 @@
           ]
         },
         {
-          "id": "sc_s3_c4",
+          "id": "sc_s4_c4",
           "type": "rule-checklist",
           "subType": "declarative",
           "name": "rule-checklist",
@@ -3761,7 +3953,7 @@
           },
           "children": [
             {
-              "id": "sc_s3_c4_ch1",
+              "id": "sc_s4_c4_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
@@ -3781,7 +3973,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c4_ch2",
+              "id": "sc_s4_c4_ch2",
               "rawType": "shape",
               "role": "title",
               "name": "title",
@@ -3829,7 +4021,7 @@
               }
             },
             {
-              "id": "sc_s3_c4_ch3",
+              "id": "sc_s4_c4_ch3",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_1",
@@ -3843,7 +4035,7 @@
               "relH": 30.0,
               "geom": "oval",
               "fill": "#16A34A",
-              "borderColor": "#16A34A",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -3877,7 +4069,7 @@
               }
             },
             {
-              "id": "sc_s3_c4_ch4",
+              "id": "sc_s4_c4_ch4",
               "rawType": "shape",
               "role": "rule-item",
               "name": "rule-item_1",
@@ -3934,7 +4126,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c4_ch5",
+              "id": "sc_s4_c4_ch5",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_2",
@@ -3948,7 +4140,7 @@
               "relH": 30.0,
               "geom": "oval",
               "fill": "#1E6CFF",
-              "borderColor": "#1E6CFF",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -3982,7 +4174,7 @@
               }
             },
             {
-              "id": "sc_s3_c4_ch6",
+              "id": "sc_s4_c4_ch6",
               "rawType": "shape",
               "role": "rule-item",
               "name": "rule-item_2",
@@ -4039,7 +4231,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s3_c4_ch7",
+              "id": "sc_s4_c4_ch7",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_3",
@@ -4053,7 +4245,7 @@
               "relH": 30.0,
               "geom": "oval",
               "fill": "#D97706",
-              "borderColor": "#D97706",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -4087,7 +4279,7 @@
               }
             },
             {
-              "id": "sc_s3_c4_ch8",
+              "id": "sc_s4_c4_ch8",
               "rawType": "shape",
               "role": "rule-item",
               "name": "rule-item_3",
@@ -4146,7 +4338,7 @@
           ]
         },
         {
-          "id": "sc_s3_c5",
+          "id": "sc_s4_c5",
           "type": "footer-banner",
           "subType": "default",
           "name": "footer-banner",
@@ -4178,11 +4370,11 @@
           },
           "content": {
             "prefix": "声明式重排特性：",
-            "subtitle": "外部 AI 或前端只需传递结构化分支/层级数据，布局引擎自动计算菱形分叉线、胶囊徽章与间距。"
+            "subtitle": "外部 AI 或模板渲染器只需传递结构化层级、分支与规则数据，即可自动生成菱形/六边形门禁与分叉连线。"
           },
           "children": [
             {
-              "id": "sc_s3_c5_ch1",
+              "id": "sc_s4_c5_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
@@ -4224,7 +4416,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "外部 AI 或前端只需传递结构化分支/层级数据，布局引擎自动计算菱形分叉线、胶囊徽章与间距。",
+                        "text": "外部 AI 或模板渲染器只需传递结构化层级、分支与规则数据，即可自动生成菱形/六边形门禁与分叉连线。",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -4232,7 +4424,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "声明式重排特性：外部 AI 或前端只需传递结构化分支/层级数据，布局引擎自动计算菱形分叉线、胶囊徽章与间距。"
+                    "text": "声明式重排特性：外部 AI 或模板渲染器只需传递结构化层级、分支与规则数据，即可自动生成菱形/六边形门禁与分叉连线。"
                   }
                 ]
               },
@@ -4243,17 +4435,18 @@
       ]
     },
     {
-      "id": "component_showcase_slide_4",
-      "index": 4,
-      "title": "多阶段归因漏斗与实验演进泳道（P04）",
+      "id": "component_showcase_slide_5",
+      "index": 5,
+      "title": "多阶段归因漏斗与实验演进泳道（P05）",
       "background": {
         "type": "color",
         "color": "#FFFFFF",
         "image": null
       },
+      "decorations": [],
       "components": [
         {
-          "id": "sc_s4_c1",
+          "id": "sc_s5_c1",
           "type": "slide-header",
           "subType": "default",
           "name": "slide-header",
@@ -4285,13 +4478,13 @@
           },
           "content": {
             "sectionTag": "03 漏斗与演进",
-            "title": "多阶段归因漏斗与实验演进泳道（P04）",
+            "title": "多阶段归因漏斗与实验演进泳道（P05）",
             "subtitle": "展示 stage-funnel（燕尾漏斗）与 iteration-lanes（四态泳道 + 虚线回退保护）",
-            "pageNumber": "4 / 5"
+            "pageNumber": "5 / 6"
           },
           "children": [
             {
-              "id": "sc_s4_c1_ch1",
+              "id": "sc_s5_c1_ch1",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-主色",
@@ -4310,7 +4503,7 @@
               "textBody": null
             },
             {
-              "id": "sc_s4_c1_ch2",
+              "id": "sc_s5_c1_ch2",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-强调色",
@@ -4329,7 +4522,7 @@
               "textBody": null
             },
             {
-              "id": "sc_s4_c1_ch3",
+              "id": "sc_s5_c1_ch3",
               "rawType": "shape",
               "role": "step-box",
               "name": "章节胶囊标签",
@@ -4378,7 +4571,7 @@
               "adj": 20000
             },
             {
-              "id": "sc_s4_c1_ch4",
+              "id": "sc_s5_c1_ch4",
               "rawType": "shape",
               "role": "page-num",
               "name": "页码",
@@ -4398,10 +4591,10 @@
                 "valign": "middle",
                 "wrap": false,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -4412,7 +4605,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "4 / 5",
+                        "text": "5 / 6",
                         "fontSize": 9.5,
                         "bold": false,
                         "italic": false,
@@ -4420,13 +4613,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "4 / 5"
+                    "text": "5 / 6"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s4_c1_ch5",
+              "id": "sc_s5_c1_ch5",
               "rawType": "shape",
               "role": "title",
               "name": "页面主标题",
@@ -4446,10 +4639,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -4460,7 +4653,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "多阶段归因漏斗与实验演进泳道（P04）",
+                        "text": "多阶段归因漏斗与实验演进泳道（P05）",
                         "fontSize": 19.0,
                         "bold": true,
                         "italic": false,
@@ -4468,13 +4661,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "多阶段归因漏斗与实验演进泳道（P04）"
+                    "text": "多阶段归因漏斗与实验演进泳道（P05）"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s4_c1_ch6",
+              "id": "sc_s5_c1_ch6",
               "rawType": "shape",
               "role": "subtitle",
               "name": "页面副标题",
@@ -4494,10 +4687,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -4522,7 +4715,7 @@
               }
             },
             {
-              "id": "sc_s4_c1_ch7",
+              "id": "sc_s5_c1_ch7",
               "rawType": "shape",
               "role": "divider",
               "name": "页眉分割线",
@@ -4543,7 +4736,7 @@
           ]
         },
         {
-          "id": "sc_s4_c2",
+          "id": "sc_s5_c2",
           "type": "stage-funnel",
           "subType": "declarative",
           "name": "stage-funnel",
@@ -4616,7 +4809,7 @@
           },
           "children": [
             {
-              "id": "sc_s4_c2_ch1",
+              "id": "sc_s5_c2_ch1",
               "rawType": "shape",
               "role": "header-bar",
               "name": "header-bar",
@@ -4630,7 +4823,7 @@
               "relH": 26.0,
               "geom": "roundRect",
               "fill": "#1B365D",
-              "borderColor": "#1B365D",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -4665,7 +4858,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c2_ch2",
+              "id": "sc_s5_c2_ch2",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_1",
@@ -4679,7 +4872,7 @@
               "relH": 28.0,
               "geom": "chevron",
               "fill": "#1B365D",
-              "borderColor": "#1B365D",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -4713,7 +4906,7 @@
               }
             },
             {
-              "id": "sc_s4_c2_ch3",
+              "id": "sc_s5_c2_ch3",
               "rawType": "shape",
               "role": "stage-box",
               "name": "stage-box_1",
@@ -4728,7 +4921,7 @@
               "geom": "roundRect",
               "fill": "#F4F6F9",
               "borderColor": "#1B365D",
-              "borderWidth": 1.2,
+              "borderWidth": 1.1,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -4742,7 +4935,7 @@
                   {
                     "align": "center",
                     "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
+                    "spaceAfter": 4.0,
                     "lineSpacing": null,
                     "lineSpacingPct": null,
                     "runs": [
@@ -4766,7 +4959,7 @@
                     "runs": [
                       {
                         "text": "检查快照时间与基础口径是否一致",
-                        "fontSize": 10.0,
+                        "fontSize": 9.7,
                         "bold": false,
                         "italic": false,
                         "color": "#334155",
@@ -4780,7 +4973,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c2_ch4",
+              "id": "sc_s5_c2_ch4",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_1",
@@ -4800,7 +4993,7 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s4_c2_ch5",
+              "id": "sc_s5_c2_ch5",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_2",
@@ -4814,7 +5007,7 @@
               "relH": 28.0,
               "geom": "chevron",
               "fill": "#1E6CFF",
-              "borderColor": "#1E6CFF",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -4848,7 +5041,7 @@
               }
             },
             {
-              "id": "sc_s4_c2_ch6",
+              "id": "sc_s5_c2_ch6",
               "rawType": "shape",
               "role": "stage-box",
               "name": "stage-box_2",
@@ -4863,7 +5056,7 @@
               "geom": "roundRect",
               "fill": "#F0F5FF",
               "borderColor": "#1E6CFF",
-              "borderWidth": 1.2,
+              "borderWidth": 1.1,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -4877,7 +5070,7 @@
                   {
                     "align": "center",
                     "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
+                    "spaceAfter": 4.0,
                     "lineSpacing": null,
                     "lineSpacingPct": null,
                     "runs": [
@@ -4901,7 +5094,7 @@
                     "runs": [
                       {
                         "text": "核对准入条件与流动性剔除规则",
-                        "fontSize": 10.0,
+                        "fontSize": 9.7,
                         "bold": false,
                         "italic": false,
                         "color": "#334155",
@@ -4915,7 +5108,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c2_ch7",
+              "id": "sc_s5_c2_ch7",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_2",
@@ -4935,7 +5128,7 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s4_c2_ch8",
+              "id": "sc_s5_c2_ch8",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_3",
@@ -4949,7 +5142,7 @@
               "relH": 28.0,
               "geom": "chevron",
               "fill": "#D97706",
-              "borderColor": "#D97706",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -4983,7 +5176,7 @@
               }
             },
             {
-              "id": "sc_s4_c2_ch9",
+              "id": "sc_s5_c2_ch9",
               "rawType": "shape",
               "role": "stage-box",
               "name": "stage-box_3",
@@ -4998,7 +5191,7 @@
               "geom": "roundRect",
               "fill": "#FFFBEB",
               "borderColor": "#D97706",
-              "borderWidth": 1.2,
+              "borderWidth": 1.1,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -5012,7 +5205,7 @@
                   {
                     "align": "center",
                     "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
+                    "spaceAfter": 4.0,
                     "lineSpacing": null,
                     "lineSpacingPct": null,
                     "runs": [
@@ -5036,7 +5229,7 @@
                     "runs": [
                       {
                         "text": "对比全样本与分组内部标准化截尾",
-                        "fontSize": 10.0,
+                        "fontSize": 9.7,
                         "bold": false,
                         "italic": false,
                         "color": "#334155",
@@ -5050,7 +5243,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c2_ch10",
+              "id": "sc_s5_c2_ch10",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_3",
@@ -5070,7 +5263,7 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s4_c2_ch11",
+              "id": "sc_s5_c2_ch11",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_4",
@@ -5084,7 +5277,7 @@
               "relH": 28.0,
               "geom": "chevron",
               "fill": "#7A2048",
-              "borderColor": "#7A2048",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -5118,7 +5311,7 @@
               }
             },
             {
-              "id": "sc_s4_c2_ch12",
+              "id": "sc_s5_c2_ch12",
               "rawType": "shape",
               "role": "stage-box",
               "name": "stage-box_4",
@@ -5133,7 +5326,7 @@
               "geom": "roundRect",
               "fill": "#FAF4F6",
               "borderColor": "#7A2048",
-              "borderWidth": 1.2,
+              "borderWidth": 1.1,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -5147,7 +5340,7 @@
                   {
                     "align": "center",
                     "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
+                    "spaceAfter": 4.0,
                     "lineSpacing": null,
                     "lineSpacingPct": null,
                     "runs": [
@@ -5171,7 +5364,7 @@
                     "runs": [
                       {
                         "text": "检验优先保留区间与切换惩罚阈值",
-                        "fontSize": 10.0,
+                        "fontSize": 9.7,
                         "bold": false,
                         "italic": false,
                         "color": "#334155",
@@ -5185,7 +5378,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c2_ch13",
+              "id": "sc_s5_c2_ch13",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_4",
@@ -5205,7 +5398,7 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s4_c2_ch14",
+              "id": "sc_s5_c2_ch14",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_5",
@@ -5219,7 +5412,7 @@
               "relH": 28.0,
               "geom": "chevron",
               "fill": "#16A34A",
-              "borderColor": "#16A34A",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -5253,7 +5446,7 @@
               }
             },
             {
-              "id": "sc_s4_c2_ch15",
+              "id": "sc_s5_c2_ch15",
               "rawType": "shape",
               "role": "stage-box",
               "name": "stage-box_5",
@@ -5268,7 +5461,7 @@
               "geom": "roundRect",
               "fill": "#F0FDF4",
               "borderColor": "#16A34A",
-              "borderWidth": 1.2,
+              "borderWidth": 1.1,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -5282,7 +5475,7 @@
                   {
                     "align": "center",
                     "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
+                    "spaceAfter": 4.0,
                     "lineSpacing": null,
                     "lineSpacingPct": null,
                     "runs": [
@@ -5306,7 +5499,7 @@
                     "runs": [
                       {
                         "text": "校验上限约束与二次归一化精度",
-                        "fontSize": 10.0,
+                        "fontSize": 9.7,
                         "bold": false,
                         "italic": false,
                         "color": "#334155",
@@ -5320,7 +5513,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c2_ch16",
+              "id": "sc_s5_c2_ch16",
               "rawType": "shape",
               "role": "summary-bar",
               "name": "summary-bar",
@@ -5371,7 +5564,7 @@
           ]
         },
         {
-          "id": "sc_s4_c3",
+          "id": "sc_s5_c3",
           "type": "iteration-lanes",
           "subType": "declarative",
           "name": "iteration-lanes",
@@ -5456,7 +5649,7 @@
           },
           "children": [
             {
-              "id": "sc_s4_c3_ch1",
+              "id": "sc_s5_c3_ch1",
               "rawType": "shape",
               "role": "lane-card",
               "name": "lane-card_1",
@@ -5471,7 +5664,7 @@
               "geom": "roundRect",
               "fill": "#F8FAFC",
               "borderColor": "#94A3B8",
-              "borderWidth": 1.3,
+              "borderWidth": 1.2,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -5595,7 +5788,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch2",
+              "id": "sc_s5_c3_ch2",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_1",
@@ -5609,7 +5802,7 @@
               "relH": 26.0,
               "geom": "roundRect",
               "fill": "#475569",
-              "borderColor": "#475569",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -5644,7 +5837,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch3",
+              "id": "sc_s5_c3_ch3",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_1",
@@ -5664,7 +5857,7 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s4_c3_ch4",
+              "id": "sc_s5_c3_ch4",
               "rawType": "shape",
               "role": "lane-card",
               "name": "lane-card_2",
@@ -5679,7 +5872,7 @@
               "geom": "roundRect",
               "fill": "#F0FDF4",
               "borderColor": "#16A34A",
-              "borderWidth": 1.3,
+              "borderWidth": 1.2,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -5803,7 +5996,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch5",
+              "id": "sc_s5_c3_ch5",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_2",
@@ -5817,7 +6010,7 @@
               "relH": 26.0,
               "geom": "roundRect",
               "fill": "#16A34A",
-              "borderColor": "#16A34A",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -5852,7 +6045,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch6",
+              "id": "sc_s5_c3_ch6",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_2",
@@ -5873,7 +6066,7 @@
               "dashStyle": "dash"
             },
             {
-              "id": "sc_s4_c3_ch7",
+              "id": "sc_s5_c3_ch7",
               "rawType": "shape",
               "role": "lane-card",
               "name": "lane-card_3",
@@ -5888,7 +6081,7 @@
               "geom": "roundRect",
               "fill": "#FEF2F2",
               "borderColor": "#DC2626",
-              "borderWidth": 1.3,
+              "borderWidth": 1.2,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -6012,7 +6205,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch8",
+              "id": "sc_s5_c3_ch8",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_3",
@@ -6026,7 +6219,7 @@
               "relH": 26.0,
               "geom": "roundRect",
               "fill": "#DC2626",
-              "borderColor": "#DC2626",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -6061,7 +6254,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch9",
+              "id": "sc_s5_c3_ch9",
               "rawType": "shape",
               "role": "connector",
               "name": "connector_3",
@@ -6081,7 +6274,7 @@
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s4_c3_ch10",
+              "id": "sc_s5_c3_ch10",
               "rawType": "shape",
               "role": "lane-card",
               "name": "lane-card_4",
@@ -6096,7 +6289,7 @@
               "geom": "roundRect",
               "fill": "#EDF2F8",
               "borderColor": "#1B365D",
-              "borderWidth": 1.3,
+              "borderWidth": 1.2,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
@@ -6220,7 +6413,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch11",
+              "id": "sc_s5_c3_ch11",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_4",
@@ -6234,7 +6427,7 @@
               "relH": 26.0,
               "geom": "roundRect",
               "fill": "#1B365D",
-              "borderColor": "#1B365D",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -6269,7 +6462,7 @@
               "adj": 8000
             },
             {
-              "id": "sc_s4_c3_ch12",
+              "id": "sc_s5_c3_ch12",
               "rawType": "shape",
               "role": "topology-bar",
               "name": "topology-bar",
@@ -6320,7 +6513,7 @@
           ]
         },
         {
-          "id": "sc_s4_c4",
+          "id": "sc_s5_c4",
           "type": "footer-banner",
           "subType": "default",
           "name": "footer-banner",
@@ -6352,11 +6545,11 @@
           },
           "content": {
             "prefix": "语义防覆盖护栏：",
-            "subtitle": "PASS 绿 / WARN 琥珀 / REJECT 红受主题切换护栏保护，确保全局换肤不破坏实验裁决语义。"
+            "subtitle": "PASS 绿 / WARN 琥珀 / REJECT 红受主题切换护栏保护，切换任一皮肤均保留实验裁决语义。"
           },
           "children": [
             {
-              "id": "sc_s4_c4_ch1",
+              "id": "sc_s5_c4_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
@@ -6398,7 +6591,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "PASS 绿 / WARN 琥珀 / REJECT 红受主题切换护栏保护，确保全局换肤不破坏实验裁决语义。",
+                        "text": "PASS 绿 / WARN 琥珀 / REJECT 红受主题切换护栏保护，切换任一皮肤均保留实验裁决语义。",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -6406,7 +6599,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "语义防覆盖护栏：PASS 绿 / WARN 琥珀 / REJECT 红受主题切换护栏保护，确保全局换肤不破坏实验裁决语义。"
+                    "text": "语义防覆盖护栏：PASS 绿 / WARN 琥珀 / REJECT 红受主题切换护栏保护，切换任一皮肤均保留实验裁决语义。"
                   }
                 ]
               },
@@ -6417,17 +6610,18 @@
       ]
     },
     {
-      "id": "component_showcase_slide_5",
-      "index": 5,
-      "title": "多媒体、KPI 展示与几何连线原语示范（P05）",
+      "id": "component_showcase_slide_6",
+      "index": 6,
+      "title": "双环科技时间轴、KPI 展示与新增几何原语示范（P06）",
       "background": {
         "type": "color",
         "color": "#FFFFFF",
         "image": null
       },
+      "decorations": [],
       "components": [
         {
-          "id": "sc_s5_c1",
+          "id": "sc_s6_c1",
           "type": "slide-header",
           "subType": "default",
           "name": "slide-header",
@@ -6458,14 +6652,14 @@
             "fontFamily": "微软雅黑"
           },
           "content": {
-            "sectionTag": "04 指标与矢量原语",
-            "title": "多媒体、KPI 展示与几何连线原语示范（P05）",
-            "subtitle": "展示 process-flow / kpi-card / image-frame / kv-matrix 及 pentagon / oval / elbowConnector / flip 原语",
-            "pageNumber": "5 / 5"
+            "sectionTag": "04 时间轴、指标与原语",
+            "title": "双环科技时间轴、KPI 展示与新增几何原语示范（P06）",
+            "subtitle": "展示 milestone-timeline / kpi-card / image-frame / process-flow / kv-matrix 及 gradFill / hexagon / parallelogram 原语",
+            "pageNumber": "6 / 6"
           },
           "children": [
             {
-              "id": "sc_s5_c1_ch1",
+              "id": "sc_s6_c1_ch1",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-主色",
@@ -6484,7 +6678,7 @@
               "textBody": null
             },
             {
-              "id": "sc_s5_c1_ch2",
+              "id": "sc_s6_c1_ch2",
               "rawType": "shape",
               "role": "shape",
               "name": "顶栏色条-强调色",
@@ -6503,17 +6697,17 @@
               "textBody": null
             },
             {
-              "id": "sc_s5_c1_ch3",
+              "id": "sc_s6_c1_ch3",
               "rawType": "shape",
               "role": "step-box",
               "name": "章节胶囊标签",
               "x": 48.0,
               "y": 16.5,
-              "w": 157.0,
+              "w": 182.0,
               "h": 23.5,
               "relX": 48.0,
               "relY": 16.5,
-              "relW": 157.0,
+              "relW": 182.0,
               "relH": 23.5,
               "geom": "roundRect",
               "fill": "#EDF2F8",
@@ -6537,7 +6731,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "04 指标与矢量原语",
+                        "text": "04 时间轴、指标与原语",
                         "fontSize": 8.8,
                         "bold": true,
                         "italic": false,
@@ -6545,14 +6739,14 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "04 指标与矢量原语"
+                    "text": "04 时间轴、指标与原语"
                   }
                 ]
               },
               "adj": 20000
             },
             {
-              "id": "sc_s5_c1_ch4",
+              "id": "sc_s6_c1_ch4",
               "rawType": "shape",
               "role": "page-num",
               "name": "页码",
@@ -6572,10 +6766,10 @@
                 "valign": "middle",
                 "wrap": false,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -6586,7 +6780,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "5 / 5",
+                        "text": "6 / 6",
                         "fontSize": 9.5,
                         "bold": false,
                         "italic": false,
@@ -6594,13 +6788,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "5 / 5"
+                    "text": "6 / 6"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s5_c1_ch5",
+              "id": "sc_s6_c1_ch5",
               "rawType": "shape",
               "role": "title",
               "name": "页面主标题",
@@ -6620,10 +6814,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -6634,7 +6828,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "多媒体、KPI 展示与几何连线原语示范（P05）",
+                        "text": "双环科技时间轴、KPI 展示与新增几何原语示范（P06）",
                         "fontSize": 19.0,
                         "bold": true,
                         "italic": false,
@@ -6642,13 +6836,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "多媒体、KPI 展示与几何连线原语示范（P05）"
+                    "text": "双环科技时间轴、KPI 展示与新增几何原语示范（P06）"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s5_c1_ch6",
+              "id": "sc_s6_c1_ch6",
               "rawType": "shape",
               "role": "subtitle",
               "name": "页面副标题",
@@ -6668,10 +6862,10 @@
                 "valign": "middle",
                 "wrap": true,
                 "padding": {
-                  "left": 0.0,
-                  "top": 0.0,
-                  "right": 0.0,
-                  "bottom": 0.0
+                  "left": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0
                 },
                 "paragraphs": [
                   {
@@ -6682,7 +6876,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "展示 process-flow / kpi-card / image-frame / kv-matrix 及 pentagon / oval / elbowConnector / flip 原语",
+                        "text": "展示 milestone-timeline / kpi-card / image-frame / process-flow / kv-matrix 及 gradFill / hexagon / parallelogram 原语",
                         "fontSize": 10.5,
                         "bold": false,
                         "italic": false,
@@ -6690,13 +6884,13 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "展示 process-flow / kpi-card / image-frame / kv-matrix 及 pentagon / oval / elbowConnector / flip 原语"
+                    "text": "展示 milestone-timeline / kpi-card / image-frame / process-flow / kv-matrix 及 gradFill / hexagon / parallelogram 原语"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s5_c1_ch7",
+              "id": "sc_s6_c1_ch7",
               "rawType": "shape",
               "role": "divider",
               "name": "页眉分割线",
@@ -6717,160 +6911,189 @@
           ]
         },
         {
-          "id": "sc_s5_c2",
-          "type": "process-flow",
-          "subType": "horizontal",
-          "name": "process-flow",
+          "id": "sc_s6_c2",
+          "type": "milestone-timeline",
+          "subType": "declarative",
+          "name": "milestone-timeline",
           "x": 48.0,
           "y": 134.0,
           "w": 924.67,
-          "h": 94.0,
+          "h": 198.0,
           "layout": {
-            "paddingX": 10.0,
-            "paddingY": 8.0,
-            "headerGap": 6.0,
-            "itemGap": 18.0,
-            "lineHeight": 1.3,
+            "paddingX": 12.0,
+            "paddingY": 10.0,
+            "headerGap": 8.0,
+            "itemGap": 22.0,
+            "lineHeight": 1.25,
             "align": "left",
             "valign": "top"
           },
           "style": {
-            "fill": "#EDF2F8",
-            "borderColor": "#1B365D",
-            "borderWidth": 1.2,
-            "borderRadius": 10.0,
+            "fill": "#F6F8FB",
+            "borderColor": "#CBD5E1",
+            "borderWidth": 1.0,
+            "borderRadius": 8.0,
             "titleColor": "#1B365D",
-            "titleSize": 11.5,
+            "titleSize": 12.0,
             "titleBold": true,
             "bodyColor": "#334155",
             "bodySize": 10.0,
-            "accentColor": "#1B365D",
+            "accentColor": "#7A2048",
             "fontFamily": "微软雅黑"
           },
           "content": {
-            "title": "process-flow",
-            "items": [
-              "1. 问题凝练 | 基于典型事实提出核心假说",
-              "2. 数据建模 | 多源异构样本清洗与口径对齐",
-              "3. 机制检验 | 因果识别与分位数稳健消融",
-              "4. 结论凝练 | 理论边界探讨与实践启示"
+            "milestones": [
+              {
+                "step": "01",
+                "tag": "PHASE A",
+                "icon": "flask",
+                "title": "数据发现与清洗对齐",
+                "desc": "校验真实底表结构与历史时点快照口径，隔离事后重述干扰"
+              },
+              {
+                "step": "02",
+                "tag": "PHASE B",
+                "icon": "gear",
+                "title": "核心算子与约束构建",
+                "desc": "解耦计算口径与缓冲区机制，支持单变量受控消融验证"
+              },
+              {
+                "step": "03",
+                "tag": "PHASE C",
+                "icon": "board",
+                "title": "分歧归因与门禁裁决",
+                "desc": "横向剥离误差源并纵向定位首处分歧漏斗，严禁盲目调参"
+              },
+              {
+                "step": "04",
+                "tag": "PHASE D",
+                "icon": "chart",
+                "title": "样本外收敛与验收交付",
+                "desc": "跨多期调仓窗口稳定性检验，达成命中率与重合度门禁阈值"
+              }
             ]
           },
           "children": [
             {
-              "id": "sc_s5_c2_ch1",
+              "id": "sc_s6_c2_ch1",
               "rawType": "shape",
-              "role": "step-box",
-              "name": "step-box_1",
+              "role": "connector",
+              "name": "timeline-axis",
+              "x": 155.33,
+              "y": 174.0,
+              "w": 710.0,
+              "h": 0.0,
+              "relX": 107.33,
+              "relY": 40.0,
+              "relW": 710.0,
+              "relH": 0.0,
+              "geom": "line",
+              "fill": null,
+              "borderColor": "#1B365D",
+              "borderWidth": 1.6,
+              "textBody": null,
+              "tailEnd": "triangle",
+              "borderAlpha": 0.7
+            },
+            {
+              "id": "sc_s6_c2_ch2",
+              "rawType": "shape",
+              "role": "shape",
+              "name": "outer-ring_1",
+              "x": 121.33,
+              "y": 140.0,
+              "w": 68.0,
+              "h": 68.0,
+              "relX": 73.33,
+              "relY": 6.0,
+              "relW": 68.0,
+              "relH": 68.0,
+              "geom": "oval",
+              "fill": null,
+              "borderColor": "#1B365D",
+              "borderWidth": 1.2,
+              "textBody": null,
+              "borderAlpha": 0.75
+            },
+            {
+              "id": "sc_s6_c2_ch3",
+              "rawType": "shape",
+              "role": "badge",
+              "name": "icon-circle_1",
+              "x": 125.33,
+              "y": 144.0,
+              "w": 60.0,
+              "h": 60.0,
+              "relX": 77.33,
+              "relY": 10.0,
+              "relW": 60.0,
+              "relH": 60.0,
+              "geom": "oval",
+              "fill": "#EDF2F8",
+              "borderColor": "#1B365D",
+              "borderWidth": 1.8,
+              "textBody": null
+            },
+            {
+              "id": "sc_s6_c2_ch4",
+              "rawType": "image",
+              "role": "image",
+              "name": "icon_1",
+              "x": 139.33,
+              "y": 158.0,
+              "w": 32.0,
+              "h": 32.0,
+              "relX": 91.33,
+              "relY": 24.0,
+              "relW": 32.0,
+              "relH": 32.0,
+              "src": "/templates/builtin/assets/terra_quest/icon_flask_dark.png"
+            },
+            {
+              "id": "sc_s6_c2_ch5",
+              "rawType": "shape",
+              "role": "lane-card",
+              "name": "milestone-card_1",
               "x": 48.0,
-              "y": 134.0,
-              "w": 217.67,
-              "h": 94.0,
+              "y": 220.0,
+              "w": 214.67,
+              "h": 112.0,
               "relX": 0.0,
-              "relY": 0.0,
-              "relW": 217.67,
-              "relH": 94.0,
+              "relY": 86.0,
+              "relW": 214.67,
+              "relH": 112.0,
               "geom": "roundRect",
-              "fill": "#EDF2F8",
-              "borderColor": "#1B365D",
-              "borderWidth": 1.2,
+              "fill": "#F6F8FB",
+              "borderColor": "#CBD5E1",
+              "borderWidth": 1.1,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
                 "padding": {
-                  "left": 10.0,
-                  "top": 9.0,
-                  "right": 10.0,
-                  "bottom": 9.0
+                  "left": 10,
+                  "top": 10,
+                  "right": 10,
+                  "bottom": 10
                 },
                 "paragraphs": [
                   {
                     "align": "left",
                     "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
+                    "spaceAfter": 4.0,
                     "lineSpacing": null,
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "1. 问题凝练",
-                        "fontSize": 10.5,
+                        "text": "01 | PHASE A",
+                        "fontSize": 11.0,
                         "bold": true,
                         "italic": false,
                         "color": "#1B365D",
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "1. 问题凝练"
+                    "text": "01 | PHASE A"
                   },
-                  {
-                    "align": "left",
-                    "spaceBefore": 0.0,
-                    "spaceAfter": 0.0,
-                    "lineSpacing": null,
-                    "lineSpacingPct": null,
-                    "runs": [
-                      {
-                        "text": "基于典型事实提出核心假说",
-                        "fontSize": 9.5,
-                        "bold": false,
-                        "italic": false,
-                        "color": "#334155",
-                        "fontFamily": "微软雅黑"
-                      }
-                    ],
-                    "text": "基于典型事实提出核心假说"
-                  }
-                ]
-              },
-              "adj": 8000
-            },
-            {
-              "id": "sc_s5_c2_ch2",
-              "rawType": "shape",
-              "role": "connector",
-              "name": "connector_1",
-              "x": 267.67,
-              "y": 181.0,
-              "w": 14.0,
-              "h": 0.0,
-              "relX": 219.67,
-              "relY": 47.0,
-              "relW": 14.0,
-              "relH": 0.0,
-              "geom": "line",
-              "fill": null,
-              "borderColor": "#1B365D",
-              "borderWidth": 1.6,
-              "textBody": null,
-              "tailEnd": "triangle"
-            },
-            {
-              "id": "sc_s5_c2_ch3",
-              "rawType": "shape",
-              "role": "step-box",
-              "name": "step-box_2",
-              "x": 283.67,
-              "y": 134.0,
-              "w": 217.67,
-              "h": 94.0,
-              "relX": 235.67,
-              "relY": 0.0,
-              "relW": 217.67,
-              "relH": 94.0,
-              "geom": "roundRect",
-              "fill": "#F6F8FB",
-              "borderColor": "#CBD5E1",
-              "borderWidth": 1.2,
-              "textBody": {
-                "valign": "top",
-                "wrap": true,
-                "padding": {
-                  "left": 10.0,
-                  "top": 9.0,
-                  "right": 10.0,
-                  "bottom": 9.0
-                },
-                "paragraphs": [
                   {
                     "align": "left",
                     "spaceBefore": 0.0,
@@ -6879,15 +7102,15 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "2. 数据建模",
-                        "fontSize": 10.5,
+                        "text": "数据发现与清洗对齐",
+                        "fontSize": 12.0,
                         "bold": true,
                         "italic": false,
-                        "color": "#2B547E",
+                        "color": "#1E293B",
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "2. 数据建模"
+                    "text": "数据发现与清洗对齐"
                   },
                   {
                     "align": "left",
@@ -6897,171 +7120,136 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "多源异构样本清洗与口径对齐",
-                        "fontSize": 9.5,
+                        "text": "校验真实底表结构与历史时点快照口径，隔离事后重述干扰",
+                        "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
                         "color": "#334155",
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "多源异构样本清洗与口径对齐"
+                    "text": "校验真实底表结构与历史时点快照口径，隔离事后重述干扰"
                   }
                 ]
               },
               "adj": 8000
             },
             {
-              "id": "sc_s5_c2_ch4",
+              "id": "sc_s6_c2_ch6",
               "rawType": "shape",
-              "role": "connector",
-              "name": "connector_2",
-              "x": 503.34,
-              "y": 181.0,
-              "w": 14.0,
-              "h": 0.0,
-              "relX": 455.34,
-              "relY": 47.0,
-              "relW": 14.0,
-              "relH": 0.0,
-              "geom": "line",
+              "role": "shape",
+              "name": "outer-ring_2",
+              "x": 358.0,
+              "y": 140.0,
+              "w": 68.0,
+              "h": 68.0,
+              "relX": 310.0,
+              "relY": 6.0,
+              "relW": 68.0,
+              "relH": 68.0,
+              "geom": "oval",
               "fill": null,
               "borderColor": "#1B365D",
-              "borderWidth": 1.6,
-              "textBody": null,
-              "tailEnd": "triangle"
-            },
-            {
-              "id": "sc_s5_c2_ch5",
-              "rawType": "shape",
-              "role": "step-box",
-              "name": "step-box_3",
-              "x": 519.34,
-              "y": 134.0,
-              "w": 217.67,
-              "h": 94.0,
-              "relX": 471.34,
-              "relY": 0.0,
-              "relW": 217.67,
-              "relH": 94.0,
-              "geom": "roundRect",
-              "fill": "#F6F8FB",
-              "borderColor": "#CBD5E1",
               "borderWidth": 1.2,
-              "textBody": {
-                "valign": "top",
-                "wrap": true,
-                "padding": {
-                  "left": 10.0,
-                  "top": 9.0,
-                  "right": 10.0,
-                  "bottom": 9.0
-                },
-                "paragraphs": [
-                  {
-                    "align": "left",
-                    "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
-                    "lineSpacing": null,
-                    "lineSpacingPct": null,
-                    "runs": [
-                      {
-                        "text": "3. 机制检验",
-                        "fontSize": 10.5,
-                        "bold": true,
-                        "italic": false,
-                        "color": "#2B547E",
-                        "fontFamily": "微软雅黑"
-                      }
-                    ],
-                    "text": "3. 机制检验"
-                  },
-                  {
-                    "align": "left",
-                    "spaceBefore": 0.0,
-                    "spaceAfter": 0.0,
-                    "lineSpacing": null,
-                    "lineSpacingPct": null,
-                    "runs": [
-                      {
-                        "text": "因果识别与分位数稳健消融",
-                        "fontSize": 9.5,
-                        "bold": false,
-                        "italic": false,
-                        "color": "#334155",
-                        "fontFamily": "微软雅黑"
-                      }
-                    ],
-                    "text": "因果识别与分位数稳健消融"
-                  }
-                ]
-              },
-              "adj": 8000
-            },
-            {
-              "id": "sc_s5_c2_ch6",
-              "rawType": "shape",
-              "role": "connector",
-              "name": "connector_3",
-              "x": 739.01,
-              "y": 181.0,
-              "w": 14.0,
-              "h": 0.0,
-              "relX": 691.01,
-              "relY": 47.0,
-              "relW": 14.0,
-              "relH": 0.0,
-              "geom": "line",
-              "fill": null,
-              "borderColor": "#1B365D",
-              "borderWidth": 1.6,
               "textBody": null,
-              "tailEnd": "triangle"
+              "borderAlpha": 0.75
             },
             {
-              "id": "sc_s5_c2_ch7",
+              "id": "sc_s6_c2_ch7",
               "rawType": "shape",
-              "role": "step-box",
-              "name": "step-box_4",
-              "x": 755.01,
-              "y": 134.0,
-              "w": 217.67,
-              "h": 94.0,
-              "relX": 707.01,
-              "relY": 0.0,
-              "relW": 217.67,
-              "relH": 94.0,
-              "geom": "roundRect",
+              "role": "badge",
+              "name": "icon-circle_2",
+              "x": 362.0,
+              "y": 144.0,
+              "w": 60.0,
+              "h": 60.0,
+              "relX": 314.0,
+              "relY": 10.0,
+              "relW": 60.0,
+              "relH": 60.0,
+              "geom": "oval",
               "fill": "#EDF2F8",
               "borderColor": "#1B365D",
-              "borderWidth": 1.2,
+              "borderWidth": 1.8,
+              "textBody": null
+            },
+            {
+              "id": "sc_s6_c2_ch8",
+              "rawType": "image",
+              "role": "image",
+              "name": "icon_2",
+              "x": 376.0,
+              "y": 158.0,
+              "w": 32.0,
+              "h": 32.0,
+              "relX": 328.0,
+              "relY": 24.0,
+              "relW": 32.0,
+              "relH": 32.0,
+              "src": "/templates/builtin/assets/terra_quest/icon_gear_dark.png"
+            },
+            {
+              "id": "sc_s6_c2_ch9",
+              "rawType": "shape",
+              "role": "lane-card",
+              "name": "milestone-card_2",
+              "x": 284.67,
+              "y": 220.0,
+              "w": 214.67,
+              "h": 112.0,
+              "relX": 236.67,
+              "relY": 86.0,
+              "relW": 214.67,
+              "relH": 112.0,
+              "geom": "roundRect",
+              "fill": "#F6F8FB",
+              "borderColor": "#CBD5E1",
+              "borderWidth": 1.1,
               "textBody": {
                 "valign": "top",
                 "wrap": true,
                 "padding": {
-                  "left": 10.0,
-                  "top": 9.0,
-                  "right": 10.0,
-                  "bottom": 9.0
+                  "left": 10,
+                  "top": 10,
+                  "right": 10,
+                  "bottom": 10
                 },
                 "paragraphs": [
                   {
                     "align": "left",
                     "spaceBefore": 0.0,
-                    "spaceAfter": 5.0,
+                    "spaceAfter": 4.0,
                     "lineSpacing": null,
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "4. 结论凝练",
-                        "fontSize": 10.5,
+                        "text": "02 | PHASE B",
+                        "fontSize": 11.0,
                         "bold": true,
                         "italic": false,
                         "color": "#1B365D",
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "4. 结论凝练"
+                    "text": "02 | PHASE B"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 5.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "核心算子与约束构建",
+                        "fontSize": 12.0,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#1E293B",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "核心算子与约束构建"
                   },
                   {
                     "align": "left",
@@ -7071,15 +7259,293 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "理论边界探讨与实践启示",
-                        "fontSize": 9.5,
+                        "text": "解耦计算口径与缓冲区机制，支持单变量受控消融验证",
+                        "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
                         "color": "#334155",
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "理论边界探讨与实践启示"
+                    "text": "解耦计算口径与缓冲区机制，支持单变量受控消融验证"
+                  }
+                ]
+              },
+              "adj": 8000
+            },
+            {
+              "id": "sc_s6_c2_ch10",
+              "rawType": "shape",
+              "role": "shape",
+              "name": "outer-ring_3",
+              "x": 594.67,
+              "y": 140.0,
+              "w": 68.0,
+              "h": 68.0,
+              "relX": 546.67,
+              "relY": 6.0,
+              "relW": 68.0,
+              "relH": 68.0,
+              "geom": "oval",
+              "fill": null,
+              "borderColor": "#1B365D",
+              "borderWidth": 1.2,
+              "textBody": null,
+              "borderAlpha": 0.75
+            },
+            {
+              "id": "sc_s6_c2_ch11",
+              "rawType": "shape",
+              "role": "badge",
+              "name": "icon-circle_3",
+              "x": 598.67,
+              "y": 144.0,
+              "w": 60.0,
+              "h": 60.0,
+              "relX": 550.67,
+              "relY": 10.0,
+              "relW": 60.0,
+              "relH": 60.0,
+              "geom": "oval",
+              "fill": "#EDF2F8",
+              "borderColor": "#1B365D",
+              "borderWidth": 1.8,
+              "textBody": null
+            },
+            {
+              "id": "sc_s6_c2_ch12",
+              "rawType": "image",
+              "role": "image",
+              "name": "icon_3",
+              "x": 612.67,
+              "y": 158.0,
+              "w": 32.0,
+              "h": 32.0,
+              "relX": 564.67,
+              "relY": 24.0,
+              "relW": 32.0,
+              "relH": 32.0,
+              "src": "/templates/builtin/assets/terra_quest/icon_board_dark.png"
+            },
+            {
+              "id": "sc_s6_c2_ch13",
+              "rawType": "shape",
+              "role": "lane-card",
+              "name": "milestone-card_3",
+              "x": 521.34,
+              "y": 220.0,
+              "w": 214.67,
+              "h": 112.0,
+              "relX": 473.34,
+              "relY": 86.0,
+              "relW": 214.67,
+              "relH": 112.0,
+              "geom": "roundRect",
+              "fill": "#F6F8FB",
+              "borderColor": "#CBD5E1",
+              "borderWidth": 1.1,
+              "textBody": {
+                "valign": "top",
+                "wrap": true,
+                "padding": {
+                  "left": 10,
+                  "top": 10,
+                  "right": 10,
+                  "bottom": 10
+                },
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 4.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "03 | PHASE C",
+                        "fontSize": 11.0,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#1B365D",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "03 | PHASE C"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 5.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "分歧归因与门禁裁决",
+                        "fontSize": 12.0,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#1E293B",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "分歧归因与门禁裁决"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "横向剥离误差源并纵向定位首处分歧漏斗，严禁盲目调参",
+                        "fontSize": 10.0,
+                        "bold": false,
+                        "italic": false,
+                        "color": "#334155",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "横向剥离误差源并纵向定位首处分歧漏斗，严禁盲目调参"
+                  }
+                ]
+              },
+              "adj": 8000
+            },
+            {
+              "id": "sc_s6_c2_ch14",
+              "rawType": "shape",
+              "role": "shape",
+              "name": "outer-ring_4",
+              "x": 831.35,
+              "y": 140.0,
+              "w": 68.0,
+              "h": 68.0,
+              "relX": 783.35,
+              "relY": 6.0,
+              "relW": 68.0,
+              "relH": 68.0,
+              "geom": "oval",
+              "fill": null,
+              "borderColor": "#1B365D",
+              "borderWidth": 1.2,
+              "textBody": null,
+              "borderAlpha": 0.75
+            },
+            {
+              "id": "sc_s6_c2_ch15",
+              "rawType": "shape",
+              "role": "badge",
+              "name": "icon-circle_4",
+              "x": 835.35,
+              "y": 144.0,
+              "w": 60.0,
+              "h": 60.0,
+              "relX": 787.35,
+              "relY": 10.0,
+              "relW": 60.0,
+              "relH": 60.0,
+              "geom": "oval",
+              "fill": "#EDF2F8",
+              "borderColor": "#1B365D",
+              "borderWidth": 1.8,
+              "textBody": null
+            },
+            {
+              "id": "sc_s6_c2_ch16",
+              "rawType": "image",
+              "role": "image",
+              "name": "icon_4",
+              "x": 849.35,
+              "y": 158.0,
+              "w": 32.0,
+              "h": 32.0,
+              "relX": 801.35,
+              "relY": 24.0,
+              "relW": 32.0,
+              "relH": 32.0,
+              "src": "/templates/builtin/assets/terra_quest/icon_chart_dark.png"
+            },
+            {
+              "id": "sc_s6_c2_ch17",
+              "rawType": "shape",
+              "role": "lane-card",
+              "name": "milestone-card_4",
+              "x": 758.01,
+              "y": 220.0,
+              "w": 214.67,
+              "h": 112.0,
+              "relX": 710.01,
+              "relY": 86.0,
+              "relW": 214.67,
+              "relH": 112.0,
+              "geom": "roundRect",
+              "fill": "#F6F8FB",
+              "borderColor": "#CBD5E1",
+              "borderWidth": 1.1,
+              "textBody": {
+                "valign": "top",
+                "wrap": true,
+                "padding": {
+                  "left": 10,
+                  "top": 10,
+                  "right": 10,
+                  "bottom": 10
+                },
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 4.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "04 | PHASE D",
+                        "fontSize": 11.0,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#1B365D",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "04 | PHASE D"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 5.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "样本外收敛与验收交付",
+                        "fontSize": 12.0,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#1E293B",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "样本外收敛与验收交付"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "跨多期调仓窗口稳定性检验，达成命中率与重合度门禁阈值",
+                        "fontSize": 10.0,
+                        "bold": false,
+                        "italic": false,
+                        "color": "#334155",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "跨多期调仓窗口稳定性检验，达成命中率与重合度门禁阈值"
                   }
                 ]
               },
@@ -7088,14 +7554,14 @@
           ]
         },
         {
-          "id": "sc_s5_c3",
+          "id": "sc_s6_c3",
           "type": "kpi-card",
           "subType": "default",
           "name": "kpi-card",
           "x": 48.0,
-          "y": 240.0,
-          "w": 294.0,
-          "h": 342.0,
+          "y": 344.0,
+          "w": 224.0,
+          "h": 238.0,
           "layout": {
             "paddingX": 12.0,
             "paddingY": 10.0,
@@ -7125,24 +7591,22 @@
             "metricLabel": "样本外命中率与基准吻合度",
             "image": "/assets/showcase/nav_benchmark.png",
             "items": [
-              "• 覆盖窗口：2018-2025 连续滚动期",
-              "• 拟合误差：年化偏差 <= 0.42%",
-              "核心特征：稳健正则化 + 结构约束"
+              "• 滚动期 2018-2025 样本外验真"
             ]
           },
           "children": [
             {
-              "id": "sc_s5_c3_ch1",
+              "id": "sc_s6_c3_ch1",
               "rawType": "shape",
               "role": "title",
               "name": "title",
               "x": 48.0,
-              "y": 240.0,
-              "w": 294.0,
+              "y": 344.0,
+              "w": 224.0,
               "h": 52.0,
               "relX": 0.0,
               "relY": 0.0,
-              "relW": 294.0,
+              "relW": 224.0,
               "relH": 52.0,
               "geom": "roundRect",
               "fill": "#EDF2F8",
@@ -7199,33 +7663,33 @@
               "adj": 8000
             },
             {
-              "id": "sc_s5_c3_ch2",
+              "id": "sc_s6_c3_ch2",
               "rawType": "image",
               "role": "image",
               "name": "image",
               "x": 48.0,
-              "y": 298.0,
-              "w": 294.0,
-              "h": 139.0,
+              "y": 402.0,
+              "w": 224.0,
+              "h": 83.52,
               "relX": 0.0,
               "relY": 58.0,
-              "relW": 294.0,
-              "relH": 139.0,
+              "relW": 224.0,
+              "relH": 83.52,
               "src": "/assets/showcase/nav_benchmark.png"
             },
             {
-              "id": "sc_s5_c3_ch3",
+              "id": "sc_s6_c3_ch3",
               "rawType": "shape",
               "role": "metric-box",
               "name": "metric-box",
               "x": 48.0,
-              "y": 443.0,
-              "w": 294.0,
-              "h": 139.0,
+              "y": 491.52,
+              "w": 224.0,
+              "h": 90.48,
               "relX": 0.0,
-              "relY": 203.0,
-              "relW": 294.0,
-              "relH": 139.0,
+              "relY": 147.52,
+              "relW": 224.0,
+              "relH": 90.48,
               "geom": "roundRect",
               "fill": "#FFFFFF",
               "borderColor": "#CBD5E1",
@@ -7249,7 +7713,7 @@
                     "runs": [
                       {
                         "text": "97.7%",
-                        "fontSize": 22.0,
+                        "fontSize": 21.0,
                         "bold": true,
                         "italic": false,
                         "color": "#7A2048",
@@ -7284,15 +7748,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "• 覆盖窗口：",
-                        "fontSize": 9.5,
-                        "bold": true,
-                        "italic": false,
-                        "color": "#1B365D",
-                        "fontFamily": "微软雅黑"
-                      },
-                      {
-                        "text": "2018-2025 连续滚动期",
+                        "text": "• 滚动期 2018-2025 样本外验真",
                         "fontSize": 9.5,
                         "bold": false,
                         "italic": false,
@@ -7300,59 +7756,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "• 覆盖窗口：2018-2025 连续滚动期"
-                  },
-                  {
-                    "align": "left",
-                    "spaceBefore": 0.0,
-                    "spaceAfter": 3.0,
-                    "lineSpacing": null,
-                    "lineSpacingPct": null,
-                    "runs": [
-                      {
-                        "text": "• 拟合误差：",
-                        "fontSize": 9.5,
-                        "bold": true,
-                        "italic": false,
-                        "color": "#1B365D",
-                        "fontFamily": "微软雅黑"
-                      },
-                      {
-                        "text": "年化偏差 <= 0.42%",
-                        "fontSize": 9.5,
-                        "bold": false,
-                        "italic": false,
-                        "color": "#334155",
-                        "fontFamily": "微软雅黑"
-                      }
-                    ],
-                    "text": "• 拟合误差：年化偏差 <= 0.42%"
-                  },
-                  {
-                    "align": "left",
-                    "spaceBefore": 0.0,
-                    "spaceAfter": 3.0,
-                    "lineSpacing": null,
-                    "lineSpacingPct": null,
-                    "runs": [
-                      {
-                        "text": "核心特征：",
-                        "fontSize": 9.5,
-                        "bold": true,
-                        "italic": false,
-                        "color": "#1B365D",
-                        "fontFamily": "微软雅黑"
-                      },
-                      {
-                        "text": "稳健正则化 + 结构约束",
-                        "fontSize": 9.5,
-                        "bold": false,
-                        "italic": false,
-                        "color": "#334155",
-                        "fontFamily": "微软雅黑"
-                      }
-                    ],
-                    "text": "核心特征：稳健正则化 + 结构约束"
+                    "text": "• 滚动期 2018-2025 样本外验真"
                   }
                 ]
               },
@@ -7361,14 +7765,14 @@
           ]
         },
         {
-          "id": "sc_s5_c4",
+          "id": "sc_s6_c4",
           "type": "image-frame",
           "subType": "default",
           "name": "image-frame",
-          "x": 356.0,
-          "y": 240.0,
-          "w": 304.0,
-          "h": 342.0,
+          "x": 284.0,
+          "y": 344.0,
+          "w": 224.0,
+          "h": 238.0,
           "layout": {
             "paddingX": 8.0,
             "paddingY": 8.0,
@@ -7393,25 +7797,25 @@
           },
           "content": {
             "title": "image-frame",
-            "caption": "图 2：多轮迭代命中率归因分布",
+            "caption": "图 2：各轮次拟合命中率对比",
             "images": [
               "/assets/showcase/factor_attribution.png"
             ]
           },
           "children": [
             {
-              "id": "sc_s5_c4_ch1",
+              "id": "sc_s6_c4_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
-              "x": 356.0,
-              "y": 240.0,
-              "w": 304.0,
-              "h": 342.0,
+              "x": 284.0,
+              "y": 344.0,
+              "w": 224.0,
+              "h": 238.0,
               "relX": 0.0,
               "relY": 0.0,
-              "relW": 304.0,
-              "relH": 342.0,
+              "relW": 224.0,
+              "relH": 238.0,
               "geom": "roundRect",
               "fill": "#FFFFFF",
               "borderColor": "#CBD5E1",
@@ -7420,32 +7824,32 @@
               "adj": 6000
             },
             {
-              "id": "sc_s5_c4_ch2",
+              "id": "sc_s6_c4_ch2",
               "rawType": "image",
               "role": "image",
               "name": "image",
-              "x": 364.0,
-              "y": 248.0,
-              "w": 288.0,
-              "h": 300.0,
+              "x": 292.0,
+              "y": 352.0,
+              "w": 208.0,
+              "h": 196.0,
               "relX": 8.0,
               "relY": 8.0,
-              "relW": 288.0,
-              "relH": 300.0,
+              "relW": 208.0,
+              "relH": 196.0,
               "src": "/assets/showcase/factor_attribution.png"
             },
             {
-              "id": "sc_s5_c4_ch3",
+              "id": "sc_s6_c4_ch3",
               "rawType": "shape",
               "role": "subtitle",
               "name": "caption",
-              "x": 364.0,
+              "x": 292.0,
               "y": 550.0,
-              "w": 288.0,
+              "w": 208.0,
               "h": 22.0,
               "relX": 8.0,
-              "relY": 310.0,
-              "relW": 288.0,
+              "relY": 206.0,
+              "relW": 208.0,
               "relH": 22.0,
               "geom": "rect",
               "fill": null,
@@ -7469,7 +7873,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "图 2：多轮迭代命中率归因分布",
+                        "text": "图 2：各轮次拟合命中率对比",
                         "fontSize": 9.0,
                         "bold": false,
                         "italic": false,
@@ -7477,7 +7881,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "图 2：多轮迭代命中率归因分布"
+                    "text": "图 2：各轮次拟合命中率对比"
                   }
                 ]
               }
@@ -7485,14 +7889,297 @@
           ]
         },
         {
-          "id": "sc_s5_c5",
+          "id": "sc_s6_c5",
+          "type": "process-flow",
+          "subType": "horizontal",
+          "name": "process-flow",
+          "x": 520.0,
+          "y": 344.0,
+          "w": 452.67,
+          "h": 102.0,
+          "layout": {
+            "paddingX": 10.0,
+            "paddingY": 8.0,
+            "headerGap": 6.0,
+            "itemGap": 18.0,
+            "lineHeight": 1.3,
+            "align": "left",
+            "valign": "top"
+          },
+          "style": {
+            "fill": "#EDF2F8",
+            "borderColor": "#1B365D",
+            "borderWidth": 1.2,
+            "borderRadius": 10.0,
+            "titleColor": "#1B365D",
+            "titleSize": 11.5,
+            "titleBold": true,
+            "bodyColor": "#334155",
+            "bodySize": 10.0,
+            "accentColor": "#1B365D",
+            "fontFamily": "微软雅黑"
+          },
+          "content": {
+            "title": "process-flow",
+            "items": [
+              "1. 提取水合 | 还原结构",
+              "2. 皮肤重绘 | 自适应缩放",
+              "3. 编译交付 | 导出PPTX"
+            ]
+          },
+          "children": [
+            {
+              "id": "sc_s6_c5_ch1",
+              "rawType": "shape",
+              "role": "step-box",
+              "name": "step-box_1",
+              "x": 520.0,
+              "y": 344.0,
+              "w": 138.89,
+              "h": 102.0,
+              "relX": 0.0,
+              "relY": 0.0,
+              "relW": 138.89,
+              "relH": 102.0,
+              "geom": "roundRect",
+              "fill": "#EDF2F8",
+              "borderColor": "#1B365D",
+              "borderWidth": 1.2,
+              "textBody": {
+                "valign": "top",
+                "wrap": true,
+                "padding": {
+                  "left": 10.0,
+                  "top": 9.0,
+                  "right": 10.0,
+                  "bottom": 9.0
+                },
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 5.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "1. 提取水合",
+                        "fontSize": 10.5,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#1B365D",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "1. 提取水合"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "还原结构",
+                        "fontSize": 9.5,
+                        "bold": false,
+                        "italic": false,
+                        "color": "#334155",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "还原结构"
+                  }
+                ]
+              },
+              "adj": 8000
+            },
+            {
+              "id": "sc_s6_c5_ch2",
+              "rawType": "shape",
+              "role": "connector",
+              "name": "connector_1",
+              "x": 660.89,
+              "y": 395.0,
+              "w": 14.0,
+              "h": 0.0,
+              "relX": 140.89,
+              "relY": 51.0,
+              "relW": 14.0,
+              "relH": 0.0,
+              "geom": "line",
+              "fill": null,
+              "borderColor": "#1B365D",
+              "borderWidth": 1.6,
+              "textBody": null,
+              "tailEnd": "triangle"
+            },
+            {
+              "id": "sc_s6_c5_ch3",
+              "rawType": "shape",
+              "role": "step-box",
+              "name": "step-box_2",
+              "x": 676.89,
+              "y": 344.0,
+              "w": 138.89,
+              "h": 102.0,
+              "relX": 156.89,
+              "relY": 0.0,
+              "relW": 138.89,
+              "relH": 102.0,
+              "geom": "roundRect",
+              "fill": "#F6F8FB",
+              "borderColor": "#CBD5E1",
+              "borderWidth": 1.2,
+              "textBody": {
+                "valign": "top",
+                "wrap": true,
+                "padding": {
+                  "left": 10.0,
+                  "top": 9.0,
+                  "right": 10.0,
+                  "bottom": 9.0
+                },
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 5.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "2. 皮肤重绘",
+                        "fontSize": 10.5,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#2B547E",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "2. 皮肤重绘"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "自适应缩放",
+                        "fontSize": 9.5,
+                        "bold": false,
+                        "italic": false,
+                        "color": "#334155",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "自适应缩放"
+                  }
+                ]
+              },
+              "adj": 8000
+            },
+            {
+              "id": "sc_s6_c5_ch4",
+              "rawType": "shape",
+              "role": "connector",
+              "name": "connector_2",
+              "x": 817.78,
+              "y": 395.0,
+              "w": 14.0,
+              "h": 0.0,
+              "relX": 297.78,
+              "relY": 51.0,
+              "relW": 14.0,
+              "relH": 0.0,
+              "geom": "line",
+              "fill": null,
+              "borderColor": "#1B365D",
+              "borderWidth": 1.6,
+              "textBody": null,
+              "tailEnd": "triangle"
+            },
+            {
+              "id": "sc_s6_c5_ch5",
+              "rawType": "shape",
+              "role": "step-box",
+              "name": "step-box_3",
+              "x": 833.78,
+              "y": 344.0,
+              "w": 138.89,
+              "h": 102.0,
+              "relX": 313.78,
+              "relY": 0.0,
+              "relW": 138.89,
+              "relH": 102.0,
+              "geom": "roundRect",
+              "fill": "#EDF2F8",
+              "borderColor": "#1B365D",
+              "borderWidth": 1.2,
+              "textBody": {
+                "valign": "top",
+                "wrap": true,
+                "padding": {
+                  "left": 10.0,
+                  "top": 9.0,
+                  "right": 10.0,
+                  "bottom": 9.0
+                },
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 5.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "3. 编译交付",
+                        "fontSize": 10.5,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#1B365D",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "3. 编译交付"
+                  },
+                  {
+                    "align": "left",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0.0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "导出PPTX",
+                        "fontSize": 9.5,
+                        "bold": false,
+                        "italic": false,
+                        "color": "#334155",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "导出PPTX"
+                  }
+                ]
+              },
+              "adj": 8000
+            }
+          ]
+        },
+        {
+          "id": "sc_s6_c6",
           "type": "rule-checklist",
           "subType": "declarative",
           "name": "rule-checklist: kv-matrix",
-          "x": 674.0,
-          "y": 240.0,
-          "w": 298.67,
-          "h": 210.0,
+          "x": 520.0,
+          "y": 458.0,
+          "w": 220.0,
+          "h": 124.0,
           "layout": {
             "paddingX": 12.0,
             "paddingY": 10.0,
@@ -7516,43 +8203,37 @@
             "fontFamily": "微软雅黑"
           },
           "content": {
-            "title": "rule-checklist (kv-matrix)",
+            "title": "kv-matrix 参数矩阵",
             "mode": "kv-matrix",
             "rows": [
               {
                 "badge": "快照窗口",
                 "tone": "navy",
                 "title": "时点",
-                "desc": "T-10 公告边界对齐"
+                "desc": "T-10 公告边界"
               },
               {
-                "badge": "标准截尾",
-                "tone": "blue",
-                "title": "去极值",
-                "desc": "组内 MAD 3x 截尾"
-              },
-              {
-                "badge": "上限约束",
+                "badge": "限权规范",
                 "tone": "burgundy",
                 "title": "归一化",
-                "desc": "5.0% 封顶二次求解"
+                "desc": "5.0% 上限求解"
               }
             ]
           },
           "children": [
             {
-              "id": "sc_s5_c5_ch1",
+              "id": "sc_s6_c6_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
-              "x": 674.0,
-              "y": 240.0,
-              "w": 298.67,
-              "h": 210.0,
+              "x": 520.0,
+              "y": 458.0,
+              "w": 220.0,
+              "h": 124.0,
               "relX": 0.0,
               "relY": 0.0,
-              "relW": 298.67,
-              "relH": 210.0,
+              "relW": 220.0,
+              "relH": 124.0,
               "geom": "roundRect",
               "fill": "#FFFFFF",
               "borderColor": "#CBD5E1",
@@ -7561,17 +8242,17 @@
               "adj": 8000
             },
             {
-              "id": "sc_s5_c5_ch2",
+              "id": "sc_s6_c6_ch2",
               "rawType": "shape",
               "role": "title",
               "name": "title",
-              "x": 686.0,
-              "y": 250.0,
-              "w": 274.67,
+              "x": 532.0,
+              "y": 468.0,
+              "w": 196.0,
               "h": 24.0,
               "relX": 12.0,
               "relY": 10.0,
-              "relW": 274.67,
+              "relW": 196.0,
               "relH": 24.0,
               "geom": "rect",
               "fill": null,
@@ -7595,7 +8276,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "rule-checklist (kv-matrix)",
+                        "text": "kv-matrix 参数矩阵",
                         "fontSize": 12.5,
                         "bold": true,
                         "italic": false,
@@ -7603,27 +8284,27 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "rule-checklist (kv-matrix)"
+                    "text": "kv-matrix 参数矩阵"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s5_c5_ch3",
+              "id": "sc_s6_c6_ch3",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_1",
-              "x": 686.0,
-              "y": 282.0,
-              "w": 83.6,
-              "h": 47.33,
+              "x": 532.0,
+              "y": 500.0,
+              "w": 61.6,
+              "h": 32.0,
               "relX": 12.0,
               "relY": 42.0,
-              "relW": 83.6,
-              "relH": 47.33,
+              "relW": 61.6,
+              "relH": 32.0,
               "geom": "roundRect",
               "fill": "#1B365D",
-              "borderColor": "#1B365D",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -7658,18 +8339,18 @@
               "adj": 10000
             },
             {
-              "id": "sc_s5_c5_ch4",
+              "id": "sc_s6_c6_ch4",
               "rawType": "shape",
               "role": "rule-item",
               "name": "rule-item_1",
-              "x": 777.6,
-              "y": 282.0,
-              "w": 183.07,
-              "h": 47.33,
-              "relX": 103.6,
+              "x": 601.6,
+              "y": 500.0,
+              "w": 126.4,
+              "h": 32.0,
+              "relX": 81.6,
               "relY": 42.0,
-              "relW": 183.07,
-              "relH": 47.33,
+              "relW": 126.4,
+              "relH": 32.0,
               "geom": "roundRect",
               "fill": "#FFFFFF",
               "borderColor": "#E2E8F0",
@@ -7700,7 +8381,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "T-10 公告边界对齐",
+                        "text": "T-10 公告边界",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -7708,28 +8389,28 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "时点：T-10 公告边界对齐"
+                    "text": "时点：T-10 公告边界"
                   }
                 ]
               },
               "adj": 8000
             },
             {
-              "id": "sc_s5_c5_ch5",
+              "id": "sc_s6_c6_ch5",
               "rawType": "shape",
               "role": "badge",
               "name": "badge_2",
-              "x": 686.0,
-              "y": 337.33,
-              "w": 83.6,
-              "h": 47.33,
+              "x": 532.0,
+              "y": 540.0,
+              "w": 61.6,
+              "h": 32.0,
               "relX": 12.0,
-              "relY": 97.33,
-              "relW": 83.6,
-              "relH": 47.33,
+              "relY": 82.0,
+              "relW": 61.6,
+              "relH": 32.0,
               "geom": "roundRect",
-              "fill": "#1E6CFF",
-              "borderColor": "#1E6CFF",
+              "fill": "#7A2048",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
@@ -7749,7 +8430,7 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "标准截尾",
+                        "text": "限权规范",
                         "fontSize": 10.0,
                         "bold": true,
                         "italic": false,
@@ -7757,131 +8438,25 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "标准截尾"
+                    "text": "限权规范"
                   }
                 ]
               },
               "adj": 10000
             },
             {
-              "id": "sc_s5_c5_ch6",
+              "id": "sc_s6_c6_ch6",
               "rawType": "shape",
               "role": "rule-item",
               "name": "rule-item_2",
-              "x": 777.6,
-              "y": 337.33,
-              "w": 183.07,
-              "h": 47.33,
-              "relX": 103.6,
-              "relY": 97.33,
-              "relW": 183.07,
-              "relH": 47.33,
-              "geom": "roundRect",
-              "fill": "#FFFFFF",
-              "borderColor": "#E2E8F0",
-              "borderWidth": 0.9,
-              "textBody": {
-                "valign": "middle",
-                "wrap": true,
-                "padding": {
-                  "left": 8.0,
-                  "top": 3.0,
-                  "right": 8.0,
-                  "bottom": 3.0
-                },
-                "paragraphs": [
-                  {
-                    "align": "left",
-                    "spaceBefore": 0.0,
-                    "spaceAfter": 0.0,
-                    "lineSpacing": null,
-                    "lineSpacingPct": null,
-                    "runs": [
-                      {
-                        "text": "去极值：",
-                        "fontSize": 10.0,
-                        "bold": true,
-                        "italic": false,
-                        "color": "#0F4CD6",
-                        "fontFamily": "微软雅黑"
-                      },
-                      {
-                        "text": "组内 MAD 3x 截尾",
-                        "fontSize": 10.0,
-                        "bold": false,
-                        "italic": false,
-                        "color": "#334155",
-                        "fontFamily": "微软雅黑"
-                      }
-                    ],
-                    "text": "去极值：组内 MAD 3x 截尾"
-                  }
-                ]
-              },
-              "adj": 8000
-            },
-            {
-              "id": "sc_s5_c5_ch7",
-              "rawType": "shape",
-              "role": "badge",
-              "name": "badge_3",
-              "x": 686.0,
-              "y": 392.66,
-              "w": 83.6,
-              "h": 47.33,
-              "relX": 12.0,
-              "relY": 152.66,
-              "relW": 83.6,
-              "relH": 47.33,
-              "geom": "roundRect",
-              "fill": "#7A2048",
-              "borderColor": "#7A2048",
-              "borderWidth": 0.0,
-              "textBody": {
-                "valign": "middle",
-                "wrap": false,
-                "padding": {
-                  "left": 3.0,
-                  "top": 1.0,
-                  "right": 3.0,
-                  "bottom": 1.0
-                },
-                "paragraphs": [
-                  {
-                    "align": "center",
-                    "spaceBefore": 0.0,
-                    "spaceAfter": 0.0,
-                    "lineSpacing": null,
-                    "lineSpacingPct": null,
-                    "runs": [
-                      {
-                        "text": "上限约束",
-                        "fontSize": 10.0,
-                        "bold": true,
-                        "italic": false,
-                        "color": "#FFFFFF",
-                        "fontFamily": "微软雅黑"
-                      }
-                    ],
-                    "text": "上限约束"
-                  }
-                ]
-              },
-              "adj": 10000
-            },
-            {
-              "id": "sc_s5_c5_ch8",
-              "rawType": "shape",
-              "role": "rule-item",
-              "name": "rule-item_3",
-              "x": 777.6,
-              "y": 392.66,
-              "w": 183.07,
-              "h": 47.33,
-              "relX": 103.6,
-              "relY": 152.66,
-              "relW": 183.07,
-              "relH": 47.33,
+              "x": 601.6,
+              "y": 540.0,
+              "w": 126.4,
+              "h": 32.0,
+              "relX": 81.6,
+              "relY": 82.0,
+              "relW": 126.4,
+              "relH": 32.0,
               "geom": "roundRect",
               "fill": "#FFFFFF",
               "borderColor": "#E2E8F0",
@@ -7912,7 +8487,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "5.0% 封顶二次求解",
+                        "text": "5.0% 上限求解",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -7920,7 +8495,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "归一化：5.0% 封顶二次求解"
+                    "text": "归一化：5.0% 上限求解"
                   }
                 ]
               },
@@ -7929,14 +8504,14 @@
           ]
         },
         {
-          "id": "sc_s5_c6",
+          "id": "sc_s6_c7",
           "type": "info-card",
           "subType": "primitives-demo",
-          "name": "info-card: 几何与连线原语验证",
-          "x": 674.0,
-          "y": 462.0,
-          "w": 298.67,
-          "h": 120.0,
+          "name": "info-card: 几何与渐变原语验证",
+          "x": 752.0,
+          "y": 458.0,
+          "w": 220.67,
+          "h": 124.0,
           "layout": {
             "paddingX": 8.0,
             "paddingY": 6.0,
@@ -7960,25 +8535,25 @@
             "fontFamily": "微软雅黑"
           },
           "content": {
-            "title": "原语：pentagon / elbow / flip",
+            "title": "原语：hex / para / gradFill",
             "items": [
-              "正交折线与反向虚线双端箭头"
+              "六边形、平行四边形、线性渐变与正交折线"
             ]
           },
           "children": [
             {
-              "id": "sc_s5_c6_ch1",
+              "id": "sc_s6_c7_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
-              "x": 674.0,
-              "y": 462.0,
-              "w": 298.67,
-              "h": 120.0,
+              "x": 752.0,
+              "y": 458.0,
+              "w": 220.67,
+              "h": 124.0,
               "relX": 0.0,
               "relY": 0.0,
-              "relW": 298.67,
-              "relH": 120.0,
+              "relW": 220.67,
+              "relH": 124.0,
               "geom": "roundRect",
               "fill": "#F8FAFC",
               "borderColor": "#CBD5E1",
@@ -7987,29 +8562,63 @@
               "adj": 8000
             },
             {
-              "id": "sc_s5_c6_ch2",
+              "id": "sc_s6_c7_ch2",
+              "rawType": "shape",
+              "role": "shape",
+              "name": "grad_band",
+              "x": 756.0,
+              "y": 462.0,
+              "w": 212.67,
+              "h": 26.0,
+              "relX": 4.0,
+              "relY": 4.0,
+              "relW": 212.67,
+              "relH": 26.0,
+              "geom": "rect",
+              "fill": null,
+              "borderColor": null,
+              "borderWidth": 0.0,
+              "textBody": null,
+              "gradFill": {
+                "angle": 0,
+                "stops": [
+                  {
+                    "pos": 0.0,
+                    "color": "#D0E516",
+                    "alpha": 0.45
+                  },
+                  {
+                    "pos": 1.0,
+                    "color": "#1B365D",
+                    "alpha": 0.0
+                  }
+                ]
+              }
+            },
+            {
+              "id": "sc_s6_c7_ch3",
               "rawType": "shape",
               "role": "title",
-              "name": "pentagon_node",
-              "x": 684.0,
-              "y": 476.0,
-              "w": 100.0,
+              "name": "hexagon_node",
+              "x": 762.0,
+              "y": 472.0,
+              "w": 68.0,
               "h": 32.0,
               "relX": 10.0,
               "relY": 14.0,
-              "relW": 100.0,
+              "relW": 68.0,
               "relH": 32.0,
-              "geom": "pentagon",
+              "geom": "hexagon",
               "fill": "#1B365D",
-              "borderColor": "#1B365D",
+              "borderColor": null,
               "borderWidth": 0.0,
               "textBody": {
                 "valign": "middle",
                 "wrap": false,
                 "padding": {
-                  "left": 6,
+                  "left": 4,
                   "top": 2,
-                  "right": 10,
+                  "right": 4,
                   "bottom": 2
                 },
                 "paragraphs": [
@@ -8021,32 +8630,81 @@
                     "lineSpacingPct": null,
                     "runs": [
                       {
-                        "text": "pentagon",
-                        "fontSize": 9.5,
+                        "text": "hexagon",
+                        "fontSize": 8.5,
                         "bold": true,
                         "italic": false,
                         "color": "#FFFFFF",
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "pentagon"
+                    "text": "hexagon"
                   }
                 ]
               }
             },
             {
-              "id": "sc_s5_c6_ch3",
+              "id": "sc_s6_c7_ch4",
+              "rawType": "shape",
+              "role": "shape",
+              "name": "para_node",
+              "x": 844.0,
+              "y": 472.0,
+              "w": 64.0,
+              "h": 24.0,
+              "relX": 92.0,
+              "relY": 14.0,
+              "relW": 64.0,
+              "relH": 24.0,
+              "geom": "parallelogram",
+              "fill": "#7A2048",
+              "borderColor": null,
+              "borderWidth": 0.0,
+              "textBody": {
+                "valign": "middle",
+                "wrap": false,
+                "padding": {
+                  "left": 4,
+                  "top": 1,
+                  "right": 4,
+                  "bottom": 1
+                },
+                "paragraphs": [
+                  {
+                    "align": "center",
+                    "spaceBefore": 0.0,
+                    "spaceAfter": 0,
+                    "lineSpacing": null,
+                    "lineSpacingPct": null,
+                    "runs": [
+                      {
+                        "text": "para",
+                        "fontSize": 8.5,
+                        "bold": true,
+                        "italic": false,
+                        "color": "#FFFFFF",
+                        "fontFamily": "微软雅黑"
+                      }
+                    ],
+                    "text": "para"
+                  }
+                ]
+              },
+              "adj": 32000
+            },
+            {
+              "id": "sc_s6_c7_ch5",
               "rawType": "shape",
               "role": "body",
               "name": "oval_target",
-              "x": 868.0,
+              "x": 886.0,
               "y": 536.0,
-              "w": 92.0,
-              "h": 32.0,
-              "relX": 194.0,
-              "relY": 74.0,
-              "relW": 92.0,
-              "relH": 32.0,
+              "w": 76.0,
+              "h": 30.0,
+              "relX": 134.0,
+              "relY": 78.0,
+              "relW": 76.0,
+              "relH": 30.0,
               "geom": "oval",
               "fill": "#F0FDF4",
               "borderColor": "#16A34A",
@@ -8070,7 +8728,7 @@
                     "runs": [
                       {
                         "text": "oval 终态",
-                        "fontSize": 9.5,
+                        "fontSize": 8.5,
                         "bold": true,
                         "italic": false,
                         "color": "#15803D",
@@ -8083,42 +8741,42 @@
               }
             },
             {
-              "id": "sc_s5_c6_ch4",
+              "id": "sc_s6_c7_ch6",
               "rawType": "shape",
               "role": "connector",
               "name": "elbow_conn",
-              "x": 786.0,
-              "y": 492.0,
-              "w": 128.0,
-              "h": 40.0,
-              "relX": 112.0,
+              "x": 832.0,
+              "y": 488.0,
+              "w": 92.0,
+              "h": 44.0,
+              "relX": 80.0,
               "relY": 30.0,
-              "relW": 128.0,
-              "relH": 40.0,
+              "relW": 92.0,
+              "relH": 44.0,
               "geom": "elbowConnector",
               "fill": null,
               "borderColor": "#1B365D",
-              "borderWidth": 1.6,
+              "borderWidth": 1.5,
               "textBody": null,
               "tailEnd": "triangle"
             },
             {
-              "id": "sc_s5_c6_ch5",
+              "id": "sc_s6_c7_ch7",
               "rawType": "shape",
               "role": "connector",
               "name": "flip_dot_conn",
-              "x": 692.0,
+              "x": 766.0,
               "y": 536.0,
-              "w": 170.0,
+              "w": 114.0,
               "h": 26.0,
-              "relX": 18.0,
-              "relY": 74.0,
-              "relW": 170.0,
+              "relX": 14.0,
+              "relY": 78.0,
+              "relW": 114.0,
               "relH": 26.0,
               "geom": "line",
               "fill": null,
               "borderColor": "#DC2626",
-              "borderWidth": 1.5,
+              "borderWidth": 1.4,
               "textBody": null,
               "flipH": true,
               "flipV": true,
@@ -8129,7 +8787,7 @@
           ]
         },
         {
-          "id": "sc_s5_c7",
+          "id": "sc_s6_c8",
           "type": "footer-banner",
           "subType": "default",
           "name": "footer-banner",
@@ -8161,11 +8819,11 @@
           },
           "content": {
             "prefix": "全景闭环验收：",
-            "subtitle": "5 页示范集覆盖全部 15 类标准元件与矢量几何原语，默认使用无敏学术风格并支持往返无损解析。"
+            "subtitle": "6 页示范集覆盖全部 17 类标准元件与渐变/透明/多边形原语，支持任意内置与本地模板一键重渲染。"
           },
           "children": [
             {
-              "id": "sc_s5_c7_ch1",
+              "id": "sc_s6_c8_ch1",
               "rawType": "shape",
               "role": "container",
               "name": "container",
@@ -8207,7 +8865,7 @@
                         "fontFamily": "微软雅黑"
                       },
                       {
-                        "text": "5 页示范集覆盖全部 15 类标准元件与矢量几何原语，默认使用无敏学术风格并支持往返无损解析。",
+                        "text": "6 页示范集覆盖全部 17 类标准元件与渐变/透明/多边形原语，支持任意内置与本地模板一键重渲染。",
                         "fontSize": 10.0,
                         "bold": false,
                         "italic": false,
@@ -8215,7 +8873,7 @@
                         "fontFamily": "微软雅黑"
                       }
                     ],
-                    "text": "全景闭环验收：5 页示范集覆盖全部 15 类标准元件与矢量几何原语，默认使用无敏学术风格并支持往返无损解析。"
+                    "text": "全景闭环验收：6 页示范集覆盖全部 17 类标准元件与渐变/透明/多边形原语，支持任意内置与本地模板一键重渲染。"
                   }
                 ]
               },

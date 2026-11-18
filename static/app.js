@@ -14,8 +14,10 @@ const TYPE_META = {
   'data-table':      { icon: '', label: 'data-table' },
   'image-frame':     { icon: '', label: 'image-frame' },
   'tag-badge':       { icon: '', label: 'tag-badge' },
-  'toc-list':        { icon: '', label: 'toc-list' },
-  'cover-divider':   { icon: '', label: 'cover-divider' }
+  'toc-list':           { icon: '', label: 'toc-list' },
+  'cover-divider':      { icon: '', label: 'cover-divider' },
+  'section-divider':    { icon: '', label: 'section-divider' },
+  'milestone-timeline': { icon: '', label: 'milestone-timeline' }
 };
 
 const ROLE_LABELS = {
@@ -516,6 +518,29 @@ function recomputeCompBoundsFromChildren(comp) {
   }
 }
 
+function hexWithAlpha(hexStr, alphaVal) {
+  if (!hexStr || hexStr === 'none') return 'transparent';
+  const a = (alphaVal !== undefined && alphaVal !== null) ? Number(alphaVal) : 1.0;
+  const h = hexStr.replace('#', '').trim();
+  if (h.length === 6) {
+    const r = parseInt(h.slice(0, 2), 16);
+    const g = parseInt(h.slice(2, 4), 16);
+    const b = parseInt(h.slice(4, 6), 16);
+    return a >= 0.999 ? `#${h}` : `rgba(${r}, ${g}, ${b}, ${a})`;
+  }
+  return hexStr;
+}
+
+function gradToCss(grad) {
+  if (!grad || !grad.stops || !grad.stops.length) return 'none';
+  const cssAngle = Math.round(((Number(grad.angle || 0) + 90) % 360));
+  const stops = grad.stops.map(s => {
+    const pct = Math.round((Number(s.pos || 0) <= 1 ? Number(s.pos || 0) * 100 : Number(s.pos || 0) / 1000));
+    return `${hexWithAlpha(s.color, s.alpha)} ${pct}%`;
+  }).join(', ');
+  return `linear-gradient(${cssAngle}deg, ${stops})`;
+}
+
 function renderCanvas() {
   const canvas = document.getElementById('slideCanvas');
   const slide = getCurrentSlide();
@@ -528,17 +553,33 @@ function renderCanvas() {
   canvas.style.transform = `scale(${state.zoom})`;
   canvas.classList.toggle('show-grid', state.showGrid);
 
-  // 背景
+  // 背景（支持图片、线性渐变、纯色）
   const bg = slide.background || {};
   if (bg.type === 'image' && bg.image) {
     canvas.style.backgroundImage = `url('${bg.image}')`;
     canvas.style.backgroundColor = bg.color || '#FFFFFF';
+  } else if (bg.type === 'gradient' && bg.stops && bg.stops.length) {
+    canvas.style.backgroundImage = gradToCss(bg);
+    canvas.style.backgroundColor = bg.color || '#F5F1E8';
   } else {
     canvas.style.backgroundImage = 'none';
     canvas.style.backgroundColor = bg.color || '#FFFFFF';
   }
 
   canvas.innerHTML = '';
+
+  // 渲染底层环境装饰层 (decorations)
+  if (slide.decorations && slide.decorations.length) {
+    const decorLayer = document.createElement('div');
+    decorLayer.className = 'canvas-decor-layer';
+    decorLayer.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;';
+    const dummyOrigin = { x: 0, y: 0, style: { borderRadius: 0 } };
+    slide.decorations.forEach((dec) => {
+      const decEl = renderChildDom(dummyOrigin, dec, true);
+      decorLayer.appendChild(decEl);
+    });
+    canvas.appendChild(decorLayer);
+  }
 
   const activeComp = getSelectedComponent();
   const activeType = activeComp ? activeComp.type : null;
@@ -607,9 +648,9 @@ function renderCanvas() {
   updateStatusBar();
 }
 
-function renderChildDom(comp, ch) {
+function renderChildDom(comp, ch, isDecor = false) {
   const el = document.createElement('div');
-  const isSubSelected = state.selectedCompId === comp.id && state.selectedChildId === ch.id;
+  const isSubSelected = !isDecor && state.selectedCompId === comp.id && state.selectedChildId === ch.id;
   el.className = 'canvas-child' + (isSubSelected ? ' sub-selected' : '');
 
   const left = ch.x - comp.x;
@@ -618,6 +659,13 @@ function renderChildDom(comp, ch) {
   el.style.top = `${top}px`;
   el.style.width = `${Math.max(ch.w, 2)}px`;
   el.style.height = `${Math.max(ch.h, 2)}px`;
+  if (ch.rotation) {
+    el.style.transform = `rotate(${ch.rotation}deg)`;
+    el.style.transformOrigin = 'center center';
+  }
+  if (ch.shadow) {
+    el.style.boxShadow = '0 4px 12px rgba(24, 24, 27, 0.10)';
+  }
 
   if (ch.rawType === 'image') {
     const img = document.createElement('img');
@@ -625,6 +673,9 @@ function renderChildDom(comp, ch) {
     img.style.width = '100%';
     img.style.height = '100%';
     img.style.objectFit = 'fill';
+    if (ch.opacity !== undefined && ch.opacity !== null) {
+      img.style.opacity = String(ch.opacity);
+    }
     img.draggable = false;
     el.appendChild(img);
   } else if (ch.rawType === 'table') {
@@ -643,7 +694,7 @@ function renderChildDom(comp, ch) {
     if (ch.flipH) [x1, x2] = [x2, x1];
     if (ch.flipV) [y1, y2] = [y2, y1];
 
-    const stroke = ch.borderColor || '#D9D9D9';
+    const stroke = hexWithAlpha(ch.borderColor || '#D9D9D9', ch.borderAlpha);
     const sw = Math.max(ch.borderWidth || 1.2, 1);
     const safeId = String(ch.id || Math.random()).replace(/[^a-zA-Z0-9_-]/g, '_');
     const hasHead = ch.headEnd && ch.headEnd !== 'none';
@@ -669,14 +720,15 @@ function renderChildDom(comp, ch) {
       </svg>
     `;
   } else {
-    // Shape with fill, border, and textBody (支持标准多边形与椭圆)
-    const isPoly = (ch.geom === 'diamond' || ch.geom === 'chevron' || ch.geom === 'pentagon');
+    // Shape with fill / gradFill, border, and textBody (支持多边形、梯度渐变与透明度)
+    const POLY_GEOMS = new Set(['diamond', 'chevron', 'pentagon', 'hexagon', 'parallelogram', 'triangle', 'rightArrow', 'plaque']);
+    const isPoly = POLY_GEOMS.has(ch.geom);
     if (isPoly) {
       const vw = Math.max(ch.w || 40, 10);
       const vh = Math.max(ch.h || 24, 10);
       const sw = ch.borderWidth || 0;
-      const stroke = (ch.borderColor && sw > 0) ? ch.borderColor : 'none';
-      const fill = (ch.fill && ch.fill !== 'none') ? ch.fill : 'none';
+      const stroke = (ch.borderColor && sw > 0) ? hexWithAlpha(ch.borderColor, ch.borderAlpha) : 'none';
+      const fill = (ch.fill && ch.fill !== 'none') ? hexWithAlpha(ch.fill, ch.fillAlpha) : 'none';
       const dashAttr = (ch.dashStyle === 'dot' || ch.dashStyle === 'sysDash')
         ? 'stroke-dasharray="2.5,3"'
         : ((ch.dashStyle && ch.dashStyle !== 'solid') ? 'stroke-dasharray="6,4"' : '');
@@ -684,11 +736,26 @@ function renderChildDom(comp, ch) {
       if (ch.geom === 'diamond') {
         pts = `${vw / 2},1 ${vw - 1},${vh / 2} ${vw / 2},${vh - 1} 1,${vh / 2}`;
       } else if (ch.geom === 'chevron') {
-        const dx = Math.min(vh * 0.42, vw * 0.22);
+        const dx = Math.min(vh * 0.42, vw * 0.28);
         pts = `1,1 ${vw - dx},1 ${vw - 1},${vh / 2} ${vw - dx},${vh - 1} 1,${vh - 1} ${dx},${vh / 2}`;
-      } else {
+      } else if (ch.geom === 'pentagon') {
         const dx = Math.min(vh * 0.42, vw * 0.22);
         pts = `1,1 ${vw - dx},1 ${vw - 1},${vh / 2} ${vw - dx},${vh - 1} 1,${vh - 1}`;
+      } else if (ch.geom === 'hexagon') {
+        const dx = Math.min(vw * 0.25, vh * 0.5);
+        pts = `${dx},1 ${vw - dx},1 ${vw - 1},${vh / 2} ${vw - dx},${vh - 1} ${dx},${vh - 1} 1,${vh / 2}`;
+      } else if (ch.geom === 'parallelogram') {
+        const skew = Math.min(vw * 0.35, vh * 0.55);
+        pts = `${skew},1 ${vw - 1},1 ${vw - skew},${vh - 1} 1,${vh - 1}`;
+      } else if (ch.geom === 'triangle') {
+        pts = `${vw / 2},1 ${vw - 1},${vh - 1} 1,${vh - 1}`;
+      } else if (ch.geom === 'rightArrow') {
+        const hw = Math.min(vw * 0.45, vh * 0.7);
+        const y1 = vh * 0.22, y2 = vh * 0.78;
+        pts = `1,${y1} ${vw - hw},${y1} ${vw - hw},1 ${vw - 1},${vh / 2} ${vw - hw},${vh - 1} ${vw - hw},${y2} 1,${y2}`;
+      } else if (ch.geom === 'plaque') {
+        const c = Math.min(vw, vh) * 0.22;
+        pts = `${c},1 ${vw - c},1 ${vw - 1},${c} ${vw - 1},${vh - c} ${vw - c},${vh - 1} ${c},${vh - 1} 1,${vh - c} 1,${c}`;
       }
       const svgBg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svgBg.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
@@ -703,19 +770,21 @@ function renderChildDom(comp, ch) {
       svgBg.appendChild(poly);
       el.appendChild(svgBg);
     } else {
-      if (ch.fill && ch.fill !== 'none') {
-        el.style.backgroundColor = ch.fill;
+      if (ch.gradFill && ch.gradFill.stops && ch.gradFill.stops.length) {
+        el.style.backgroundImage = gradToCss(ch.gradFill);
+      } else if (ch.fill && ch.fill !== 'none') {
+        el.style.backgroundColor = hexWithAlpha(ch.fill, ch.fillAlpha);
       }
       if (ch.borderColor && (ch.borderWidth || 0) > 0) {
         const bStyle = (ch.dashStyle && ch.dashStyle !== 'solid')
           ? ((ch.dashStyle === 'dot' || ch.dashStyle === 'sysDash') ? 'dotted' : 'dashed')
           : 'solid';
-        el.style.border = `${ch.borderWidth}px ${bStyle} ${ch.borderColor}`;
+        el.style.border = `${ch.borderWidth}px ${bStyle} ${hexWithAlpha(ch.borderColor, ch.borderAlpha)}`;
       }
       if (ch.geom === 'roundRect') {
         const r = comp.style && comp.style.borderRadius !== undefined ? comp.style.borderRadius : 8;
         el.style.borderRadius = `${r}px`;
-      } else if (ch.geom === 'oval') {
+      } else if (ch.geom === 'oval' || ch.geom === 'ellipse') {
         el.style.borderRadius = '50%';
       }
     }
@@ -749,13 +818,18 @@ function renderChildDom(comp, ch) {
           span.style.fontSize = `${(pt * 96 / 72).toFixed(1)}px`;
           if (r.bold) span.style.fontWeight = '700';
           if (r.italic) span.style.fontStyle = 'italic';
-          span.style.color = r.color || '#333333';
+          span.style.color = hexWithAlpha(r.color || '#333333', r.alpha);
+          if (r.letterSpacing) span.style.letterSpacing = `${r.letterSpacing}pt`;
           if (r.fontFamily) span.style.fontFamily = `"${r.fontFamily}", "Microsoft YaHei", sans-serif`;
           pEl.appendChild(span);
         });
         el.appendChild(pEl);
       });
     }
+  }
+
+  if (isDecor) {
+    return el;
   }
 
   // 双击直接进入子元素级微调
@@ -1289,12 +1363,13 @@ function applyStyleToComp(comp, subChild, prop, val) {
 
 // ==================== 8. 元件内元素内容编辑器 ====================
 const DECLARATIVE_ARRAY_KEYS = {
-  'vertical-stack':  { key: 'layers',   label: '层',   sample: (n) => ({ tag: `L${n}`, title: `新增第 ${n} 层`, desc: '在此输入该层规则定义与处理口径', tone: 'blue' }) },
-  'decision-gate':   { key: 'branches', label: '分支', sample: (n) => ({ label: `分支 ${n}`, tone: 'warn', title: '新增裁决分支', items: ['• 说明判定触发条件', '• 说明对应处置动作'] }) },
-  'stage-funnel':    { key: 'stages',   label: '阶段', sample: (n) => ({ code: `S${n}`, name: `阶段${n}`, metric: '待核验', desc: '输入该漏斗阶段核验指标', tone: 'blue' }) },
-  'iteration-lanes': { key: 'lanes',    label: '轮次', sample: (n) => ({ round: `R${n - 1} · 实验`, tone: 'promoted', title: `第 ${n} 轮实验`, metric: '命中率待测', items: ['• 单机制改动点', '• 核心指标变化'], verdict: '状态：待验证' }) },
-  'rule-checklist':  { key: 'rows',     label: '条目', sample: (n) => ({ badge: '准', tone: 'pass', title: `新增规则 ${n}`, desc: '输入约束或参数配置说明' }) },
-  'process-flow':    { key: 'items',    label: '步骤', sample: (n) => `${n}. 新增步骤 | 描述核心处理环节` }
+  'vertical-stack':     { key: 'layers',   label: '层',   sample: (n) => ({ tag: `L${n}`, title: `新增第 ${n} 层`, desc: '在此输入该层规则定义与处理口径', tone: 'blue' }) },
+  'decision-gate':      { key: 'branches', label: '分支', sample: (n) => ({ label: `分支 ${n}`, tone: 'warn', title: '新增裁决分支', items: ['• 说明判定触发条件', '• 说明对应处置动作'] }) },
+  'stage-funnel':       { key: 'stages',   label: '阶段', sample: (n) => ({ code: `S${n}`, name: `阶段${n}`, metric: '待核验', desc: '输入该漏斗阶段核验指标', tone: 'blue' }) },
+  'iteration-lanes':    { key: 'lanes',    label: '轮次', sample: (n) => ({ round: `R${n - 1} · 实验`, tone: 'promoted', title: `第 ${n} 轮实验`, metric: '命中率待测', items: ['• 单机制改动点', '• 核心指标变化'], verdict: '状态：待验证' }) },
+  'rule-checklist':     { key: 'rows',     label: '条目', sample: (n) => ({ badge: '准', tone: 'pass', title: `新增规则 ${n}`, desc: '输入约束或参数配置说明' }) },
+  'milestone-timeline': { key: 'milestones', label: '里程碑', sample: (n) => ({ step: `0${n}`, tag: 'STAGE', title: `里程碑节点 ${n}`, desc: '描述该阶段核心进展与量化成果', icon: 'board' }) },
+  'process-flow':       { key: 'items',    label: '步骤', sample: (n) => `${n}. 新增步骤 | 描述核心处理环节` }
 };
 
 async function relayoutDeclarativeComp(comp) {
@@ -1391,7 +1466,7 @@ function renderContentEditor(comp, subChild) {
       primBox.querySelector('#subConnFlipH').addEventListener('change', (e) => { subChild.flipH = e.target.checked; renderCanvas(); });
       primBox.querySelector('#subConnFlipV').addEventListener('change', (e) => { subChild.flipV = e.target.checked; renderCanvas(); });
     } else {
-      const geoms = ['rect', 'roundRect', 'diamond', 'chevron', 'pentagon', 'oval'];
+      const geoms = ['rect', 'roundRect', 'plaque', 'hexagon', 'parallelogram', 'diamond', 'chevron', 'pentagon', 'triangle', 'rightArrow', 'oval'];
       primBox.innerHTML = `
         <label>几何形状类型 (geom)</label>
         <select id="subShapeGeom" class="full-select">

@@ -28,7 +28,99 @@ SHAPE_GEOM_MAP = {
     'homePlate': MSO_SHAPE.PENTAGON,
     'oval': MSO_SHAPE.OVAL,
     'ellipse': MSO_SHAPE.OVAL,
+    'hexagon': MSO_SHAPE.HEXAGON,
+    'parallelogram': MSO_SHAPE.PARALLELOGRAM,
+    'triangle': MSO_SHAPE.ISOSCELES_TRIANGLE,
+    'rightArrow': MSO_SHAPE.RIGHT_ARROW,
+    'plaque': MSO_SHAPE.PLAQUE,
 }
+
+
+def _alpha_to_amt(alpha):
+    v = float(alpha)
+    if v <= 1.0:
+        return max(0, min(100000, int(round(v * 100000))))
+    return max(0, min(100000, int(round(v))))
+
+
+def _apply_alpha_to_solid_fill(parent_el, alpha):
+    if alpha is None or parent_el is None:
+        return
+    amt = _alpha_to_amt(alpha)
+    if amt >= 99990:
+        return
+    sf = parent_el.find(qn('a:solidFill'))
+    if sf is None:
+        return
+    clr = sf.find(qn('a:srgbClr'))
+    if clr is None and len(sf):
+        clr = sf[0]
+    if clr is None:
+        return
+    for old_a in clr.findall(qn('a:alpha')):
+        clr.remove(old_a)
+    clr.append(parse_xml(f'<a:alpha {nsdecls("a")} val="{amt}"/>'))
+
+
+def _build_grad_fill_xml(grad_data, include_ns=True):
+    stops = (grad_data or {}).get('stops') or []
+    gs_parts = []
+    for st in stops:
+        raw_pos = float(st.get('pos', 0.0))
+        pos = max(0, min(100000, int(round(raw_pos * 100000)) if raw_pos <= 1.0 else int(round(raw_pos))))
+        hex_c = str(st.get('color') or '#FFFFFF').lstrip('#').strip().upper()
+        if len(hex_c) != 6:
+            hex_c = 'FFFFFF'
+        alpha_xml = ''
+        if st.get('alpha') is not None:
+            amt = _alpha_to_amt(st['alpha'])
+            if amt < 99990:
+                alpha_xml = f'<a:alpha val="{amt}"/>'
+        gs_parts.append(f'<a:gs pos="{pos}"><a:srgbClr val="{hex_c}">{alpha_xml}</a:srgbClr></a:gs>')
+    ang = int(round(float((grad_data or {}).get('angle', 0.0)) * 60000)) % 21600000
+    ns_attr = f' {nsdecls("a")}' if include_ns else ''
+    return (
+        f'<a:gradFill{ns_attr} rotWithShape="1">'
+        f'<a:gsLst>{"".join(gs_parts)}</a:gsLst>'
+        f'<a:lin ang="{ang}" scaled="1"/>'
+        f'</a:gradFill>'
+    )
+
+
+def _insert_fill_into_spPr(spPr, fill_el):
+    for tag in ('a:noFill', 'a:solidFill', 'a:gradFill', 'a:blipFill', 'a:pattFill', 'a:grpFill'):
+        for old in spPr.findall(qn(tag)):
+            spPr.remove(old)
+    insert_idx = len(spPr)
+    for idx, child in enumerate(list(spPr)):
+        local = child.tag.split('}')[-1]
+        if local in ('ln', 'effectLst', 'effectDag', 'scene3d', 'sp3d', 'extLst'):
+            insert_idx = idx
+            break
+    spPr.insert(insert_idx, fill_el)
+
+
+def _insert_shadow_into_spPr(spPr, shadow_cfg=None):
+    for old in spPr.findall(qn('a:effectLst')):
+        spPr.remove(old)
+    cfg = shadow_cfg if isinstance(shadow_cfg, dict) else {}
+    blur = int(cfg.get('blurRad', 101600))
+    dist = int(cfg.get('dist', 38100))
+    alpha = _alpha_to_amt(cfg.get('alpha', 0.13))
+    eff = parse_xml(
+        f'<a:effectLst {nsdecls("a")}>'
+        f'  <a:outerShdw blurRad="{blur}" dist="{dist}" dir="5400000" algn="tl" rotWithShape="0">'
+        f'    <a:srgbClr val="000000"><a:alpha val="{alpha}"/></a:srgbClr>'
+        f'  </a:outerShdw>'
+        f'</a:effectLst>'
+    )
+    insert_idx = len(spPr)
+    for idx, child in enumerate(list(spPr)):
+        local = child.tag.split('}')[-1]
+        if local in ('scene3d', 'sp3d', 'extLst'):
+            insert_idx = idx
+            break
+    spPr.insert(insert_idx, eff)
 
 
 def px_to_emu(px):
@@ -118,6 +210,23 @@ def set_slide_background_color(slide, hex_color):
     fill.fore_color.rgb = rgb
 
 
+def set_slide_background_gradient(slide, grad_data):
+    cSld = slide._element.cSld
+    old_bg = cSld.find(qn('p:bg'))
+    if old_bg is not None:
+        cSld.remove(old_bg)
+    grad_inner = _build_grad_fill_xml(grad_data, include_ns=False)
+    bg_xml = parse_xml(
+        f'<p:bg {nsdecls("p", "a")}>'
+        f'  <p:bgPr>'
+        f'    {grad_inner}'
+        f'    <a:effectLst/>'
+        f'  </p:bgPr>'
+        f'</p:bg>'
+    )
+    cSld.insert(0, bg_xml)
+
+
 def set_east_asian_font(run, font_name):
     rPr = run._r.get_or_add_rPr()
     ea = rPr.find(qn('a:ea'))
@@ -183,6 +292,10 @@ def apply_text_body(tf, tx_data, default_font='微软雅黑'):
             rgb = hex_to_rgb(r_data.get('color'))
             if rgb:
                 run.font.color.rgb = rgb
+            if r_data.get('alpha') is not None:
+                _apply_alpha_to_solid_fill(run._r.get_or_add_rPr(), r_data['alpha'])
+            if r_data.get('letterSpacing') is not None:
+                run._r.get_or_add_rPr().set('spc', str(int(round(float(r_data['letterSpacing']) * 100))))
             fname = r_data.get('fontFamily') or default_font
             run.font.name = fname
             set_east_asian_font(run, fname)
@@ -227,6 +340,15 @@ def render_child_to_slide(slide, ch, default_font='微软雅黑', comp_meta=None
         if img_path and w > 0 and h > 0:
             pic = slide.shapes.add_picture(img_path, x, y, w, h)
             attach_pcs_name(pic, comp_meta, ch)
+            if ch.get('rotation') is not None:
+                pic.rotation = float(ch['rotation'])
+            if ch.get('opacity') is not None:
+                amt = _alpha_to_amt(ch['opacity'])
+                if amt < 99990:
+                    blip = pic._element.blipFill.blip
+                    for old_a in blip.findall(qn('a:alphaModFix')):
+                        blip.remove(old_a)
+                    blip.append(parse_xml(f'<a:alphaModFix {nsdecls("a")} amt="{amt}"/>'))
         return
 
     if rtype == 'table':
@@ -319,6 +441,8 @@ def render_child_to_slide(slide, ch, default_font='微软雅黑', comp_meta=None
         if bw:
             conn.line.width = px_to_emu(bw)
         ln_el = conn.line._get_or_add_ln()
+        if ch.get('borderAlpha') is not None:
+            _apply_alpha_to_solid_fill(ln_el, ch['borderAlpha'])
         _apply_line_dash(ln_el, ch.get('dashStyle'))
         for old_end in ln_el.findall(qn('a:headEnd')) + ln_el.findall(qn('a:tailEnd')):
             ln_el.remove(old_end)
@@ -331,31 +455,45 @@ def render_child_to_slide(slide, ch, default_font='微软雅黑', comp_meta=None
     shape_type = SHAPE_GEOM_MAP.get(geom, MSO_SHAPE.RECTANGLE)
     sp = slide.shapes.add_shape(shape_type, x, y, max(w, Emu(100)), max(h, Emu(100)))
     attach_pcs_name(sp, comp_meta, ch)
-    # Remove default shadow
     sp.shadow.inherit = False
+    if ch.get('rotation') is not None:
+        sp.rotation = float(ch['rotation'])
 
-    if geom == 'roundRect' and ch.get('adj') is not None:
+    if geom in ('roundRect', 'parallelogram', 'plaque') and ch.get('adj') is not None:
         try:
             sp.adjustments[0] = float(ch['adj']) / 100000.0
         except Exception:
             pass
 
-    fill_rgb = hex_to_rgb(ch.get('fill'))
-    if fill_rgb:
-        sp.fill.solid()
-        sp.fill.fore_color.rgb = fill_rgb
-    else:
+    if ch.get('gradFill') and ch['gradFill'].get('stops'):
         sp.fill.background()
+        grad_el = parse_xml(_build_grad_fill_xml(ch['gradFill'], include_ns=True))
+        _insert_fill_into_spPr(sp._element.spPr, grad_el)
+    else:
+        fill_rgb = hex_to_rgb(ch.get('fill'))
+        if fill_rgb:
+            sp.fill.solid()
+            sp.fill.fore_color.rgb = fill_rgb
+            if ch.get('fillAlpha') is not None:
+                _apply_alpha_to_solid_fill(sp._element.spPr, ch['fillAlpha'])
+        else:
+            sp.fill.background()
 
     border_rgb = hex_to_rgb(ch.get('borderColor'))
     bw = ch.get('borderWidth') or 0.0
     if border_rgb and bw > 0:
         sp.line.color.rgb = border_rgb
         sp.line.width = px_to_emu(bw)
+        ln_el = sp.line._get_or_add_ln()
+        if ch.get('borderAlpha') is not None:
+            _apply_alpha_to_solid_fill(ln_el, ch['borderAlpha'])
         if ch.get('dashStyle') and ch.get('dashStyle') != 'solid':
-            _apply_line_dash(sp.line._get_or_add_ln(), ch.get('dashStyle'))
+            _apply_line_dash(ln_el, ch.get('dashStyle'))
     else:
         sp.line.fill.background()
+
+    if ch.get('shadow'):
+        _insert_shadow_into_spPr(sp._element.spPr, ch.get('shadow'))
 
     if ch.get('textBody'):
         apply_text_body(sp.text_frame, ch['textBody'], default_font)
@@ -383,8 +521,13 @@ def export_deck_to_pptx(deck_data, out_pptx_path):
             bg_path = resolve_local_asset(bg['image'])
             if bg_path:
                 set_slide_background_image(slide, bg_path)
+        elif bg.get('type') == 'gradient' and bg.get('stops'):
+            set_slide_background_gradient(slide, bg)
         elif bg.get('color'):
             set_slide_background_color(slide, bg['color'])
+
+        for dec in s_data.get('decorations', []):
+            render_child_to_slide(slide, dec, default_font, comp_meta=('decor', 'decor'))
 
         for comp in s_data.get('components', []):
             comp_meta = (comp.get('id', ''), comp.get('type', 'info-card'))

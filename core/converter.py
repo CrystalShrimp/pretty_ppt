@@ -48,7 +48,9 @@ COMPONENT_TYPE_LABELS = {
     'decision-gate': 'decision-gate',
     'stage-funnel': 'stage-funnel',
     'iteration-lanes': 'iteration-lanes',
-    'rule-checklist': 'rule-checklist'
+    'rule-checklist': 'rule-checklist',
+    'section-divider': 'section-divider',
+    'milestone-timeline': 'milestone-timeline'
 }
 
 GEOM_ALIAS = {
@@ -90,11 +92,42 @@ def resolve_color(elem):
     return None
 
 
+def resolve_alpha(elem):
+    if elem is None:
+        return None
+    for clr_tag in ('./a:srgbClr', './a:schemeClr'):
+        c = elem.find(clr_tag, NS)
+        if c is not None:
+            al = c.find('./a:alpha', NS)
+            if al is not None and 'val' in al.attrib:
+                return round(int(al.attrib['val']) / 100000.0, 3)
+    return None
+
+
+def _parse_grad_fill(gf_el):
+    if gf_el is None:
+        return None
+    stops = []
+    for gs in gf_el.findall('./a:gsLst/a:gs', NS):
+        pos = round(int(gs.attrib.get('pos', 0)) / 100000.0, 4)
+        col = resolve_color(gs) or '#FFFFFF'
+        al_el = gs.find('.//a:alpha', NS)
+        al = round(int(al_el.attrib['val']) / 100000.0, 3) if al_el is not None and 'val' in al_el.attrib else 1.0
+        stops.append({'pos': pos, 'color': col, 'alpha': al})
+    lin = gf_el.find('./a:lin', NS)
+    ang = round(int(lin.attrib.get('ang', 0)) / 60000.0, 1) if lin is not None else 0.0
+    if not stops:
+        return None
+    return {'angle': ang, 'stops': stops}
+
+
 def parse_rPr(rPr, defRPr=None):
     sz = None
     bold = None
     italic = None
     color = None
+    alpha = None
+    spc = None
     font = None
     for pr in [defRPr, rPr]:
         if pr is None:
@@ -105,24 +138,37 @@ def parse_rPr(rPr, defRPr=None):
             bold = (pr.attrib['b'] == '1')
         if 'i' in pr.attrib:
             italic = (pr.attrib['i'] == '1')
+        if 'spc' in pr.attrib:
+            try:
+                spc = round(int(pr.attrib['spc']) / 100.0, 2)
+            except Exception:
+                pass
         sf = pr.find('./a:solidFill', NS)
         if sf is not None:
             c = resolve_color(sf)
             if c:
                 color = c
+            ra = resolve_alpha(sf)
+            if ra is not None:
+                alpha = ra
         ea = pr.find('./a:ea', NS)
         latin = pr.find('./a:latin', NS)
         if ea is not None and ea.attrib.get('typeface'):
             font = ea.attrib.get('typeface')
         elif latin is not None and latin.attrib.get('typeface'):
             font = latin.attrib.get('typeface')
-    return {
+    res = {
         'fontSize': sz,
-        'bold': bool(bold),
-        'italic': bool(italic),
+        'bold': bold,
+        'italic': italic,
         'color': color,
         'fontFamily': font or '微软雅黑'
     }
+    if alpha is not None and alpha < 0.999:
+        res['alpha'] = alpha
+    if spc is not None:
+        res['letterSpacing'] = spc
+    return res
 
 
 def parse_txBody(txBody):
@@ -248,6 +294,7 @@ def parse_raw_element(el, rels_map, deck_name, tf=None):
             break
     rx = ry = rw = rh = 0.0
     flipH = flipV = False
+    rotation = None
     if xfrm is not None:
         off = xfrm.find('a:off', NS)
         ext = xfrm.find('a:ext', NS)
@@ -259,6 +306,11 @@ def parse_raw_element(el, rels_map, deck_name, tf=None):
             rh = float(ext.attrib.get('cy', 0))
         flipH = xfrm.attrib.get('flipH') == '1'
         flipV = xfrm.attrib.get('flipV') == '1'
+        if 'rot' in xfrm.attrib:
+            try:
+                rotation = round(int(xfrm.attrib['rot']) / 60000.0, 2)
+            except Exception:
+                pass
 
     px, py, pw, ph = map_rect(emu_to_px(rx), emu_to_px(ry), emu_to_px(rw), emu_to_px(rh), tf)
 
@@ -293,18 +345,27 @@ def parse_raw_element(el, rels_map, deck_name, tf=None):
         pcs_cid, pcs_ctype, role, clean_name, locked = _extract_pcs_tag(raw_name, 'image', 'image')
         blip = el.find('.//a:blip', NS)
         img_file = None
+        opacity = None
         if blip is not None:
             rid = blip.attrib.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed')
             target = rels_map.get(rid, '')
             if target:
                 img_file = f"/assets/media/{deck_name}/{os.path.basename(target)}"
-        return _attach_pcs_meta({
+            amf = blip.find('./a:alphaModFix', NS)
+            if amf is not None and 'amt' in amf.attrib:
+                opacity = round(int(amf.attrib['amt']) / 100000.0, 3)
+        pic_res = {
             'rawType': 'image',
             'role': role,
             'name': clean_name,
             'x': px, 'y': py, 'w': pw, 'h': ph,
             'src': img_file
-        }, pcs_cid, pcs_ctype, locked)
+        }
+        if rotation:
+            pic_res['rotation'] = rotation
+        if opacity is not None and opacity < 0.999:
+            pic_res['opacity'] = opacity
+        return _attach_pcs_meta(pic_res, pcs_cid, pcs_ctype, locked)
 
     if tag == 'graphicFrame':
         tbl = el.find('.//a:tbl', NS)
@@ -335,11 +396,15 @@ def parse_raw_element(el, rels_map, deck_name, tf=None):
     geom = 'line' if tag == 'cxnSp' else 'rect'
     adj = None
     fill = None
+    fillAlpha = None
+    gradFill = None
     borderColor = None
+    borderAlpha = None
     borderWidth = 0.0
     headEnd = None
     tailEnd = None
     dashStyle = None
+    shadow = False
     if spPr is not None:
         prstGeom = spPr.find('./a:prstGeom', NS)
         if prstGeom is not None:
@@ -356,12 +421,17 @@ def parse_raw_element(el, rels_map, deck_name, tf=None):
         sf = spPr.find('./a:solidFill', NS)
         if sf is not None:
             fill = resolve_color(sf)
+            fillAlpha = resolve_alpha(sf)
+        gf = spPr.find('./a:gradFill', NS)
+        if gf is not None:
+            gradFill = _parse_grad_fill(gf)
         ln = spPr.find('./a:ln', NS)
         if ln is not None and ln.find('./a:noFill', NS) is None:
             borderWidth = emu_to_px(ln.attrib.get('w', 12700))
             lsf = ln.find('./a:solidFill', NS)
             if lsf is not None:
                 borderColor = resolve_color(lsf)
+                borderAlpha = resolve_alpha(lsf)
             pd = ln.find('./a:prstDash', NS)
             if pd is not None:
                 d_val = pd.attrib.get('val')
@@ -373,6 +443,8 @@ def parse_raw_element(el, rels_map, deck_name, tf=None):
             te = ln.find('./a:tailEnd', NS)
             if te is not None and te.attrib.get('type', 'none') != 'none':
                 tailEnd = te.attrib.get('type')
+        if spPr.find('./a:effectLst/a:outerShdw', NS) is not None:
+            shadow = True
 
     tx = parse_txBody(el.find('./p:txBody', NS))
     res = {
@@ -393,6 +465,16 @@ def parse_raw_element(el, rels_map, deck_name, tf=None):
     }
     if dashStyle:
         res['dashStyle'] = dashStyle
+    if rotation:
+        res['rotation'] = rotation
+    if fillAlpha is not None and fillAlpha < 0.999:
+        res['fillAlpha'] = fillAlpha
+    if borderAlpha is not None and borderAlpha < 0.999:
+        res['borderAlpha'] = borderAlpha
+    if gradFill:
+        res['gradFill'] = gradFill
+    if shadow:
+        res['shadow'] = True
     return _attach_pcs_meta(res, pcs_cid, pcs_ctype, locked)
 
 
@@ -1043,21 +1125,40 @@ def convert_pptx_to_deck(pptx_path, deck_id, deck_title=None, out_json_path=None
                             'image': f"/assets/media/{deck_id}/{os.path.basename(rels_map[rid])}"
                         }
                 else:
-                    sf_bg = bg_el.find('.//a:solidFill', NS)
-                    if sf_bg is not None:
-                        c = resolve_color(sf_bg)
-                        if c:
-                            bg_data = {'type': 'color', 'color': c, 'image': None}
+                    gf_bg = bg_el.find('.//a:gradFill', NS)
+                    if gf_bg is not None:
+                        gd = _parse_grad_fill(gf_bg)
+                        if gd:
+                            bg_data = {
+                                'type': 'gradient',
+                                'color': gd['stops'][0]['color'],
+                                'angle': gd['angle'],
+                                'stops': gd['stops'],
+                                'image': None
+                            }
+                    else:
+                        sf_bg = bg_el.find('.//a:solidFill', NS)
+                        if sf_bg is not None:
+                            c = resolve_color(sf_bg)
+                            if c:
+                                bg_data = {'type': 'color', 'color': c, 'image': None}
 
             spTree = s_xml.find('.//p:cSld/p:spTree', NS)
             raw_elems = []
+            decorations = []
             if spTree is not None:
                 for child in spTree:
                     ctag = child.tag.split('}')[-1]
                     if ctag in ('sp', 'grpSp', 'pic', 'cxnSp', 'graphicFrame'):
                         parsed = parse_raw_element(child, rels_map, deck_id)
                         if parsed:
-                            raw_elems.append(parsed)
+                            if parsed.get('_pcsCompId') == 'decor' or parsed.get('_pcsCompType') == 'decor':
+                                parsed.pop('_pcsCompId', None)
+                                parsed.pop('_pcsCompType', None)
+                                parsed.pop('_pcsLockedRole', None)
+                                decorations.append(parsed)
+                            else:
+                                raw_elems.append(parsed)
 
             comps = cluster_slide_elements(idx, raw_elems, deck_id, total_slides)
             for c in comps:
@@ -1065,17 +1166,20 @@ def convert_pptx_to_deck(pptx_path, deck_id, deck_title=None, out_json_path=None
 
             slide_title = f"第 {idx} 页"
             for c in comps:
-                if c['type'] in ('slide-header', 'cover-divider') and c['content'].get('title'):
+                if c['type'] in ('slide-header', 'cover-divider', 'section-divider') and c['content'].get('title'):
                     slide_title = c['content']['title'].replace('\n', ' ')
                     break
 
-            slides.append({
+            slide_obj = {
                 'id': f"{deck_id}_slide_{idx}",
                 'index': idx,
                 'title': slide_title,
                 'background': bg_data,
                 'components': comps
-            })
+            }
+            if decorations:
+                slide_obj['decorations'] = decorations
+            slides.append(slide_obj)
 
     deck = {
         'id': deck_id,

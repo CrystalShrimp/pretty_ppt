@@ -8,11 +8,17 @@ from core.schema import (
     compile_component,
     create_default_component,
 )
-from core.templates import get_template, list_templates, DEFAULT_TEMPLATE_ID
+from core.templates import (
+    get_template,
+    list_templates,
+    build_slide_decorations,
+    DEFAULT_TEMPLATE_ID,
+)
 
 
 LAYOUT_DESCRIPTIONS = {
-    'cover': '封面/章节大横幅页（支持直接在 slide 传 title/subtitle/tag/meta 或传入 cover-divider 元件）',
+    'cover': '封面/主题大横幅页（支持直接在 slide 传 title/subtitle/tag/meta 或传入 cover-divider 元件）',
+    'section': '独立章节过渡页（居中穿透色带 + 大号章节标题 + 半透明章节序号水印）',
     'toc': '目录页（自动生成顶部页眉 + 居中目录列表元件 toc-list）',
     'single': '单一主体元件占满中间内容安全区',
     '2-col': '左右等宽双栏 (50% / 50%)',
@@ -29,12 +35,29 @@ LAYOUT_DESCRIPTIONS = {
 
 AI_COMPONENT_SCHEMAS = {
     'cover-divider': {
-        'desc': '封面/章节大色块横幅与汇报人信息区',
+        'desc': '封面/主题大色块横幅与汇报人信息区',
         'content': {
             'tag': '顶部标签胶囊文案，例如 RESEARCH REPORT',
             'title': '主标题',
             'subtitle': '副标题或研究副题',
             'meta': ['汇报人：xxx', '所属单位：xxx', '日期：2026 年 11 月']
+        }
+    },
+    'section-divider': {
+        'desc': '独立章节过渡页（穿透式高亮横带 + 大号章节标题 + 右下角半透明序号水印）',
+        'content': {
+            'sectionNumber': 'PART 01',
+            'title': '第一部分：研究方法与架构',
+            'leftLabel': 'METHODOLOGY',
+            'rightLabel': 'ARCHITECTURE'
+        }
+    },
+    'milestone-timeline': {
+        'desc': '双环科技图标里程碑时间轴（步骤胶囊 + 圆形科技图标徽章 + 下方摘要卡）',
+        'content': {
+            'milestones': [
+                {'step': '01', 'tag': 'PHASE A', 'icon': 'flask', 'title': '阶段一名称', 'desc': '阶段关键突破或主要交付描述'}
+            ]
         }
     },
     'slide-header': {
@@ -186,7 +209,7 @@ def get_ai_tools_specification():
             'type': 'function',
             'function': {
                 'name': 'list_ppt_templates',
-                'description': '获取当前 Pretty PPT 可用的演示文稿视觉模板列表与 15 类标准元件规范。',
+                'description': '获取当前 Pretty PPT 可用的演示文稿视觉模板列表与 17 类标准元件规范。',
                 'parameters': {'type': 'object', 'properties': {}, 'required': []}
             }
         },
@@ -194,13 +217,13 @@ def get_ai_tools_specification():
             'type': 'function',
             'function': {
                 'name': 'generate_ppt_deck',
-                'description': '根据高层结构化大纲 JSON 一键自动排版、编译 15 类元件并导出标准 .pptx 文件（外部 AI 无需手动计算 x/y/w/h 像素坐标）。',
+                'description': '根据高层结构化大纲 JSON 一键自动排版、编译 17 类元件并导出标准 .pptx 文件（外部 AI 无需手动计算 x/y/w/h 像素坐标）。',
                 'parameters': {
                     'type': 'object',
                     'properties': {
                         'deckId': {'type': 'string', 'description': '可选输出文件标识，留空则由标题自动生成'},
                         'title': {'type': 'string', 'description': 'PPT 文档总标题'},
-                        'templateId': {'type': 'string', 'description': '模板 ID，默认 academic（学术深蓝）；可选 tech_blue、emerald_research 或本地模板'},
+                        'templateId': {'type': 'string', 'description': '模板 ID，默认 academic（学术深蓝）；可选 terra_quest（16:9 机能工业风）、tech_blue、emerald_research 或本地模板'},
                         'slides': {
                             'type': 'array',
                             'description': '逐页定义列表',
@@ -500,8 +523,9 @@ def build_deck_from_ai_spec(spec):
 
         slide_comps = []
 
-        # 1. 封面 / 章节大横幅页
+        # 1. 封面 / 章节大横幅页 / 独立章节过渡页
         is_explicit_cover = (layout_mode == 'cover') or any(c.get('type') == 'cover-divider' for c in raw_comps)
+        is_explicit_section = (layout_mode == 'section') or any(c.get('type') == 'section-divider' for c in raw_comps)
         if is_explicit_cover:
             cov_spec = next((c for c in raw_comps if c.get('type') == 'cover-divider'), None)
             if not cov_spec:
@@ -518,6 +542,23 @@ def build_deck_from_ai_spec(spec):
             cov_comp['id'] = f"{deck_id}_s{s_idx}_c1"
             compile_component(cov_comp, tpl)
             slide_comps.append(cov_comp)
+            bg_obj = copy.deepcopy(bgs['cover'])
+        elif is_explicit_section:
+            sec_spec = next((c for c in raw_comps if c.get('type') == 'section-divider'), None)
+            if not sec_spec:
+                sec_spec = {
+                    'type': 'section-divider',
+                    'content': {
+                        'sectionNumber': s_spec.get('sectionNumber') or s_sec or f'PART {s_idx:02d}',
+                        'title': s_title,
+                        'leftLabel': s_spec.get('leftLabel') or 'SECTION',
+                        'rightLabel': s_spec.get('rightLabel') or 'OVERVIEW'
+                    }
+                }
+            sec_comp = render_single_component_from_spec(sec_spec, template_id=tpl['id'])
+            sec_comp['id'] = f"{deck_id}_s{s_idx}_c1"
+            compile_component(sec_comp, tpl)
+            slide_comps.append(sec_comp)
             bg_obj = copy.deepcopy(bgs['cover'])
         else:
             bg_obj = copy.deepcopy(bgs['body'])
@@ -588,11 +629,18 @@ def build_deck_from_ai_spec(spec):
                 compile_component(ftr_comp, tpl)
                 slide_comps.append(ftr_comp)
 
+        decors = build_slide_decorations(
+            tpl,
+            is_cover=is_explicit_cover,
+            is_section=is_explicit_section,
+            slide_idx=s_idx
+        )
         deck['slides'].append({
             'id': f"{deck_id}_slide_{s_idx}",
             'index': s_idx,
             'title': s_title,
             'background': bg_obj,
+            'decorations': decors,
             'components': slide_comps
         })
 

@@ -7,8 +7,10 @@ venv/
 .env
 *.log
 
-# 本地私有公司模板与母版图片资产（严禁上传至公开仓库）
+# 本地私有参考母版与公司模板（严禁上传至公开仓库）
+ref/
 templates/local/
+scripts/render_*_terra.py
 
 # 解析缓存与运行期输出
 assets/media/
