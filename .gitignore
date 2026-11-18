@@ -1,0 +1,24 @@
+# Python 缓存与运行环境
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+*.log
+
+# 本地私有公司模板与母版图片资产（严禁上传至公开仓库）
+templates/local/
+
+# 解析缓存与运行期输出
+assets/media/
+output/
+
+# 工程 JSON 仅保留公开全景示范集，排除私人/公司样本工程与备份目录
+decks/*
+!decks/component_showcase.json
+
+# 本地个人/公司 PPTX 样本与临时副本（仅保留公开示范集 component_showcase.pptx）
+*.pptx
+!component_showcase.pptx
+*_edited.pptx
