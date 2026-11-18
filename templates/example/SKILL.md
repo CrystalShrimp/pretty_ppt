@@ -55,9 +55,10 @@ python templates/example/convert_pptx_to_template.py \
 
 脚本将自动完成：
 1. 读取 `presentation.xml` 获取精准画布尺寸（如 16:9 `1280×720` 或 3:2）并推断页边距 (`defaultMarginX`)、正文区起止纵坐标 (`contentTopY`, `footerY`)；
-2. 统计 `theme1.xml` 及全篇 `<a:srgbClr>` 频率，生成 `primary` / `secondary` / `accent` / 浅背景以及同源调和的五态功能色 `palette.semantic`；
-3. 自动分拣 `ppt/media/`：剔除音视频、GIF 与超小噪点，区分全屏背景 `bg_*`、半透明装饰 `decor_*` 与矢量感小图标 `icon_*` 提取至 `<id>/assets/`；
-4. 输出 `<id>/template.json` 与 `<id>/analysis_report.json`。
+2. **全通道色彩识别**：同时统计 `theme1.xml`、`solidFill`、`<a:gradFill>` 全部色标色值及 `<a:schemeClr>` 主题色映射，识别纯渐变主导主题的高频主/辅渐变色对 (`topGradientPairs`) 并生成同源五态 `palette.semantic`；
+3. **伪背景检测、资产瘦身与跨页透明装饰识别**：若页面 `<p:bg>` 为空且底层存在覆盖 `>=92%` 画布的 `<p:pic>` / `<p:sp>` 全幅图层，自动提取为 `backgrounds.cover` / `body`，对超 1920px 大图执行 LANCZOS 压测瘦身；并识别跨页高频透明底纹 (`recurring-decor`) 生成推荐 `decorations`；
+4. **商业字体安全回退**：检测 `.fntdata` 内嵌字库及第三方商业艺术字体（如字魂/汉仪/方正等），在 `analysis_report.json` 记录告警并将 `palette.fontFamily` 回退至跨平台安全通用字体 `'微软雅黑'`；
+5. 输出 `<id>/template.json` 与 `<id>/analysis_report.json`。
 
 ### 第 2 步：人工 / Agent 审查与静态资产提纯
 

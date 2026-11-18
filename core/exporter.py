@@ -33,6 +33,7 @@ SHAPE_GEOM_MAP = {
     'triangle': MSO_SHAPE.ISOSCELES_TRIANGLE,
     'rightArrow': MSO_SHAPE.RIGHT_ARROW,
     'plaque': MSO_SHAPE.PLAQUE,
+    'star4': MSO_SHAPE.STAR_4_POINT,
 }
 
 

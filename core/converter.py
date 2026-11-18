@@ -61,7 +61,8 @@ GEOM_ALIAS = {
     'bentConnector5': 'elbowConnector',
     'elbowConnector': 'elbowConnector',
     'ellipse': 'oval',
-    'homePlate': 'pentagon'
+    'homePlate': 'pentagon',
+    'star4': 'star4'
 }
 
 PCS_NAME_RE = re.compile(r'^\[PCS:([^|\]]+)\|([^|\]]+)\|([^\]]+)\]\s*(.*)$')

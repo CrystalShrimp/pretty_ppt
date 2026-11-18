@@ -147,6 +147,10 @@ def _is_terra_skin(tpl):
     return bool(tpl and tpl.get('skeleton', {}).get('skin') == 'terra_quest')
 
 
+def _is_editorial_skin(tpl):
+    return bool(tpl and tpl.get('skeleton', {}).get('skin') == 'editorial_aura')
+
+
 def get_tone(tone_key, template=None, default='info'):
     """基于模板原生 palette.semantic 令牌返回同源功能色，彻底消除跨模板撞色违和。"""
     key = str(tone_key or '').lower().strip()
@@ -168,10 +172,19 @@ def get_tone(tone_key, template=None, default='info'):
         return tok
 
     if norm == 'accent':
-        if _is_terra_skin(template):
+        if _is_terra_skin(template) or _is_editorial_skin(template):
             return dict(sem_map.get('pass', DEFAULT_SEMANTIC_TOKENS['pass']))
         if template:
             c = pal.get('accent', '#7A2048')
+            hx = str(c).lstrip('#').strip()
+            lum = 0.2
+            if len(hx) == 6:
+                try:
+                    lum = (0.2126 * int(hx[0:2], 16) + 0.7152 * int(hx[2:4], 16) + 0.0722 * int(hx[4:6], 16)) / 255.0
+                except Exception:
+                    lum = 0.2
+            if lum > 0.48:
+                return dict(sem_map.get('pass', DEFAULT_SEMANTIC_TOKENS['pass']))
             return {
                 'bg': pal.get('cardAltBg', '#FAF4F6'),
                 'border': c,
@@ -322,6 +335,7 @@ def compile_component(comp, template=None):
     pal = tpl.get('palette', {})
     skel = tpl.get('skeleton', {})
     is_terra = _is_terra_skin(tpl)
+    is_editorial = _is_editorial_skin(tpl)
     canvas_w = float(tpl.get('canvas', {}).get('width', 1020.67))
     canvas_h = float(tpl.get('canvas', {}).get('height', 680.33))
 
@@ -440,6 +454,67 @@ def compile_component(comp, template=None):
                     round(w - 30.0, 2), 22.0 + m_i * 15.0, 10.0, 10.0,
                     geom=m_geom, fill=None, border_color='#18181B', border_width=0.8, border_alpha=0.5
                 ))
+        elif hdr_style == 'editorial_star' or is_editorial:
+            comp['x'], comp['y'] = 0.0, 0.0
+            bx, by = 0.0, 0.0
+            w, h = canvas_w, 120.0
+            comp['w'], comp['h'] = w, h
+            # 左上标志性 star4 四角星芒 + 纤细水平连接线 + 章节标签
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'star-anchor', bx, by,
+                margin_x, 15.0, 24.0, 24.0, geom='star4', fill=tpl_primary, border_width=0.0, adj=16000
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'connector', 'star-rule', bx, by,
+                margin_x + 28.0, 27.0, 96.0, 0.0, geom='line', border_color=tpl_primary, border_width=1.0, border_alpha=0.75
+            ))
+            sec_txt = section_tag or 'EDITORIAL REPORT'
+            children.append(_make_child_shape(
+                cid, next_idx(), 'step-box', '章节微标', bx, by,
+                margin_x + 132.0, 15.0, min(300.0, max(120.0, len(sec_txt) * 11.0 + 24.0)), 24.0,
+                geom='rect', fill=None, border_width=0.0,
+                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
+                           'paragraphs': [make_para([make_run(sec_txt, 9.5, True, pal.get('mutedColor', '#5E616B'), font, letterSpacing=0.8)], spaceAfter=0.0)]}
+            ))
+            # 标题下衬托柔和抹茶-燕麦渐变柔光条
+            hl_w = min(300.0, max(120.0, len(title) * 16.0))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'editorial-aura-hl', bx, by,
+                margin_x - 2.0, 62.0, hl_w, 16.0, geom='roundRect', fill=None, border_width=0.0, adj=30000,
+                grad_fill={'angle': 0, 'stops': [
+                    {'pos': 0.0, 'color': tpl_accent, 'alpha': 0.62},
+                    {'pos': 0.65, 'color': pal.get('cardAltBg', '#E0E0CC'), 'alpha': 0.35},
+                    {'pos': 1.0, 'color': '#FFFFFF', 'alpha': 0.0}
+                ]}
+            ))
+            inner_w = round(w - margin_x * 2 - 140.0, 2)
+            children.append(_make_child_shape(
+                cid, next_idx(), 'title', '页面主标题', bx, by,
+                margin_x, 40.0, inner_w, 38.0, geom='rect', fill=None, border_width=0.0,
+                text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
+                           'paragraphs': [make_para([make_run(title, 20.5, True, tpl_primary, title_font)], spaceAfter=0.0)]}
+            ))
+            if subtitle:
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'subtitle', '页面副标题', bx, by,
+                    margin_x, 82.0, round(w - margin_x * 2 - 20.0, 2), 26.0, geom='rect', fill=None, border_width=0.0,
+                    text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
+                               'paragraphs': [make_para([make_run(subtitle, 10.5, False, b_color, font)], spaceAfter=0.0)]}
+                ))
+            # 右上角细框杂志页码胶囊 + 小星点
+            p_txt = f"No. {int(page_num):02d}" if page_num.isdigit() else (f"No. {page_num}" if page_num else "AURA")
+            children.append(_make_child_shape(
+                cid, next_idx(), 'page-num', '页码胶囊', bx, by,
+                round(w - margin_x - 102.0, 2), 18.0, 102.0, 26.0, geom='roundRect',
+                fill='#FFFFFF', fill_alpha=0.75, border_color=tpl_primary, border_width=0.9, adj=30000,
+                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 6, 'top': 1, 'right': 6, 'bottom': 1},
+                           'paragraphs': [make_para([make_run(p_txt, 9.5, True, tpl_primary, font)], align='center', spaceAfter=0.0)]}
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'divider', '页眉分割线', bx, by,
+                margin_x, 114.0, round(w - margin_x * 2, 2), 0.0, geom='line',
+                border_color=tpl_primary, border_width=0.8, border_alpha=0.25
+            ))
         elif hdr_style == 'corporate_minimal':
             mx = 0.0 if bx >= 30.0 else margin_x
             tw = max(200.0, w - mx * 2 - 40.0)
@@ -633,6 +708,82 @@ def compile_component(comp, template=None):
                 text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 2, 'top': 2, 'right': 2, 'bottom': 2},
                            'paragraphs': [make_para([make_run('PRTS', 8.5, True, '#D0E516', font)], align='center', spaceAfter=0.0)]}
             ))
+        elif cover_style == 'editorial_aura' or is_editorial:
+            comp['x'], comp['y'] = 0.0, 0.0
+            bx, by = 0.0, 0.0
+            w, h = canvas_w, canvas_h
+            comp['w'], comp['h'] = w, h
+            # 半透明柔和椭圆形杂志边框 + 标志性 star4 四角星芒
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'cover-aura-ring', bx, by,
+                round(w * 0.14, 2), round(h * 0.21, 2), round(w * 0.72, 2), round(h * 0.42, 2), geom='oval',
+                fill='#FFFFFF', fill_alpha=0.38, border_color=tpl_primary, border_width=1.1, border_alpha=0.65
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'cover-star-main', bx, by,
+                round(w * 0.79, 2), round(h * 0.17, 2), 54.0, 54.0, geom='star4', fill=tpl_primary, border_width=0.0, adj=14500
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'cover-star-sub', bx, by,
+                round(w * 0.15, 2), round(h * 0.56, 2), 26.0, 26.0, geom='star4', fill=tpl_primary, border_width=0.0, adj=14500
+            ))
+            # 顶部杂志序号胶囊与细线（按标签长度自适应宽度避免长文本溢出）
+            top_tag = tag_txt or 'No. 01 // REPORT'
+            est_w = sum(11.0 if ord(ch) > 127 else 6.8 for ch in top_tag) + 28.0
+            tag_w = max(148.0, min(round(w * 0.48, 1), round(est_w, 1)))
+            line_x = round(64.0 + tag_w + 10.0, 2)
+            children.append(_make_child_shape(
+                cid, next_idx(), 'step-box', '封面左上编号', bx, by,
+                64.0, 46.0, tag_w, 28.0, geom='roundRect', fill=tpl_primary, border_width=0.0, adj=25000,
+                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 10, 'top': 2, 'right': 10, 'bottom': 2},
+                           'paragraphs': [make_para([make_run(top_tag, 9.5, True, '#FFFFFF', font)], align='center', spaceAfter=0.0)]}
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'connector', '封面顶部细线', bx, by,
+                line_x, 60.0, round(max(40.0, w - 64.0 - line_x), 2), 0.0, geom='line', border_color=tpl_primary, border_width=0.9, border_alpha=0.55
+            ))
+            # 居中大号封面主副标题
+            t_len = len(title_txt.replace('\n', ''))
+            t_sz = 36.0 if t_len <= 18 else (28.0 if t_len <= 30 else 24.0)
+            hero_paras = [make_para([make_run(title_txt, t_sz, True, tpl_primary, title_font)], align='center', spaceAfter=12.0)]
+            if sub_txt:
+                hero_paras.append(make_para([make_run(sub_txt, 13.0, False, pal.get('bodyColor', '#2E2D2A'), font)], align='center', spaceAfter=0.0))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'title', '封面主副标题', bx, by,
+                round(w * 0.17, 2), round(h * 0.25, 2), round(w * 0.66, 2), round(h * 0.34, 2), geom='rect',
+                fill=None, border_width=0.0,
+                text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 12, 'top': 6, 'right': 12, 'bottom': 6}, 'paragraphs': hero_paras}
+            ))
+            # 底部双胶囊横连桥 + 左下元信息衬底
+            children.append(_make_child_shape(
+                cid, next_idx(), 'connector', '底部连接桥线', bx, by,
+                round(w * 0.28, 2), round(h * 0.72, 2), round(w * 0.44, 2), 0.0, geom='line', border_color=tpl_primary, border_width=1.2
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', '底部左胶囊', bx, by,
+                round(w * 0.23, 2), round(h * 0.72 - 15.0, 2), 92.0, 30.0, geom='roundRect', fill=tpl_primary, border_width=0.0, adj=25000,
+                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 4, 'top': 1, 'right': 4, 'bottom': 1},
+                           'paragraphs': [make_para([make_run('No. 01', 10.0, True, '#FFFFFF', font)], align='center', spaceAfter=0.0)]}
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', '底部右胶囊', bx, by,
+                round(w * 0.77 - 92.0, 2), round(h * 0.72 - 15.0, 2), 92.0, 30.0, geom='roundRect',
+                fill='#FFFFFF', fill_alpha=0.85, border_color=tpl_primary, border_width=1.0, adj=25000,
+                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 4, 'top': 1, 'right': 4, 'bottom': 1},
+                           'paragraphs': [make_para([make_run('DESIGN', 9.5, True, tpl_primary, font)], align='center', spaceAfter=0.0)]}
+            ))
+            if not meta_lines:
+                meta_lines = items[:4] if (items and not (len(items) == 1 and items[0] == tag_txt)) else [
+                    f"模板风格：{tpl.get('name', '极简弥散杂志风')}",
+                    '17 类标准化组件 · 同源低饱和语义配色'
+                ]
+            m_paras = [make_para(_split_item_prefix(ml, bold_color=tpl_primary, body_color=pal.get('bodyColor', '#2E2D2A'), font_sz=10.5, font=font), spaceAfter=4.0) for ml in meta_lines[:4]]
+            children.append(_make_child_shape(
+                cid, next_idx(), 'subtitle', '封面元信息区', bx, by,
+                64.0, round(h * 0.80, 2), round(w - 128.0, 2), 96.0, geom='roundRect',
+                fill='#FFFFFF', fill_alpha=0.72, border_color=tpl_primary, border_width=0.6, border_alpha=0.25, adj=12000,
+                text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 16, 'top': 6, 'right': 16, 'bottom': 6}, 'paragraphs': m_paras}
+            ))
         elif cover_style == 'corporate_stripe':
             comp['x'], comp['y'] = 0.0, 99.8
             bx, by = 0.0, 99.8
@@ -759,6 +910,51 @@ def compile_component(comp, template=None):
                 round(w - 560.0, 2), round(h - 190.0, 2), 490.0, 150.0, geom='rect', fill=None, border_width=0.0,
                 text_body={'valign': 'bottom', 'wrap': False, 'padding': {'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
                            'paragraphs': [make_para([make_run(sec_num, 82.0, True, '#18181B', font, alpha=0.14)], align='right', spaceAfter=0.0)]}
+            ))
+        elif is_editorial:
+            # 左侧柔和双色渐变弥散圆晕 + 细黑描边环 + 右侧杂志编号与星芒标题
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'section-aura-orb', bx, by,
+                round(w * 0.10, 2), round(h * 0.22, 2), round(h * 0.56, 2), round(h * 0.56, 2), geom='oval',
+                fill=None, border_width=0.0,
+                grad_fill={'angle': 135, 'stops': [
+                    {'pos': 0.0, 'color': tpl_accent, 'alpha': 0.90},
+                    {'pos': 0.72, 'color': pal.get('cardAltBg', '#E0E0CC'), 'alpha': 0.65},
+                    {'pos': 1.0, 'color': '#FFFFFF', 'alpha': 0.0}
+                ]}
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'section-wire-orb', bx, by,
+                round(w * 0.13, 2), round(h * 0.26, 2), round(h * 0.48, 2), round(h * 0.48, 2), geom='oval',
+                fill=None, border_color=tpl_primary, border_width=1.0, border_alpha=0.45
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'step-num', '章节序号', bx, by,
+                round(w * 0.46, 2), round(h * 0.30, 2), 260.0, 56.0, geom='rect', fill=None, border_width=0.0,
+                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
+                           'paragraphs': [make_para([make_run(sec_num, 28.0, True, tpl_primary, title_font)], spaceAfter=0.0)]}
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'section-star', bx, by,
+                round(w * 0.84, 2), round(h * 0.31, 2), 36.0, 36.0, geom='star4', fill=tpl_primary, border_width=0.0, adj=15000
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'divider', '章节细分割线', bx, by,
+                round(w * 0.46, 2), round(h * 0.41, 2), round(w * 0.44, 2), 0.0, geom='line', border_color=tpl_primary, border_width=1.1
+            ))
+            t_len = len(sec_title)
+            sec_sz = 34.0 if t_len <= 12 else (27.0 if t_len <= 18 else 23.0)
+            children.append(_make_child_shape(
+                cid, next_idx(), 'title', '章节主标题', bx, by,
+                round(w * 0.46, 2), round(h * 0.44, 2), round(w * 0.46, 2), 110.0, geom='rect', fill=None, border_width=0.0,
+                text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 0, 'top': 4, 'right': 0, 'bottom': 0},
+                           'paragraphs': [make_para([make_run(sec_title, sec_sz, True, tpl_primary, title_font)], spaceAfter=0.0)]}
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'subtitle', '底部分类标尺', bx, by,
+                round(w * 0.46, 2), round(h * 0.65, 2), round(w * 0.44, 2), 28.0, geom='rect', fill=None, border_width=0.0,
+                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 0, 'top': 0, 'right': 0, 'bottom': 0},
+                           'paragraphs': [make_para([make_run(f"{left_tag}  //  {right_tag}", 11.0, True, pal.get('mutedColor', '#5E616B'), font, letterSpacing=1.2)], spaceAfter=0.0)]}
             ))
         else:
             children.append(_make_child_shape(
@@ -996,6 +1192,43 @@ def compile_component(comp, template=None):
                     },
                     adj=18000
                 ))
+        elif is_editorial:
+            # 极简弥散标签胶囊：语义标签采用低饱和功能色胶囊，常规标签采用细黑边框白底配左侧四角星
+            pal_t = get_tone(tone_key, tpl, 'info')
+            is_sem = tone_key in ('pass', 'promoted', 'warn', 'reject', 'rollback')
+            if is_sem:
+                bg = pal_t['badgeBg']
+                fg = pal_t['badgeFg']
+                bd = pal_t['border']
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'container', 'container', bx, by,
+                    0.0, 0.0, w, h, geom='roundRect', fill=bg, border_color=bd, border_width=0.85,
+                    text_body={
+                        'valign': 'middle', 'wrap': False,
+                        'padding': {'left': 10.0, 'top': 2.0, 'right': 10.0, 'bottom': 2.0},
+                        'paragraphs': [make_para([make_run(label, min(title_sz, 11.0), True, fg, font)], align='center', spaceAfter=0.0)]
+                    },
+                    adj=24000
+                ))
+            else:
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'container', 'container', bx, by,
+                    0.0, 0.0, w, h, geom='roundRect', fill='#FFFFFF', fill_alpha=0.95,
+                    border_color=tpl_primary, border_width=0.9, border_alpha=0.75,
+                    text_body={
+                        'valign': 'middle', 'wrap': False,
+                        'padding': {'left': 20.0 if w >= 64.0 else 8.0, 'top': 2.0, 'right': 10.0, 'bottom': 2.0},
+                        'paragraphs': [make_para([make_run(label, min(title_sz, 11.0), True, tpl_primary, font)], align='center' if w < 64.0 else 'left', spaceAfter=0.0)]
+                    },
+                    adj=24000
+                ))
+                if w >= 64.0:
+                    st_sz = min(10.0, round(h * 0.42, 1))
+                    children.append(_make_child_shape(
+                        cid, next_idx(), 'shape', 'tag-star-dot', bx, by,
+                        7.0, round((h - st_sz) * 0.5, 2), st_sz, st_sz,
+                        geom='star4', fill=tpl_accent, border_color=tpl_primary, border_width=0.4
+                    ))
         else:
             if tone_key:
                 pal_t = get_tone(tone_key, tpl)
@@ -1098,6 +1331,71 @@ def compile_component(comp, template=None):
                     'valign': 'middle' if compact else layout.get('valign', 'top'),
                     'wrap': True,
                     'padding': {'left': 8.0, 'top': 4.0 if compact else 8.0, 'right': 10.0, 'bottom': 4.0 if compact else 7.0},
+                    'paragraphs': paras
+                }
+            ))
+        elif is_editorial:
+            # 极简弥散卡片：纯白高明度底 + 细框轻影 + 顶部柔和双色渐变信号带
+            if tone_key:
+                pal_t = get_tone(tone_key, tpl)
+                c_fill = pal_t['bg']
+                c_border = pal_t['border']
+                c_title = pal_t['title']
+                c_body = pal_t['body']
+                top_c = pal_t.get('stripe') or pal_t['badgeBg']
+                dash = 'dash' if tone_key in ('reject', 'rollback') else None
+                is_sem = tone_key in ('pass', 'promoted', 'warn', 'reject', 'rollback')
+            else:
+                c_fill = '#FFFFFF'
+                c_border = pal.get('cardBorder', '#D2D4C8')
+                c_title = pal.get('titleColor', tpl_primary)
+                c_body = pal.get('bodyColor', '#2E2D2A')
+                top_c = tpl_accent
+                dash = None
+                is_sem = False
+
+            compact = (h < 88.0)
+            t_sz = min(12.0, max(10.5, title_sz)) if not compact else min(10.5, title_sz)
+            b_sz = min(10.0, max(9.0, body_sz)) if not compact else min(9.5, body_sz)
+            line_est = len(items) + (1 if title else 0)
+            eff_gap = 2.5 if compact else (3.8 if line_est >= 5 or h < 190 else min(5.5, item_gap))
+            eff_hgap = 3.0 if compact else min(6.5, header_gap)
+
+            paras = []
+            if title:
+                paras.append(make_para([make_run(title, t_sz, True, c_title, font)], spaceAfter=eff_hgap))
+            if subtitle:
+                paras.append(make_para([make_run(subtitle, b_sz, True, pal.get('mutedColor', '#5E616B'), font)], spaceAfter=eff_gap))
+            for i_idx, raw_it in enumerate(items):
+                sa = 0.0 if i_idx == len(items) - 1 else eff_gap
+                runs = _split_item_prefix(raw_it, bold_color=c_title if is_sem else tpl_primary, body_color=c_body, font_sz=b_sz, font=font)
+                paras.append(make_para(runs, spaceAfter=sa))
+            if not paras:
+                paras.append(make_para([make_run(' ', b_sz, False, c_body, font)], spaceAfter=0.0))
+
+            children.append(_make_child_shape(
+                cid, next_idx(), 'container', 'container', bx, by,
+                0.0, 0.0, w, h, geom='roundRect', fill=c_fill, fill_alpha=0.94,
+                border_color=c_border, border_width=0.95, border_alpha=0.65 if is_sem else 0.55,
+                dash_style=dash, shadow=True, adj=4000
+            ))
+            # 顶部/左侧柔和渐变弥散色条 + 左星/圆角信号点
+            children.append(_make_child_shape(
+                cid, next_idx(), 'divider', '顶部弥散强调带', bx, by,
+                0.0, 0.0, w, 4.0 if not compact else 3.5, geom='rect', fill=None, border_width=0.0,
+                grad_fill={'angle': 0, 'stops': [
+                    {'pos': 0.0, 'color': top_c, 'alpha': 0.92},
+                    {'pos': 0.72, 'color': pal.get('cardAltBg', '#E0E0CC'), 'alpha': 0.45 if not is_sem else 0.18},
+                    {'pos': 1.0, 'color': c_fill, 'alpha': 0.0}
+                ]}
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'body', 'card-text', bx, by,
+                0.0, 4.0, w, round(max(16.0, h - 4.0), 2), geom='rect', fill=None, border_width=0.0,
+                text_body={
+                    'valign': 'middle' if compact else layout.get('valign', 'top'),
+                    'wrap': True,
+                    'padding': {'left': px, 'top': 4.0 if compact else max(7.0, py - 2.0), 'right': px, 'bottom': 4.0 if compact else max(6.0, py - 3.0)},
                     'paragraphs': paras
                 }
             ))
@@ -1388,6 +1686,64 @@ def compile_component(comp, template=None):
                 cid, next_idx(), 'body', 'kpi-text', bx, by,
                 12.0, round(box_y + 4.0, 2), round(w - 20.0, 2), round(box_h - 8.0, 2), geom='rect', fill=None, border_width=0.0,
                 text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 6.0, 'top': 4.0, 'right': 6.0, 'bottom': 4.0}, 'paragraphs': m_paras}
+            ))
+        elif is_editorial:
+            # 极简弥散 KPI 卡片：纯白细框 + 顶部四角星名牌 + 深抹茶高对比指标数字
+            pass_tok = get_tone('pass', tpl, 'pass')
+            children.append(_make_child_shape(
+                cid, next_idx(), 'title', 'kpi-nameplate', bx, by,
+                0.0, 0.0, w, top_h, geom='roundRect', fill='#FFFFFF', fill_alpha=0.96,
+                border_color=pal.get('cardBorder', '#D2D4C8'), border_width=0.95, shadow=True, adj=4000,
+                text_body={
+                    'valign': 'middle', 'wrap': True,
+                    'padding': {'left': 26.0, 'top': 4.0, 'right': 10.0, 'bottom': 4.0},
+                    'paragraphs': [
+                        make_para([make_run(title, max(12.0, title_sz), True, tpl_primary, font)], spaceAfter=2.0),
+                        make_para([make_run(subtitle, 9.5, False, pal.get('mutedColor', '#5E616B'), font)], spaceAfter=0.0)
+                    ]
+                }
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'kpi-star', bx, by,
+                9.0, 14.0, 11.0, 11.0, geom='star4', fill=tpl_accent, border_color=tpl_primary, border_width=0.45
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'shape', 'kpi-img-box', bx, by,
+                0.0, round(top_h + gap, 2), w, img_h, geom='roundRect', fill='#FFFFFF',
+                border_color=pal.get('cardBorder', '#D2D4C8'), border_width=0.9, adj=4000
+            ))
+            children.append(_make_child_image(
+                cid, next_idx(), 'image', 'image', bx, by,
+                4.0, round(top_h + gap + 4.0, 2), round(w - 8.0, 2), round(img_h - 8.0, 2), img_src
+            ))
+            box_y = round(top_h + gap * 2 + img_h, 2)
+            children.append(_make_child_shape(
+                cid, next_idx(), 'metric-box', 'metric-box', bx, by,
+                0.0, box_y, w, box_h, geom='roundRect', fill='#FFFFFF', fill_alpha=0.96,
+                border_color=pal.get('cardBorder', '#D2D4C8'), border_width=0.95, shadow=True, adj=4000
+            ))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'divider', 'kpi-aura-bar', bx, by,
+                0.0, box_y, w, 3.5, geom='rect', fill=None, border_width=0.0,
+                grad_fill={'angle': 0, 'stops': [
+                    {'pos': 0.0, 'color': tpl_accent, 'alpha': 0.95},
+                    {'pos': 0.72, 'color': pal.get('cardAltBg', '#E0E0CC'), 'alpha': 0.45},
+                    {'pos': 1.0, 'color': '#FFFFFF', 'alpha': 0.0}
+                ]}
+            ))
+            mv_sz = 21.0 if len(m_val) <= 9 else (15.5 if len(m_val) <= 18 else 13.0)
+            m_paras = [
+                make_para([make_run(m_val, mv_sz, True, pass_tok['title'], font)], spaceAfter=2.0),
+                make_para([make_run(m_lbl, 10.0, True, tpl_primary, font)], spaceAfter=5.0)
+            ]
+            for it in items:
+                runs = _split_item_prefix(it, bold_color=tpl_primary, body_color=pal.get('bodyColor', '#2E2D2A'), font_sz=9.3, font=font)
+                m_paras.append(make_para(runs, spaceAfter=2.5))
+            children.append(_make_child_shape(
+                cid, next_idx(), 'body', 'kpi-text', bx, by,
+                0.0, round(box_y + 4.0, 2), w, round(max(20.0, box_h - 6.0), 2), geom='rect',
+                fill=None, border_width=0.0,
+                text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 12.0, 'top': 6.0, 'right': 10.0, 'bottom': 6.0}, 'paragraphs': m_paras}
             ))
         else:
             children.append(_make_child_shape(

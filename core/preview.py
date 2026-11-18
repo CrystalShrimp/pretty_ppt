@@ -113,6 +113,14 @@ def _geom_polygon_pts(geom, w, h, adj=10000):
     if geom == 'plaque':
         c = min(w, h) * min(0.35, max(0.12, adj_f / 100000.0))
         return [(c, 0), (w - c, 0), (w, c), (w, h - c), (w - c, h), (c, h), (0, h - c), (0, c)]
+    if geom == 'star4':
+        rin = min(0.38, max(0.08, (adj_f / 100000.0) * 1.4)) if adj is not None else 0.14
+        cx, cy = w * 0.5, h * 0.5
+        dx, dy = w * rin, h * rin
+        return [
+            (cx, 0), (cx + dx, cy - dy), (w, cy), (cx + dx, cy + dy),
+            (cx, h), (cx - dx, cy + dy), (0, cy), (cx - dx, cy - dy)
+        ]
     return None
 
 

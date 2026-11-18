@@ -721,7 +721,7 @@ function renderChildDom(comp, ch, isDecor = false) {
     `;
   } else {
     // Shape with fill / gradFill, border, and textBody (支持多边形、梯度渐变与透明度)
-    const POLY_GEOMS = new Set(['diamond', 'chevron', 'pentagon', 'hexagon', 'parallelogram', 'triangle', 'rightArrow', 'plaque']);
+    const POLY_GEOMS = new Set(['diamond', 'chevron', 'pentagon', 'hexagon', 'parallelogram', 'triangle', 'rightArrow', 'plaque', 'star4']);
     const isPoly = POLY_GEOMS.has(ch.geom);
     if (isPoly) {
       const vw = Math.max(ch.w || 40, 10);
@@ -756,6 +756,10 @@ function renderChildDom(comp, ch, isDecor = false) {
       } else if (ch.geom === 'plaque') {
         const c = Math.min(vw, vh) * 0.22;
         pts = `${c},1 ${vw - c},1 ${vw - 1},${c} ${vw - 1},${vh - c} ${vw - c},${vh - 1} ${c},${vh - 1} 1,${vh - c} 1,${c}`;
+      } else if (ch.geom === 'star4') {
+        const cx = vw * 0.5, cy = vh * 0.5;
+        const dx = vw * 0.14, dy = vh * 0.14;
+        pts = `${cx},1 ${cx + dx},${cy - dy} ${vw - 1},${cy} ${cx + dx},${cy + dy} ${cx},${vh - 1} ${cx - dx},${cy + dy} 1,${cy} ${cx - dx},${cy - dy}`;
       }
       const svgBg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svgBg.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
@@ -1466,7 +1470,7 @@ function renderContentEditor(comp, subChild) {
       primBox.querySelector('#subConnFlipH').addEventListener('change', (e) => { subChild.flipH = e.target.checked; renderCanvas(); });
       primBox.querySelector('#subConnFlipV').addEventListener('change', (e) => { subChild.flipV = e.target.checked; renderCanvas(); });
     } else {
-      const geoms = ['rect', 'roundRect', 'plaque', 'hexagon', 'parallelogram', 'diamond', 'chevron', 'pentagon', 'triangle', 'rightArrow', 'oval'];
+      const geoms = ['rect', 'roundRect', 'plaque', 'hexagon', 'parallelogram', 'diamond', 'chevron', 'pentagon', 'triangle', 'rightArrow', 'star4', 'oval'];
       primBox.innerHTML = `
         <label>几何形状类型 (geom)</label>
         <select id="subShapeGeom" class="full-select">
