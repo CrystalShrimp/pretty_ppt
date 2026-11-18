@@ -2,21 +2,46 @@ import copy
 import json
 import os
 import re
+import shutil
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 BUILTIN_TEMPLATES_DIR = os.path.join(TEMPLATES_DIR, 'builtin')
 LOCAL_TEMPLATES_DIR = os.path.join(TEMPLATES_DIR, 'local')
+EXAMPLE_TEMPLATES_DIR = os.path.join(TEMPLATES_DIR, 'example')
 
 os.makedirs(BUILTIN_TEMPLATES_DIR, exist_ok=True)
 os.makedirs(LOCAL_TEMPLATES_DIR, exist_ok=True)
 
 DEFAULT_TEMPLATE_ID = 'academic'
 
+DEFAULT_SEMANTIC_TOKENS = {
+    'pass': {
+        'bg': '#F6FAF8', 'border': '#2E6F54', 'stripe': '#2E6F54',
+        'badgeBg': '#2E6F54', 'badgeFg': '#FFFFFF', 'title': '#1E523C', 'body': '#334155'
+    },
+    'warn': {
+        'bg': '#FAF7F2', 'border': '#A1681E', 'stripe': '#B87A28',
+        'badgeBg': '#A1681E', 'badgeFg': '#FFFFFF', 'title': '#7C4E12', 'body': '#334155'
+    },
+    'reject': {
+        'bg': '#FAF4F5', 'border': '#8C2D3C', 'stripe': '#8C2D3C',
+        'badgeBg': '#8C2D3C', 'badgeFg': '#FFFFFF', 'title': '#7A2048', 'body': '#334155'
+    },
+    'info': {
+        'bg': '#F4F7FB', 'border': '#2B547E', 'stripe': '#1B365D',
+        'badgeBg': '#1B365D', 'badgeFg': '#FFFFFF', 'title': '#1B365D', 'body': '#334155'
+    },
+    'neutral': {
+        'bg': '#F8FAFC', 'border': '#94A3B8', 'stripe': '#64748B',
+        'badgeBg': '#475569', 'badgeFg': '#FFFFFF', 'title': '#334155', 'body': '#475569'
+    }
+}
+
 SEMANTIC_PROTECTED_COLORS = {
-    '#16A34A', '#F0FDF4', '#15803D', '#2E7D32', '#F1F8F4',
-    '#D97706', '#FFFBEB', '#B45309', '#DC2626', '#FEF2F2',
-    '#B91C1C', '#C62828', '#FFF3F3'
+    '#16A34A', '#F0FDF4', '#15803D', '#2E7D32', '#F1F8F4', '#2E6F54', '#6B7F04', '#FAFAF3',
+    '#D97706', '#FFFBEB', '#B45309', '#B87D18', '#D49B27', '#A67014', '#FAF6ED',
+    '#DC2626', '#FEF2F2', '#B91C1C', '#C62828', '#FFF3F3', '#A63429', '#962D24', '#8C2D3C', '#F8F3F1'
 }
 
 KNOWN_BRAND_PRIMARY = {
@@ -53,29 +78,99 @@ def _load_json(path):
         return json.load(f)
 
 
+def _resolve_asset_ref(ref_str, asset_base_url):
+    if not ref_str or not isinstance(ref_str, str):
+        return ref_str
+    s = ref_str.strip()
+    if s.startswith(('/', 'http://', 'https://', 'data:')):
+        return s
+    clean = s.lstrip('./')
+    if clean.startswith('assets/'):
+        clean = clean[len('assets/'):]
+    return f"{asset_base_url}/{clean}"
+
+
+def _resolve_bundle_asset_urls(tpl, source, tid, bundle_dir=None):
+    """将模板包内相对路径（如 'assets/cover_bg.png'）统一规范化为 Web/导出引擎可直接读取的绝对逻辑路径。"""
+    tpl['id'] = tpl.get('id') or tid
+    tpl['source'] = source
+    if bundle_dir:
+        tpl['bundleDir'] = bundle_dir
+    asset_base_url = f"/templates/{source}/{tpl['id']}/assets"
+    tpl['assetBaseUrl'] = asset_base_url
+
+    bgs = tpl.get('backgrounds') or {}
+    for k in ('cover', 'body'):
+        bg = bgs.get(k)
+        if isinstance(bg, dict) and bg.get('image'):
+            bg['image'] = _resolve_asset_ref(bg['image'], asset_base_url)
+
+    decs = tpl.get('decorations')
+    if isinstance(decs, dict):
+        for k in ('cover', 'section', 'body'):
+            arr = decs.get(k)
+            if isinstance(arr, list):
+                for item in arr:
+                    if isinstance(item, dict) and item.get('src'):
+                        item['src'] = _resolve_asset_ref(item['src'], asset_base_url)
+
+    manifest = tpl.get('assetsManifest')
+    if isinstance(manifest, dict):
+        for k, v in list(manifest.items()):
+            manifest[k] = _resolve_asset_ref(v, asset_base_url)
+
+    pal = tpl.setdefault('palette', {})
+    sem = pal.setdefault('semantic', {})
+    for sk, sdef in DEFAULT_SEMANTIC_TOKENS.items():
+        if sk not in sem or not isinstance(sem[sk], dict):
+            sem[sk] = copy.deepcopy(sdef)
+        else:
+            for fk, fv in sdef.items():
+                sem[sk].setdefault(fk, fv)
+    return tpl
+
+
+def _iter_dir_templates(folder, source):
+    """扫描目录内的自包含模板包 (<tid>/template.json) 与兼容旧式单文件 (<tid>.json)。"""
+    found = []
+    if not os.path.isdir(folder):
+        return found
+    for entry in sorted(os.listdir(folder)):
+        if entry.startswith('_') or entry == 'assets':
+            continue
+        full_entry = os.path.join(folder, entry)
+        if os.path.isdir(full_entry):
+            manifest = os.path.join(full_entry, 'template.json')
+            if os.path.isfile(manifest):
+                try:
+                    tpl = _load_json(manifest)
+                    tid = tpl.get('id') or entry
+                    tpl = _resolve_bundle_asset_urls(copy.deepcopy(tpl), source, tid, bundle_dir=full_entry)
+                    found.append(tpl)
+                except Exception:
+                    continue
+        elif entry.endswith('.json') and os.path.isfile(full_entry):
+            try:
+                tpl = _load_json(full_entry)
+                tid = tpl.get('id') or entry[:-5]
+                tpl = _resolve_bundle_asset_urls(copy.deepcopy(tpl), source, tid, bundle_dir=folder)
+                found.append(tpl)
+            except Exception:
+                continue
+    return found
+
+
 def list_templates():
-    """列出所有内置模板与本地私有模板（默认把 academic 排在最前）。"""
+    """列出所有内置可商用模板包与本地私有模板包（默认将 academic 排在最前）。"""
     items = []
     seen = set()
     for source, folder in [('builtin', BUILTIN_TEMPLATES_DIR), ('local', LOCAL_TEMPLATES_DIR)]:
-        if not os.path.isdir(folder):
-            continue
-        for fname in sorted(os.listdir(folder)):
-            if not fname.endswith('.json') or fname.startswith('_'):
+        for tpl in _iter_dir_templates(folder, source):
+            tid = tpl['id']
+            if tid in seen:
                 continue
-            fpath = os.path.join(folder, fname)
-            try:
-                tpl = _load_json(fpath)
-                tid = tpl.get('id') or fname[:-5]
-                if tid in seen:
-                    continue
-                seen.add(tid)
-                tpl_copy = copy.deepcopy(tpl)
-                tpl_copy['id'] = tid
-                tpl_copy['source'] = source
-                items.append(tpl_copy)
-            except Exception:
-                continue
+            seen.add(tid)
+            items.append(tpl)
 
     items.sort(key=lambda t: (
         0 if t.get('id') == DEFAULT_TEMPLATE_ID else 1,
@@ -87,27 +182,35 @@ def list_templates():
 
 
 def get_template(template_id=None):
-    """按 ID 获取模板完整定义，未指定或未找到时回退至默认学术模板。"""
+    """按 ID 获取自包含模板包完整定义（local -> builtin -> example），未找到则回退默认学术模板。"""
     tid = str(template_id or DEFAULT_TEMPLATE_ID).strip()
-    for source, folder in [('local', LOCAL_TEMPLATES_DIR), ('builtin', BUILTIN_TEMPLATES_DIR)]:
-        cand = os.path.join(folder, f"{tid}.json")
-        if os.path.isfile(cand):
-            tpl = _load_json(cand)
-            tpl['id'] = tpl.get('id') or tid
-            tpl['source'] = source
-            return tpl
+    search_roots = [
+        ('local', LOCAL_TEMPLATES_DIR),
+        ('builtin', BUILTIN_TEMPLATES_DIR),
+        ('example', EXAMPLE_TEMPLATES_DIR),
+    ]
+    for source, folder in search_roots:
+        bundle_dir = os.path.join(folder, tid)
+        bundle_manifest = os.path.join(bundle_dir, 'template.json')
+        if os.path.isfile(bundle_manifest):
+            tpl = _load_json(bundle_manifest)
+            return _resolve_bundle_asset_urls(tpl, source, tid, bundle_dir=bundle_dir)
+        legacy_json = os.path.join(folder, f"{tid}.json")
+        if os.path.isfile(legacy_json):
+            tpl = _load_json(legacy_json)
+            return _resolve_bundle_asset_urls(tpl, source, tid, bundle_dir=folder)
 
-    fallback = os.path.join(BUILTIN_TEMPLATES_DIR, f"{DEFAULT_TEMPLATE_ID}.json")
-    if os.path.isfile(fallback):
-        tpl = _load_json(fallback)
-        tpl['id'] = DEFAULT_TEMPLATE_ID
-        tpl['source'] = 'builtin'
-        return tpl
+    # 回退到默认学术模板包
+    def_dir = os.path.join(BUILTIN_TEMPLATES_DIR, DEFAULT_TEMPLATE_ID)
+    def_manifest = os.path.join(def_dir, 'template.json')
+    if os.path.isfile(def_manifest):
+        tpl = _load_json(def_manifest)
+        return _resolve_bundle_asset_urls(tpl, 'builtin', DEFAULT_TEMPLATE_ID, bundle_dir=def_dir)
 
-    return {
+    fallback_tpl = {
         'id': DEFAULT_TEMPLATE_ID,
         'name': '学术深蓝 (默认)',
-        'source': 'builtin',
+        'commercial': True,
         'isDefault': True,
         'canvas': {'width': 1020.67, 'height': 680.33, 'emuCx': 9721850, 'emuCy': 6480175},
         'palette': {
@@ -125,7 +228,8 @@ def get_template(template_id=None):
             'tableHeaderBg': '#1B365D',
             'tableHeaderFg': '#FFFFFF',
             'tableStripeBg': '#F4F6F9',
-            'fontFamily': '微软雅黑'
+            'fontFamily': '微软雅黑',
+            'semantic': copy.deepcopy(DEFAULT_SEMANTIC_TOKENS)
         },
         'backgrounds': {
             'cover': {'type': 'color', 'color': '#FFFFFF', 'image': None},
@@ -140,44 +244,63 @@ def get_template(template_id=None):
             'footerY': 596.0
         }
     }
+    return _resolve_bundle_asset_urls(fallback_tpl, 'builtin', DEFAULT_TEMPLATE_ID)
 
 
 def save_custom_template(tpl_data):
-    """保存自定义模板到 templates/local/（严禁修改 builtin 模板）。"""
+    """以自包含模板包形式保存到 templates/local/<tid>/（严禁修改 builtin 模板）。"""
     tid = _sanitize_template_id(tpl_data.get('id') or tpl_data.get('name'))
     base = copy.deepcopy(get_template(DEFAULT_TEMPLATE_ID))
+    bundle_dir = os.path.join(LOCAL_TEMPLATES_DIR, tid)
+    assets_dir = os.path.join(bundle_dir, 'assets')
+    os.makedirs(assets_dir, exist_ok=True)
+
+    merged_pal = {**base['palette'], **(tpl_data.get('palette') or {})}
+    if 'semantic' not in merged_pal:
+        merged_pal['semantic'] = copy.deepcopy(DEFAULT_SEMANTIC_TOKENS)
+
     merged = {
         'id': tid,
         'name': tpl_data.get('name') or tid,
-        'description': tpl_data.get('description') or '用户自定义本地模板',
+        'description': tpl_data.get('description') or '用户自定义本地模板包',
+        'commercial': bool(tpl_data.get('commercial', False)),
         'isDefault': False,
         'canvas': tpl_data.get('canvas') or base['canvas'],
-        'palette': {**base['palette'], **(tpl_data.get('palette') or {})},
+        'palette': merged_pal,
         'backgrounds': tpl_data.get('backgrounds') or base['backgrounds'],
         'skeleton': {**base['skeleton'], **(tpl_data.get('skeleton') or {})}
     }
-    out_path = os.path.join(LOCAL_TEMPLATES_DIR, f"{tid}.json")
+    if tpl_data.get('decorations'):
+        merged['decorations'] = tpl_data['decorations']
+
+    out_path = os.path.join(bundle_dir, 'template.json')
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(merged, f, ensure_ascii=False, indent=2)
-    merged['source'] = 'local'
-    return merged
+
+    return _resolve_bundle_asset_urls(merged, 'local', tid, bundle_dir=bundle_dir)
 
 
 def delete_custom_template(template_id):
-    """删除本地自定义模板（内置模板不可删除）。"""
+    """删除本地自定义模板包（内置模板不可删除）。"""
     tid = _sanitize_template_id(template_id)
-    local_path = os.path.join(LOCAL_TEMPLATES_DIR, f"{tid}.json")
-    builtin_path = os.path.join(BUILTIN_TEMPLATES_DIR, f"{tid}.json")
-    if os.path.isfile(local_path):
-        os.remove(local_path)
+    local_dir = os.path.join(LOCAL_TEMPLATES_DIR, tid)
+    local_legacy = os.path.join(LOCAL_TEMPLATES_DIR, f"{tid}.json")
+    builtin_dir = os.path.join(BUILTIN_TEMPLATES_DIR, tid)
+    builtin_legacy = os.path.join(BUILTIN_TEMPLATES_DIR, f"{tid}.json")
+
+    if os.path.isdir(local_dir):
+        shutil.rmtree(local_dir)
         return True
-    if os.path.isfile(builtin_path):
+    if os.path.isfile(local_legacy):
+        os.remove(local_legacy)
+        return True
+    if os.path.isdir(builtin_dir) or os.path.isfile(builtin_legacy):
         raise ValueError(f"内置模板 '{tid}' 不可删除")
     raise FileNotFoundError(f"未找到本地模板 '{tid}'")
 
 
 def extract_template_from_deck(deck, template_id, name, description=''):
-    """从现有 Deck 中提取主色调、背景图与骨架风格，生成本地自定义模板。"""
+    """从现有 Deck 中提取主色调、背景图与骨架风格，生成本地自定义自包含模板包。"""
     base = get_template(deck.get('templateId') or DEFAULT_TEMPLATE_ID)
     theme = deck.get('theme') or {}
     palette = copy.deepcopy(base['palette'])
@@ -253,21 +376,31 @@ def _map_color_to_palette(hex_str, pal, role_hint=''):
     return hex_str
 
 
-def _infer_tone_from_colors(fill_hex=None, border_hex=None, default=None):
-    """从填充/边框颜色识别语义状态色调，保障换肤不丢失 PASS/WARN/REJECT 等逻辑含义。"""
+def _infer_tone_from_colors(fill_hex=None, border_hex=None, text_hint='', default='info'):
+    """
+    结合颜色与文本职能标签推断结构化语义 tone ('pass' | 'warn' | 'reject' | 'neutral' | 'info')。
+    普通品牌装饰色（如原企业橙 #F26B21 或科技蓝 #1E6CFF）不强行绑定刺眼独立色，交由 'info' 接入目标模板皮肤。
+    """
     vals = {str(x).strip().upper() for x in (fill_hex, border_hex) if x}
-    if vals & {'#DC2626', '#B91C1C', '#C62828', '#FEF2F2', '#FFF3F3'}:
+    txt = str(text_hint or '').strip()
+
+    # 优先依据功能职能关键词裁决（解决同职能卡片因原稿配色不统一造成的色彩混乱，如 P10 的“禁/准/警”）
+    if txt:
+        if any(k in txt for k in ('禁', '×', 'REJECT', '强制回退', '已证伪', '红线', '恶化', '回滚')):
+            return 'reject'
+        if any(k in txt for k in ('警', '慎', '!', 'WARN', '瓶颈', '空值')):
+            return 'warn'
+        if any(k in txt for k in ('准', '✓', 'PASS', 'PROMOTED', 'FINAL', '定稿', '晋升', '交付标准', '验收', '硬误杀 0')):
+            return 'pass'
+
+    if vals & {'#DC2626', '#B91C1C', '#C62828', '#FEF2F2', '#FFF3F3', '#A63429', '#962D24', '#8C2D3C', '#F8F3F1'}:
         return 'reject'
-    if vals & {'#16A34A', '#15803D', '#2E7D32', '#F0FDF4', '#F1F8F4'}:
+    if vals & {'#16A34A', '#15803D', '#2E7D32', '#F0FDF4', '#F1F8F4', '#2E6F54', '#6B7F04', '#FAFAF3'}:
         return 'pass'
-    if vals & {'#D97706', '#B45309', '#FFFBEB'}:
+    if vals & {'#D97706', '#B45309', '#FFFBEB', '#B87D18', '#D49B27', '#A67014', '#FAF6ED'}:
         return 'warn'
-    if vals & {'#475569', '#44546A', '#94A3B8', '#F8FAFC'}:
-        return 'baseline'
-    if vals & {'#1E6CFF', '#0F4CD6', '#F0F5FF', '#F2F7FF'}:
-        return 'blue'
-    if vals & {'#F26B21', '#D45500'}:
-        return 'navy'
+    if vals & {'#475569', '#44546A', '#94A3B8', '#F8FAFC', '#736F68', '#52504C', '#F4F2EA'}:
+        return 'neutral'
     return default
 
 
@@ -283,12 +416,11 @@ def _extract_paras_text(ch):
 
 def hydrate_component_content(comp):
     """
-    对从 PPTX 解析得到或仅含 children 树的历史元件，无损水合出结构化 content 字段，
-    使 compile_component(comp, tpl) 能够彻底重绘皮肤与骨架而不丢失正文、图片和语义红绿灯。
+    对从 PPTX 解析得到或仅含 children 树的历史元件，无损水合出结构化 content 字段与功能语义 tone，
+    使 compile_component(comp, tpl) 能够重绘全套皮肤而不丢失内容与功能分级。
     """
     ctype = comp.get('type', 'info-card')
     content = comp.setdefault('content', {})
-    style = comp.setdefault('style', {})
     children = comp.get('children') or []
 
     if ctype == 'cover-divider':
@@ -337,7 +469,8 @@ def hydrate_component_content(comp):
     if ctype == 'tag-badge':
         if not content.get('tone') and children:
             ch0 = children[0]
-            inferred = _infer_tone_from_colors(ch0.get('fill'), ch0.get('borderColor'))
+            t_txt = ' '.join(_extract_paras_text(ch0))
+            inferred = _infer_tone_from_colors(ch0.get('fill'), ch0.get('borderColor'), text_hint=t_txt, default=None)
             if inferred in ('reject', 'pass', 'warn'):
                 content['tone'] = inferred
         return comp
@@ -351,9 +484,15 @@ def hydrate_component_content(comp):
         if not content.get('tone') and children:
             for ch in children:
                 if ch.get('role') in ('container', 'card', 'shape'):
-                    inferred = _infer_tone_from_colors(ch.get('fill'), ch.get('borderColor'))
-                    if inferred in ('reject', 'pass', 'warn'):
-                        content['tone'] = inferred
+                    ch_txt = ' '.join(_extract_paras_text(ch)[:1])
+                    inferred = _infer_tone_from_colors(ch.get('fill'), ch.get('borderColor'), text_hint=ch_txt, default=None)
+                    # 对单卡片仅识别明确状态信号色，防止正常普通信息卡标题含"准"字被误染
+                    inferred_col_only = _infer_tone_from_colors(ch.get('fill'), ch.get('borderColor'), text_hint='', default=None)
+                    if inferred_col_only in ('reject', 'pass', 'warn'):
+                        content['tone'] = inferred_col_only
+                        break
+                    if ch_txt.startswith('← 强制回退') or ch_txt.startswith('条件 3：违背'):
+                        content['tone'] = 'reject'
                         break
         if not content.get('title') and not content.get('items') and children:
             all_p = []
@@ -400,7 +539,7 @@ def hydrate_component_content(comp):
                 tone = _infer_tone_from_colors(
                     (b or {}).get('fill') or (c or {}).get('borderColor'),
                     (c or {}).get('fill'),
-                    default='navy'
+                    default='info'
                 )
                 layers.append({'tag': b_txt, 'title': l_title, 'desc': l_desc, 'tone': tone})
             if layers:
@@ -424,7 +563,7 @@ def hydrate_component_content(comp):
                 tone = _infer_tone_from_colors(
                     (b or {}).get('fill') or (c or {}).get('fill'),
                     (c or {}).get('borderColor'),
-                    default='navy'
+                    default='info'
                 )
                 branches.append({
                     'label': b_txt,
@@ -454,7 +593,7 @@ def hydrate_component_content(comp):
                 tone = _infer_tone_from_colors(
                     (b or {}).get('fill') or (bx or {}).get('fill'),
                     (bx or {}).get('borderColor'),
-                    default='navy'
+                    default='info'
                 )
                 stages.append({
                     'code': '',
@@ -480,9 +619,15 @@ def hydrate_component_content(comp):
                     b = badges[i] if i < len(badges) else None
                     lc = lane_cards[i] if i < len(lane_cards) else None
                     ps = _extract_paras_text(lc) if lc else []
-                    tone = _infer_tone_from_colors((b or {}).get('fill') or (lc or {}).get('fill'), (lc or {}).get('borderColor'), default='baseline')
+                    b_txt = ' '.join(_extract_paras_text(b)) if b else f'R{i}'
+                    tone = _infer_tone_from_colors(
+                        (b or {}).get('fill') or (lc or {}).get('fill'),
+                        (lc or {}).get('borderColor'),
+                        text_hint=b_txt + ' ' + (' '.join(ps[-1:]) if ps else ''),
+                        default='neutral'
+                    )
                     lanes.append({
-                        'round': ' '.join(_extract_paras_text(b)) if b else f'R{i}',
+                        'round': b_txt,
                         'tone': tone,
                         'title': ps[0] if ps else '',
                         'metric': ps[1] if len(ps) > 1 else '',
@@ -507,7 +652,12 @@ def hydrate_component_content(comp):
                     if rest and any(k in rest[-1] for k in ('门禁', '终态', '状态', 'PROMOTED', 'REJECT', '锚点')):
                         verdict = rest[-1]
                         rest = rest[:-1]
-                    tone = _infer_tone_from_colors(rc.get('fill'), rc.get('borderColor'), default='baseline')
+                    tone = _infer_tone_from_colors(
+                        rc.get('fill'),
+                        rc.get('borderColor'),
+                        text_hint=f"{head} {verdict}",
+                        default='neutral'
+                    )
                     lanes.append({
                         'round': r_lbl,
                         'tone': tone,
@@ -537,7 +687,7 @@ def hydrate_component_content(comp):
                     rt, rd = full_txt.split('：', 1)
                 else:
                     rt, rd = '', full_txt
-                tone = _infer_tone_from_colors((b or {}).get('fill'), None, default='navy')
+                tone = _infer_tone_from_colors((b or {}).get('fill'), None, text_hint=b_txt, default='info')
                 rows.append({'badge': b_txt, 'tone': tone, 'title': rt.strip(), 'desc': rd.strip()})
             if rows:
                 content['rows'] = rows
@@ -584,9 +734,10 @@ def hydrate_component_content(comp):
 
 
 def _restyle_preserved_multicard(comp, tpl):
-    """为包含多张内部自定义子卡片的组合式 info-card 同步尺寸与模板皮肤，保留原结构不打散。"""
+    """为包含多张内部自定义子卡片的组合式 info-card 同步尺寸与同源功能色皮肤，消除杂色冲突。"""
     from core.exporter import sync_component_children_coords
     pal = tpl['palette']
+    sem_map = pal.get('semantic') or DEFAULT_SEMANTIC_TOKENS
     is_terra = (tpl.get('skeleton', {}).get('skin') == 'terra_quest')
     font = pal.get('fontFamily', '微软雅黑')
 
@@ -602,7 +753,7 @@ def _restyle_preserved_multicard(comp, tpl):
         role = ch.get('role') or ''
         fill_up = str(ch.get('fill') or '').upper()
         border_up = str(ch.get('borderColor') or '').upper()
-        is_sem = (fill_up in SEMANTIC_PROTECTED_COLORS or border_up in SEMANTIC_PROTECTED_COLORS)
+        ch_txt = ' '.join(_extract_paras_text(ch))
 
         if is_terra:
             if ch.get('geom') == 'roundRect':
@@ -612,36 +763,51 @@ def _restyle_preserved_multicard(comp, tpl):
                 ch['borderColor'] = None
                 ch['shadow'] = True
                 _update_runs_style(ch, color='#D0E516', font=font)
-            elif role in ('container', 'card', 'background'):
+            elif role == 'card':
                 ch['shadow'] = True
+                sem_key = _infer_tone_from_colors(fill_up, border_up, text_hint=ch_txt, default='info')
+                tok = sem_map.get(sem_key, sem_map['info'])
+                ch['fill'] = tok['bg']
+                ch['fillAlpha'] = 0.92
+                ch['borderColor'] = tok['border']
+                ch['borderAlpha'] = 0.50 if sem_key in ('pass', 'warn', 'reject') else 0.30
+                _update_runs_style(ch, title_color=tok['title'], body_color=tok['body'], font=font, force_override=True)
+            elif role == 'container':
+                ch['shadow'] = True
+                ch['fill'] = '#FFFFFF'
+                ch['fillAlpha'] = 0.92
+                ch['borderColor'] = '#27272A'
+                ch['borderAlpha'] = 0.28
+            elif ch.get('fill'):
+                # primitives-demo 内置几何演示节点保持明暗高对比
+                is_sem = (fill_up in SEMANTIC_PROTECTED_COLORS or border_up in SEMANTIC_PROTECTED_COLORS)
                 if not is_sem:
-                    if ch.get('fill'):
-                        ch['fill'] = '#FFFFFF'
-                        ch['fillAlpha'] = 0.90
+                    mapped_fill = _map_color_to_palette(ch['fill'], pal, 'accent' if fill_up in KNOWN_BRAND_ACCENT else 'fill')
+                    ch['fill'] = mapped_fill
                     if ch.get('borderColor'):
-                        ch['borderColor'] = '#27272A'
-                        ch['borderAlpha'] = 0.30
-                    _update_runs_style(ch, title_color='#141413', body_color='#2E2D2A', font=font)
-            elif not is_sem and ch.get('fill'):
-                mapped_fill = _map_color_to_palette(ch['fill'], pal, 'accent' if fill_up in KNOWN_BRAND_ACCENT else 'fill')
-                ch['fill'] = mapped_fill
+                        ch['borderColor'] = _map_color_to_palette(ch['borderColor'], pal, 'border')
+                    if mapped_fill == '#D0E516':
+                        _update_runs_style(ch, color='#141413', font=font)
+                    elif mapped_fill == '#18181B':
+                        _update_runs_style(ch, color='#D0E516', font=font)
+        else:
+            if role == 'card':
+                sem_key = _infer_tone_from_colors(fill_up, border_up, text_hint=ch_txt, default='info')
+                tok = sem_map.get(sem_key, sem_map['info'])
+                ch['fill'] = tok['bg']
+                ch['borderColor'] = tok['border']
+                _update_runs_style(ch, title_color=tok['title'], body_color=tok['body'], font=font, force_override=True)
+            else:
+                if ch.get('fill'):
+                    ch['fill'] = _map_color_to_palette(ch['fill'], pal, 'divider' if role == 'divider' else 'fill')
                 if ch.get('borderColor'):
                     ch['borderColor'] = _map_color_to_palette(ch['borderColor'], pal, 'border')
-                if mapped_fill == '#D0E516':
-                    _update_runs_style(ch, color='#141413', font=font)
-                elif mapped_fill == '#18181B':
-                    _update_runs_style(ch, color='#D0E516', font=font)
-        else:
-            if ch.get('fill'):
-                ch['fill'] = _map_color_to_palette(ch['fill'], pal, 'divider' if role == 'divider' else 'fill')
-            if ch.get('borderColor'):
-                ch['borderColor'] = _map_color_to_palette(ch['borderColor'], pal, 'border')
-            _update_runs_style(ch, title_color=pal['titleColor'], font=font, map_palette=pal)
+                _update_runs_style(ch, title_color=pal['titleColor'], font=font, map_palette=pal)
     comp['children'] = synced
     return comp
 
 
-def _update_runs_style(ch, color=None, title_color=None, body_color=None, font=None, map_palette=None):
+def _update_runs_style(ch, color=None, title_color=None, body_color=None, font=None, map_palette=None, force_override=False):
     tb = ch.get('textBody') or {}
     for p_i, p in enumerate(tb.get('paragraphs') or []):
         for r in (p.get('runs') or []):
@@ -651,7 +817,7 @@ def _update_runs_style(ch, color=None, title_color=None, body_color=None, font=N
                 r['color'] = color
                 continue
             rc = str(r.get('color') or '').upper()
-            if rc in SEMANTIC_PROTECTED_COLORS:
+            if (not force_override) and rc in SEMANTIC_PROTECTED_COLORS:
                 continue
             if map_palette:
                 if r.get('color'):
@@ -735,12 +901,31 @@ def rescale_deck_canvas(deck, old_canvas, new_canvas, old_skel, new_skel):
 
 
 def build_slide_decorations(tpl, is_cover=False, is_section=False, slide_idx=1):
-    """生成模板专属页面底层氛围装饰元素（切回普通模板时自动清空）。"""
-    if not tpl or tpl.get('skeleton', {}).get('skin') != 'terra_quest':
+    """生成模板包专属页面底层锁定装饰元素（支持自定义 decorations 宣言与动态包内资产路径）。"""
+    if not tpl:
         return []
+    asset_base = tpl.get('assetBaseUrl') or f"/templates/{tpl.get('source', 'local')}/{tpl.get('id', 'academic')}/assets"
+
+    # 优先读取模板包自身声明的通用 decorations 列表
+    custom_decs = tpl.get('decorations')
+    if isinstance(custom_decs, dict):
+        key = 'cover' if is_cover else ('section' if is_section and custom_decs.get('section') else 'body')
+        raw_list = custom_decs.get(key) or []
+        out = []
+        for idx, d in enumerate(raw_list, start=1):
+            dc = copy.deepcopy(d)
+            dc['id'] = f"decor_{key}_{slide_idx}_{idx}"
+            if dc.get('src'):
+                dc['src'] = _resolve_asset_ref(dc['src'], asset_base)
+            out.append(dc)
+        if out:
+            return out
+
+    if tpl.get('skeleton', {}).get('skin') != 'terra_quest':
+        return []
+
     cw = float(tpl.get('canvas', {}).get('width', 1280.0))
     ch = float(tpl.get('canvas', {}).get('height', 720.0))
-    base_asset = '/templates/builtin/assets/terra_quest'
 
     decors = []
     if is_cover or is_section:
@@ -753,7 +938,7 @@ def build_slide_decorations(tpl, is_cover=False, is_section=False, slide_idx=1):
             'y': 40.0,
             'w': 560.0,
             'h': 560.0,
-            'src': f'{base_asset}/contour_wave.png',
+            'src': f'{asset_base}/contour_wave.png',
             'opacity': 0.22
         })
         decors.append({
@@ -778,7 +963,6 @@ def build_slide_decorations(tpl, is_cover=False, is_section=False, slide_idx=1):
         })
         return decors
 
-    # 正文页：柔和边缘等高线 + 右下微透明环形 HUD + 顶底极细工业角标（不干扰正文可读性）
     decors.append({
         'id': f'decor_body_wave_{slide_idx}',
         'rawType': 'image',
@@ -788,7 +972,7 @@ def build_slide_decorations(tpl, is_cover=False, is_section=False, slide_idx=1):
         'y': round(ch - 410.0, 2),
         'w': 430.0,
         'h': 430.0,
-        'src': f'{base_asset}/contour_wave.png',
+        'src': f'{asset_base}/contour_wave.png',
         'opacity': 0.16
     })
     decors.append({
@@ -800,7 +984,7 @@ def build_slide_decorations(tpl, is_cover=False, is_section=False, slide_idx=1):
         'y': round(ch - 230.0, 2),
         'w': 220.0,
         'h': 220.0,
-        'src': f'{base_asset}/ring_hud.png',
+        'src': f'{asset_base}/ring_hud.png',
         'opacity': 0.13
     })
     decors.append({
@@ -851,7 +1035,7 @@ def build_slide_decorations(tpl, is_cover=False, is_section=False, slide_idx=1):
 
 
 def render_component_with_template(comp, template_id=None, box=None):
-    """对单个任意 Component JSON（含 PPTX 解析态元件）按指定模板执行无损水合与全皮肤重渲染。"""
+    """对单个任意 Component JSON 按指定模板执行无损水合与全皮肤重渲染。"""
     from core.schema import compile_component
     tpl = get_template(template_id)
     comp_copy = copy.deepcopy(comp)
@@ -867,7 +1051,6 @@ def render_component_with_template(comp, template_id=None, box=None):
     if comp_copy.pop('_preserveMultiCard', False):
         return _restyle_preserved_multicard(comp_copy, tpl)
 
-    # 清除非语义硬编码样式以允许目标皮肤完全接管视觉呈现
     tone_key = (comp_copy.get('content') or {}).get('tone')
     if tone_key not in ('pass', 'promoted', 'warn', 'reject', 'rollback'):
         for k in ('fill', 'borderColor', 'titleColor', 'bodyColor'):
@@ -884,10 +1067,10 @@ def apply_template_to_deck(
     adapt_canvas=True
 ):
     """
-    将模板完整应用到 Deck（全文档或指定页）：
-    - 自动自适应画布纵横比与安全区坐标（如 3:2 -> 16:9）
-    - 更新页面渐变/纯色/图片背景与底层锁定装饰层
-    - 对所有元件执行 content 水合 + compile_component 完整皮肤与骨架重渲染
+    将模板包完整应用到 Deck（全文档或指定页）：
+    - 自动自适应画布纵横比与安全区坐标
+    - 更新页面背景与包内底层锁定装饰层
+    - 对所有元件执行 content 水合 + compile_component 全套功能有色卡片与皮肤重渲染
     """
     from core.schema import compile_component
 
@@ -941,7 +1124,6 @@ def apply_template_to_deck(
                 _restyle_preserved_multicard(comp, tpl)
                 continue
 
-            # 清理非语义保护色的旧皮肤残余，确保目标皮肤彻底接管
             tone_key = (comp.get('content') or {}).get('tone')
             if tone_key not in ('pass', 'promoted', 'warn', 'reject', 'rollback'):
                 if ctype in ('slide-header', 'cover-divider', 'section-divider'):
@@ -957,6 +1139,9 @@ def apply_template_to_deck(
                 else:
                     for k in ('fill', 'borderColor', 'titleColor', 'bodyColor'):
                         st[k] = None
+            else:
+                for k in ('fill', 'borderColor', 'titleColor', 'bodyColor'):
+                    st[k] = None
 
             compile_component(comp, tpl)
 

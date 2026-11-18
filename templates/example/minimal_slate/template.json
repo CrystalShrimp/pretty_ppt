@@ -1,0 +1,136 @@
+{
+  "id": "minimal_slate",
+  "name": "极简岩灰 (16:9 示例模板包)",
+  "description": "自包含标准模板包示范（templates/example/minimal_slate/）：16:9 宽屏、冷石板灰主调 + 冰海蓝高亮 + 同源低饱和五态语义色 + 包内相对路径几何角标装饰。",
+  "commercial": true,
+  "isDefault": false,
+  "canvas": {
+    "width": 1280.0,
+    "height": 720.0,
+    "emuCx": 12192000,
+    "emuCy": 6858000
+  },
+  "palette": {
+    "primary": "#1E293B",
+    "secondary": "#475569",
+    "accent": "#0284C7",
+    "titleColor": "#0F172A",
+    "bodyColor": "#334155",
+    "mutedColor": "#64748B",
+    "cardBg": "#FFFFFF",
+    "cardAltBg": "#F1F5F9",
+    "cardBorder": "#CBD5E1",
+    "bannerBg": "#EEF4FA",
+    "bannerBorder": "#1E293B",
+    "tableHeaderBg": "#1E293B",
+    "tableHeaderFg": "#FFFFFF",
+    "tableStripeBg": "#F8FAFC",
+    "fontFamily": "微软雅黑",
+    "semantic": {
+      "pass": {
+        "bg": "#F4FAF7",
+        "border": "#2A725A",
+        "stripe": "#2A725A",
+        "badgeBg": "#2A725A",
+        "badgeFg": "#FFFFFF",
+        "title": "#1C5441",
+        "body": "#334155"
+      },
+      "warn": {
+        "bg": "#FAF7F0",
+        "border": "#B06D19",
+        "stripe": "#C47D1D",
+        "badgeBg": "#B06D19",
+        "badgeFg": "#FFFFFF",
+        "title": "#844F0D",
+        "body": "#334155"
+      },
+      "reject": {
+        "bg": "#FAF3F4",
+        "border": "#9E3540",
+        "stripe": "#9E3540",
+        "badgeBg": "#9E3540",
+        "badgeFg": "#FFFFFF",
+        "title": "#7C252E",
+        "body": "#334155"
+      },
+      "info": {
+        "bg": "#FFFFFF",
+        "border": "#CBD5E1",
+        "stripe": "#0284C7",
+        "badgeBg": "#1E293B",
+        "badgeFg": "#FFFFFF",
+        "title": "#0F172A",
+        "body": "#334155"
+      },
+      "neutral": {
+        "bg": "#F8FAFC",
+        "border": "#94A3B8",
+        "stripe": "#64748B",
+        "badgeBg": "#475569",
+        "badgeFg": "#FFFFFF",
+        "title": "#334155",
+        "body": "#475569"
+      }
+    }
+  },
+  "backgrounds": {
+    "cover": {
+      "type": "gradient",
+      "color": "#F8FAFC",
+      "angle": 25,
+      "stops": [
+        {"pos": 0.0, "color": "#FFFFFF", "alpha": 1.0},
+        {"pos": 0.7, "color": "#F4F7FA", "alpha": 1.0},
+        {"pos": 1.0, "color": "#E2E8F0", "alpha": 1.0}
+      ],
+      "image": null
+    },
+    "body": {
+      "type": "gradient",
+      "color": "#F8FAFC",
+      "angle": 25,
+      "stops": [
+        {"pos": 0.0, "color": "#FFFFFF", "alpha": 1.0},
+        {"pos": 1.0, "color": "#F1F5F9", "alpha": 1.0}
+      ],
+      "image": null
+    }
+  },
+  "skeleton": {
+    "coverStyle": "academic_banner",
+    "headerStyle": "academic_ribbon",
+    "cardTopBar": true,
+    "defaultMarginX": 56.0,
+    "contentTopY": 134.0,
+    "footerY": 642.0
+  },
+  "decorations": {
+    "cover": [
+      {
+        "rawType": "image",
+        "role": "decor",
+        "name": "minimal-corner-grid",
+        "x": 920.0,
+        "y": 380.0,
+        "w": 320.0,
+        "h": 320.0,
+        "src": "assets/corner_grid.png",
+        "opacity": 0.35
+      }
+    ],
+    "body": [
+      {
+        "rawType": "image",
+        "role": "decor",
+        "name": "minimal-corner-grid-body",
+        "x": 1020.0,
+        "y": 460.0,
+        "w": 240.0,
+        "h": 240.0,
+        "src": "assets/corner_grid.png",
+        "opacity": 0.22
+      }
+    ]
+  }
+}

@@ -94,6 +94,7 @@ def _make_gradient_image(w, h, grad_data):
 
 
 def _geom_polygon_pts(geom, w, h, adj=10000):
+    adj_f = 10000.0 if adj is None else float(adj)
     if geom == 'diamond':
         return [(w * 0.5, 0), (w, h * 0.5), (w * 0.5, h), (0, h * 0.5)]
     if geom == 'triangle':
@@ -101,7 +102,7 @@ def _geom_polygon_pts(geom, w, h, adj=10000):
     if geom == 'hexagon':
         return [(w * 0.22, 0), (w * 0.78, 0), (w, h * 0.5), (w * 0.78, h), (w * 0.22, h), (0, h * 0.5)]
     if geom == 'parallelogram':
-        off = min(w * 0.45, (float(adj) / 100000.0) * w)
+        off = min(w * 0.45, (adj_f / 100000.0) * w)
         return [(off, 0), (w, 0), (w - off, h), (0, h)]
     if geom == 'chevron':
         tip = min(w * 0.22, max(6.0, h * 0.48))
@@ -110,7 +111,7 @@ def _geom_polygon_pts(geom, w, h, adj=10000):
         tip = min(w * 0.22, max(6.0, h * 0.48))
         return [(0, 0), (w - tip, 0), (w, h * 0.5), (w - tip, h), (0, h)]
     if geom == 'plaque':
-        c = min(w, h) * min(0.35, max(0.12, float(adj) / 100000.0))
+        c = min(w, h) * min(0.35, max(0.12, adj_f / 100000.0))
         return [(c, 0), (w - c, 0), (w, c), (w, h - c), (w - c, h), (c, h), (0, h - c), (0, c)]
     return None
 
@@ -445,13 +446,14 @@ def _draw_shape_or_decor(canvas, ch, scale, default_font='微软雅黑'):
 
     shape_layer = Image.new('RGBA', (lw, lh), (0, 0, 0, 0))
     draw = ImageDraw.Draw(shape_layer)
-    poly_pts = _geom_polygon_pts(geom, w, h, ch.get('adj', 10000))
+    adj_val = 10000.0 if ch.get('adj') is None else float(ch['adj'])
+    poly_pts = _geom_polygon_pts(geom, w, h, adj_val)
     fill_hex = ch.get('fill')
-    fill_alpha = ch.get('fillAlpha', 1.0)
+    fill_alpha = 1.0 if ch.get('fillAlpha') is None else float(ch['fillAlpha'])
     grad = ch.get('gradFill')
     b_hex = ch.get('borderColor')
     bw = float(ch.get('borderWidth') or 0.0) * scale
-    b_alpha = ch.get('borderAlpha', 1.0)
+    b_alpha = 1.0 if ch.get('borderAlpha') is None else float(ch['borderAlpha'])
 
     if grad and grad.get('stops'):
         g_img = _make_gradient_image(w, h, grad)
@@ -469,7 +471,7 @@ def _draw_shape_or_decor(canvas, ch, scale, default_font='微软雅黑'):
         if geom in ('oval', 'ellipse'):
             draw.ellipse([lx0, ly0, lx1, ly1], fill=f_col)
         elif geom == 'roundRect':
-            rad = min(w, h) * min(0.5, float(ch.get('adj', 10000)) / 100000.0)
+            rad = min(w, h) * min(0.5, adj_val / 100000.0)
             draw.rounded_rectangle([lx0, ly0, lx1, ly1], radius=rad, fill=f_col)
         elif poly_pts:
             draw.polygon([(px + pad, py + pad) for px, py in poly_pts], fill=f_col)
@@ -483,7 +485,7 @@ def _draw_shape_or_decor(canvas, ch, scale, default_font='微软雅黑'):
         if geom in ('oval', 'ellipse'):
             draw.ellipse([lx0, ly0, lx1, ly1], outline=b_col, width=b_int)
         elif geom == 'roundRect':
-            rad = min(w, h) * min(0.5, float(ch.get('adj', 10000)) / 100000.0)
+            rad = min(w, h) * min(0.5, adj_val / 100000.0)
             draw.rounded_rectangle([lx0, ly0, lx1, ly1], radius=rad, outline=b_col, width=b_int)
         elif poly_pts:
             shifted = [(px + pad, py + pad) for px, py in poly_pts]

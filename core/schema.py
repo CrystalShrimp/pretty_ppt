@@ -1,6 +1,6 @@
 import copy
 import uuid
-from core.templates import get_template, DEFAULT_TEMPLATE_ID
+from core.templates import get_template, DEFAULT_TEMPLATE_ID, DEFAULT_SEMANTIC_TOKENS
 
 COMPONENT_TYPES = [
     {
@@ -108,65 +108,86 @@ COMPONENT_TYPES = [
 ]
 
 TONE_PALETTE = {
-    'navy':     {'bg': '#F4F6F9', 'border': '#1B365D', 'badgeBg': '#1B365D', 'badgeFg': '#FFFFFF', 'title': '#1B365D', 'body': '#334155'},
-    'burgundy': {'bg': '#FAF4F6', 'border': '#7A2048', 'badgeBg': '#7A2048', 'badgeFg': '#FFFFFF', 'title': '#7A2048', 'body': '#334155'},
-    'orange':   {'bg': '#FFF5EE', 'border': '#F26B21', 'badgeBg': '#F26B21', 'badgeFg': '#FFFFFF', 'title': '#D45500', 'body': '#333333'},
-    'blue':     {'bg': '#F0F5FF', 'border': '#1E6CFF', 'badgeBg': '#1E6CFF', 'badgeFg': '#FFFFFF', 'title': '#0F4CD6', 'body': '#334155'},
-    'pass':     {'bg': '#F0FDF4', 'border': '#16A34A', 'badgeBg': '#16A34A', 'badgeFg': '#FFFFFF', 'title': '#15803D', 'body': '#334155'},
-    'promoted': {'bg': '#F0FDF4', 'border': '#16A34A', 'badgeBg': '#16A34A', 'badgeFg': '#FFFFFF', 'title': '#15803D', 'body': '#334155'},
-    'warn':     {'bg': '#FFFBEB', 'border': '#D97706', 'badgeBg': '#D97706', 'badgeFg': '#FFFFFF', 'title': '#B45309', 'body': '#334155'},
-    'reject':   {'bg': '#FEF2F2', 'border': '#DC2626', 'badgeBg': '#DC2626', 'badgeFg': '#FFFFFF', 'title': '#B91C1C', 'body': '#334155'},
-    'rollback': {'bg': '#FEF2F2', 'border': '#DC2626', 'badgeBg': '#DC2626', 'badgeFg': '#FFFFFF', 'title': '#B91C1C', 'body': '#334155'},
-    'neutral':  {'bg': '#F8FAFC', 'border': '#94A3B8', 'badgeBg': '#475569', 'badgeFg': '#FFFFFF', 'title': '#1E293B', 'body': '#475569'},
-    'baseline': {'bg': '#F8FAFC', 'border': '#94A3B8', 'badgeBg': '#475569', 'badgeFg': '#FFFFFF', 'title': '#1E293B', 'body': '#475569'},
-    'final':    {'bg': '#EDF2F8', 'border': '#1B365D', 'badgeBg': '#1B365D', 'badgeFg': '#FFFFFF', 'title': '#1B365D', 'body': '#334155'},
-    'emerald':  {'bg': '#F0FDFA', 'border': '#0D9488', 'badgeBg': '#0D9488', 'badgeFg': '#FFFFFF', 'title': '#0F766E', 'body': '#334155'},
-    'terra':    {'bg': '#FFFFFF', 'border': '#27272A', 'badgeBg': '#18181B', 'badgeFg': '#D0E516', 'title': '#141413', 'body': '#2E2D2A'}
+    'navy':     {'bg': '#F4F6F9', 'border': '#1B365D', 'stripe': '#1B365D', 'badgeBg': '#1B365D', 'badgeFg': '#FFFFFF', 'title': '#1B365D', 'body': '#334155'},
+    'burgundy': {'bg': '#FAF4F6', 'border': '#7A2048', 'stripe': '#7A2048', 'badgeBg': '#7A2048', 'badgeFg': '#FFFFFF', 'title': '#7A2048', 'body': '#334155'},
+    'orange':   {'bg': '#FFF5EE', 'border': '#F26B21', 'stripe': '#F26B21', 'badgeBg': '#F26B21', 'badgeFg': '#FFFFFF', 'title': '#D45500', 'body': '#333333'},
+    'blue':     {'bg': '#F0F5FF', 'border': '#1E6CFF', 'stripe': '#1E6CFF', 'badgeBg': '#1E6CFF', 'badgeFg': '#FFFFFF', 'title': '#0F4CD6', 'body': '#334155'},
+    'pass':     {'bg': '#F6FAF8', 'border': '#2E6F54', 'stripe': '#2E6F54', 'badgeBg': '#2E6F54', 'badgeFg': '#FFFFFF', 'title': '#1E523C', 'body': '#334155'},
+    'promoted': {'bg': '#F6FAF8', 'border': '#2E6F54', 'stripe': '#2E6F54', 'badgeBg': '#2E6F54', 'badgeFg': '#FFFFFF', 'title': '#1E523C', 'body': '#334155'},
+    'warn':     {'bg': '#FAF7F2', 'border': '#A1681E', 'stripe': '#B87A28', 'badgeBg': '#A1681E', 'badgeFg': '#FFFFFF', 'title': '#7C4E12', 'body': '#334155'},
+    'reject':   {'bg': '#FAF4F5', 'border': '#8C2D3C', 'stripe': '#8C2D3C', 'badgeBg': '#8C2D3C', 'badgeFg': '#FFFFFF', 'title': '#7A2048', 'body': '#334155'},
+    'rollback': {'bg': '#FAF4F5', 'border': '#8C2D3C', 'stripe': '#8C2D3C', 'badgeBg': '#8C2D3C', 'badgeFg': '#FFFFFF', 'title': '#7A2048', 'body': '#334155'},
+    'neutral':  {'bg': '#F8FAFC', 'border': '#94A3B8', 'stripe': '#64748B', 'badgeBg': '#475569', 'badgeFg': '#FFFFFF', 'title': '#334155', 'body': '#475569'},
+    'baseline': {'bg': '#F8FAFC', 'border': '#94A3B8', 'stripe': '#64748B', 'badgeBg': '#475569', 'badgeFg': '#FFFFFF', 'title': '#334155', 'body': '#475569'},
+    'final':    {'bg': '#EDF2F8', 'border': '#1B365D', 'stripe': '#1B365D', 'badgeBg': '#1B365D', 'badgeFg': '#FFFFFF', 'title': '#1B365D', 'body': '#334155'},
+    'emerald':  {'bg': '#F0FDFA', 'border': '#0D9488', 'stripe': '#0D9488', 'badgeBg': '#0D9488', 'badgeFg': '#FFFFFF', 'title': '#0F766E', 'body': '#334155'},
+    'terra':    {'bg': '#FFFFFF', 'border': '#27272A', 'stripe': '#18181B', 'badgeBg': '#18181B', 'badgeFg': '#D0E516', 'title': '#141413', 'body': '#2E2D2A'}
 }
 
-TERRA_ASSET_BASE = '/templates/builtin/assets/terra_quest'
-TERRA_ICONS_LIME = [
-    f'{TERRA_ASSET_BASE}/icon_flask_lime.png',
-    f'{TERRA_ASSET_BASE}/icon_gear_lime.png',
-    f'{TERRA_ASSET_BASE}/icon_board_lime.png',
-    f'{TERRA_ASSET_BASE}/icon_chart_lime.png',
-]
-TERRA_ICONS_DARK = [
-    f'{TERRA_ASSET_BASE}/icon_flask_dark.png',
-    f'{TERRA_ASSET_BASE}/icon_gear_dark.png',
-    f'{TERRA_ASSET_BASE}/icon_board_dark.png',
-    f'{TERRA_ASSET_BASE}/icon_chart_dark.png',
-]
+
+def _get_asset_base(tpl):
+    if tpl and tpl.get('assetBaseUrl'):
+        return tpl['assetBaseUrl']
+    src = (tpl or {}).get('source', 'local')
+    tid = (tpl or {}).get('id', 'terra_quest')
+    return f"/templates/{src}/{tid}/assets"
+
+
+def _get_icon_paths(tpl, variant='lime'):
+    base = _get_asset_base(tpl)
+    return [
+        f'{base}/icon_flask_{variant}.png',
+        f'{base}/icon_gear_{variant}.png',
+        f'{base}/icon_board_{variant}.png',
+        f'{base}/icon_chart_{variant}.png',
+    ]
 
 
 def _is_terra_skin(tpl):
     return bool(tpl and tpl.get('skeleton', {}).get('skin') == 'terra_quest')
 
 
-def get_tone(tone_key, template=None, default='navy'):
-    key = str(tone_key or '').lower()
-    # 语义红/绿/琥珀永不被皮肤洗白
-    if key in ('pass', 'promoted', 'warn', 'reject', 'rollback'):
-        return TONE_PALETTE[key]
-    if _is_terra_skin(template):
-        if key in ('accent', 'lime'):
-            return {'bg': '#FAF9F2', 'border': '#18181B', 'badgeBg': '#D0E516', 'badgeFg': '#18181B', 'title': '#141413', 'body': '#2E2D2A'}
-        if key in ('baseline', 'neutral'):
-            return {'bg': '#F7F4EB', 'border': '#736F68', 'badgeBg': '#52504C', 'badgeFg': '#FFFFFF', 'title': '#2E2D2A', 'body': '#52504C'}
-        if key in ('final', 'primary', 'navy', 'blue', 'burgundy', 'terra'):
-            return {'bg': '#FFFFFF', 'border': '#27272A', 'badgeBg': '#18181B', 'badgeFg': '#D0E516', 'title': '#141413', 'body': '#2E2D2A'}
-    if template and key in ('primary', 'accent', 'final'):
-        pal = template.get('palette', {})
-        if key == 'accent':
+def get_tone(tone_key, template=None, default='info'):
+    """基于模板原生 palette.semantic 令牌返回同源功能色，彻底消除跨模板撞色违和。"""
+    key = str(tone_key or '').lower().strip()
+    alias = {
+        'promoted': 'pass', 'emerald': 'pass', 'lime': 'pass',
+        'amber': 'warn',
+        'rollback': 'reject',
+        'baseline': 'neutral',
+        'primary': 'info', 'final': 'info', 'navy': 'info', 'blue': 'info', 'terra': 'info', 'orange': 'info',
+        'accent': 'accent', 'burgundy': 'accent',
+    }
+    norm = alias.get(key, key) or default
+    pal = (template or {}).get('palette', {}) if template else {}
+    sem_map = pal.get('semantic') or DEFAULT_SEMANTIC_TOKENS
+
+    if norm in sem_map and isinstance(sem_map[norm], dict):
+        tok = dict(sem_map[norm])
+        tok.setdefault('stripe', tok.get('badgeBg') or tok.get('border'))
+        return tok
+
+    if norm == 'accent':
+        if _is_terra_skin(template):
+            return dict(sem_map.get('pass', DEFAULT_SEMANTIC_TOKENS['pass']))
+        if template:
             c = pal.get('accent', '#7A2048')
-            return {'bg': pal.get('cardAltBg', '#FAF4F6'), 'border': c, 'badgeBg': c, 'badgeFg': '#FFFFFF', 'title': c, 'body': pal.get('bodyColor', '#334155')}
-        c = pal.get('primary', '#1B365D')
-        return {'bg': pal.get('bannerBg', '#EDF2F8'), 'border': c, 'badgeBg': c, 'badgeFg': '#FFFFFF', 'title': pal.get('titleColor', c), 'body': pal.get('bodyColor', '#334155')}
-    if template and key == 'navy' and template.get('id') != DEFAULT_TEMPLATE_ID:
-        pal = template.get('palette', {})
-        c = pal.get('primary', '#1B365D')
-        return {'bg': pal.get('cardBg', '#F4F6F9'), 'border': c, 'badgeBg': c, 'badgeFg': '#FFFFFF', 'title': pal.get('titleColor', c), 'body': pal.get('bodyColor', '#334155')}
-    return TONE_PALETTE.get(key, TONE_PALETTE[default])
+            return {
+                'bg': pal.get('cardAltBg', '#FAF4F6'),
+                'border': c,
+                'stripe': c,
+                'badgeBg': c,
+                'badgeFg': '#FFFFFF',
+                'title': c,
+                'body': pal.get('bodyColor', '#334155')
+            }
+
+    if template:
+        tok = dict(sem_map.get('info', DEFAULT_SEMANTIC_TOKENS['info']))
+        tok.setdefault('stripe', tok.get('badgeBg') or tok.get('border'))
+        return tok
+
+    return TONE_PALETTE.get(key, TONE_PALETTE.get(default, TONE_PALETTE['navy']))
 
 
 def make_run(text, fontSize=10.5, bold=False, color='#333333', fontFamily='微软雅黑', alpha=None, letterSpacing=None):
@@ -448,10 +469,8 @@ def compile_component(comp, template=None):
         else:
             comp['x'], comp['y'] = 0.0, 0.0
             bx, by = 0.0, 0.0
-            w = float(comp.get('w') or canvas_w)
-            if w < 900.0:
-                w = canvas_w
-                comp['w'] = w
+            w = canvas_w
+            comp['w'] = w
             comp['h'] = 120.0
             h = 120.0
             split_x = round(w * 0.803, 2)
@@ -517,6 +536,7 @@ def compile_component(comp, template=None):
             tag_txt = str(items[0]).strip()
 
         if cover_style == 'terra_prts' or is_terra:
+            asset_base = _get_asset_base(tpl)
             comp['x'], comp['y'] = 0.0, 0.0
             bx, by = 0.0, 0.0
             w, h = canvas_w, canvas_h
@@ -524,11 +544,11 @@ def compile_component(comp, template=None):
             # 右侧环形 HUD 与右下几何晶体簇底纹
             children.append(_make_child_image(
                 cid, next_idx(), 'shape', 'ring-hud-cover', bx, by,
-                round(w - 430.0, 2), 95.0, 460.0, 460.0, f'{TERRA_ASSET_BASE}/ring_hud.png', opacity=0.22
+                round(w - 430.0, 2), 95.0, 460.0, 460.0, f'{asset_base}/ring_hud.png', opacity=0.22
             ))
             children.append(_make_child_image(
                 cid, next_idx(), 'shape', 'tech-emblem-cover', bx, by,
-                round(w - 255.0, 2), round(h - 165.0, 2), 115.0, 108.0, f'{TERRA_ASSET_BASE}/crystal_cluster.png', opacity=0.26
+                round(w - 255.0, 2), round(h - 165.0, 2), 115.0, 108.0, f'{asset_base}/crystal_cluster.png', opacity=0.26
             ))
             # 顶部 HUD 标头
             children.append(_make_child_shape(cid, next_idx(), 'shape', 'top-sq', bx, by, 92.0, 56.0, 14.0, 14.0, geom='rect', fill='#18181B', border_width=0.0))
@@ -697,9 +717,10 @@ def compile_component(comp, template=None):
         cy_mid = round(h * 0.50, 2)
 
         if is_terra:
+            asset_base = _get_asset_base(tpl)
             children.append(_make_child_image(
                 cid, next_idx(), 'shape', 'ring-hud-section', bx, by,
-                round(w * 0.5 - 120.0, 2), round(cy_mid - 120.0, 2), 240.0, 240.0, f'{TERRA_ASSET_BASE}/ring_hud.png', opacity=0.38
+                round(w * 0.5 - 120.0, 2), round(cy_mid - 120.0, 2), 240.0, 240.0, f'{asset_base}/ring_hud.png', opacity=0.38
             ))
             # 居中穿透式荧光青柠横带（复刻 Slide 6 / Slide 12）
             band_w2 = round(w * 0.52, 2)
@@ -782,7 +803,7 @@ def compile_component(comp, template=None):
             tail_end='triangle'
         ))
 
-        icons = TERRA_ICONS_LIME if is_terra else TERRA_ICONS_DARK
+        icons = _get_icon_paths(tpl, 'lime') if is_terra else []
         for i, ms in enumerate(milestones):
             mx_rel = round(i * (col_w + gap), 2)
             step_txt = str(ms.get('step') or ms.get('year') or f'0{i+1}')
@@ -791,9 +812,8 @@ def compile_component(comp, template=None):
             m_desc = str(ms.get('desc') or '')
             icon_key = str(ms.get('icon') or '').lower()
             icon_map = {'flask': 0, 'gear': 1, 'board': 2, 'chart': 3}
-            icon_src = icons[icon_map.get(icon_key, i % len(icons))]
 
-            # 双环科技圆形图标徽章（复刻 Slide 11）
+            # 双环科技圆形徽章（terra_quest 使用包内青柠科技图标，公开模板使用纯矢量双环序号零依赖）
             badge_d = 60.0
             badge_x = round(mx_rel + (col_w - badge_d) / 2.0, 2)
             children.append(_make_child_shape(
@@ -801,16 +821,25 @@ def compile_component(comp, template=None):
                 badge_x - 4.0, node_y - 4.0, badge_d + 8.0, badge_d + 8.0, geom='oval',
                 fill=None, border_color='#18181B' if is_terra else tpl_primary, border_width=1.2, border_alpha=0.55 if is_terra else 0.75
             ))
-            children.append(_make_child_shape(
-                cid, next_idx(), 'badge', f'icon-circle_{i+1}', bx, by,
-                badge_x, node_y, badge_d, badge_d, geom='oval',
-                fill='#18181B' if is_terra else pal.get('bannerBg', '#EDF2F8'),
-                border_color='#D0E516' if is_terra else tpl_primary, border_width=1.8
-            ))
-            children.append(_make_child_image(
-                cid, next_idx(), 'image', f'icon_{i+1}', bx, by,
-                round(badge_x + 14.0, 2), round(node_y + 14.0, 2), 32.0, 32.0, icon_src
-            ))
+            if is_terra:
+                icon_src = icons[icon_map.get(icon_key, i % len(icons))]
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'badge', f'icon-circle_{i+1}', bx, by,
+                    badge_x, node_y, badge_d, badge_d, geom='oval',
+                    fill='#18181B', border_color='#D0E516', border_width=1.8
+                ))
+                children.append(_make_child_image(
+                    cid, next_idx(), 'image', f'icon_{i+1}', bx, by,
+                    round(badge_x + 14.0, 2), round(node_y + 14.0, 2), 32.0, 32.0, icon_src
+                ))
+            else:
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'badge', f'icon-circle_{i+1}', bx, by,
+                    badge_x, node_y, badge_d, badge_d, geom='oval',
+                    fill=pal.get('bannerBg', '#EDF2F8'), border_color=tpl_primary, border_width=1.8,
+                    text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 2, 'top': 2, 'right': 2, 'bottom': 2},
+                               'paragraphs': [make_para([make_run(step_txt, 15.5, True, tpl_primary, font)], align='center', spaceAfter=0.0)]}
+                ))
 
             # 下方内容卡片
             card_y = round(node_y + badge_d + 16.0, 2)
@@ -932,19 +961,41 @@ def compile_component(comp, template=None):
         label = str(content.get('title') or content.get('text') or '核心模块标签')
         tone_key = content.get('tone')
         if is_terra:
-            pal_t = get_tone(tone_key, tpl, 'terra')
-            bg = pal_t['badgeBg']
-            fg = pal_t['badgeFg']
-            children.append(_make_child_shape(
-                cid, next_idx(), 'container', 'container', bx, by,
-                0.0, 0.0, w, h, geom='plaque', fill=bg, border_color='#D0E516' if bg == '#18181B' else bg, border_width=0.8,
-                text_body={
-                    'valign': 'middle', 'wrap': False,
-                    'padding': {'left': 10.0, 'top': 2.0, 'right': 10.0, 'bottom': 2.0},
-                    'paragraphs': [make_para([make_run(label, min(title_sz, 11.5), True, fg, font)], align='center', spaceAfter=0.0)]
-                },
-                adj=18000
-            ))
+            pal_t = get_tone(tone_key, tpl, 'info')
+            is_sem = tone_key in ('pass', 'promoted', 'warn', 'reject', 'rollback')
+            if is_sem:
+                # 机能分组/警示铭牌：曜石黑主壳 + 左侧 10px 实心功能信号条 + 右侧 4px 收尾点缀
+                sig_c = pal_t.get('stripe') or pal_t['badgeBg']
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'container', 'container', bx, by,
+                    0.0, 0.0, w, h, geom='rect', fill='#18181B', border_color=sig_c, border_width=0.9, border_alpha=0.5, shadow=True,
+                    text_body={
+                        'valign': 'middle', 'wrap': False,
+                        'padding': {'left': 18.0, 'top': 2.0, 'right': 12.0, 'bottom': 2.0},
+                        'paragraphs': [make_para([make_run(label, min(title_sz, 11.5), True, '#F8F7F2', font)], align='center', spaceAfter=0.0)]
+                    }
+                ))
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'divider', 'tag-signal-left', bx, by,
+                    0.0, 0.0, 10.0, h, geom='rect', fill=sig_c, border_width=0.0
+                ))
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'shape', 'tag-signal-right', bx, by,
+                    round(w - 5.0, 2), 0.0, 5.0, h, geom='rect', fill=sig_c, border_width=0.0
+                ))
+            else:
+                bg = pal_t['badgeBg']
+                fg = pal_t['badgeFg']
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'container', 'container', bx, by,
+                    0.0, 0.0, w, h, geom='plaque', fill=bg, border_color='#D0E516' if bg == '#18181B' else bg, border_width=0.8,
+                    text_body={
+                        'valign': 'middle', 'wrap': False,
+                        'padding': {'left': 10.0, 'top': 2.0, 'right': 10.0, 'bottom': 2.0},
+                        'paragraphs': [make_para([make_run(label, min(title_sz, 11.5), True, fg, font)], align='center', spaceAfter=0.0)]
+                    },
+                    adj=18000
+                ))
         else:
             if tone_key:
                 pal_t = get_tone(tone_key, tpl)
@@ -979,11 +1030,12 @@ def compile_component(comp, template=None):
                 c_fill = pal_t['bg']
                 c_border = pal_t['border']
                 c_title = pal_t['title']
-                bar_color = pal_t['badgeBg']
-                glow_color = pal_t['badgeBg']
+                bar_color = pal_t.get('stripe') or pal_t['badgeBg']
+                glow_color = bar_color
                 c_body = pal_t['body']
                 dash = 'dash' if tone_key in ('reject', 'rollback') else None
-                b_alpha = 0.85
+                b_alpha = 0.55
+                glow_alpha = 0.13
             else:
                 c_fill = '#FFFFFF'
                 c_border = '#27272A'
@@ -993,13 +1045,14 @@ def compile_component(comp, template=None):
                 c_body = '#2E2D2A'
                 dash = None
                 b_alpha = 0.28
+                glow_alpha = 0.22
 
             compact = (h < 88.0)
             bar_w = 7.0
             children.append(_make_child_shape(
                 cid, next_idx(), 'container', 'card-shell', bx, by,
-                0.0, 0.0, w, h, geom='rect', fill=c_fill, fill_alpha=0.88 if not is_sem else 0.94,
-                border_color=c_border, border_width=1.1 if is_sem else 0.9, border_alpha=b_alpha,
+                0.0, 0.0, w, h, geom='rect', fill=c_fill, fill_alpha=0.90 if not is_sem else 0.94,
+                border_color=c_border, border_width=1.0 if is_sem else 0.9, border_alpha=b_alpha,
                 dash_style=dash, shadow=True
             ))
             children.append(_make_child_shape(
@@ -1010,7 +1063,7 @@ def compile_component(comp, template=None):
             children.append(_make_child_shape(
                 cid, next_idx(), 'shape', 'card-title-glow', bx, by,
                 bar_w, 0.0, round(max(10.0, w - bar_w), 2), glow_h, geom='rect',
-                fill=None, border_width=0.0, grad_fill=_terra_glow(glow_color, 0.24 if not is_sem else 0.16, angle=0.0)
+                fill=None, border_width=0.0, grad_fill=_terra_glow(glow_color, glow_alpha, angle=0.0)
             ))
             if not compact and w >= 180.0:
                 children.append(_make_child_shape(
@@ -1406,40 +1459,55 @@ def compile_component(comp, template=None):
         card_w = max(40.0, round(w - card_x, 2))
 
         for i, layer in enumerate(layers):
-            pal_t = get_tone(layer.get('tone'), tpl, 'navy')
+            l_tone = str(layer.get('tone') or 'info').lower()
+            pal_t = get_tone(l_tone, tpl, 'info')
             tag_txt = str(layer.get('tag', f'L{i + 1}'))
             l_title = str(layer.get('title', ''))
             l_desc = str(layer.get('desc', ''))
 
             if is_terra:
+                is_sem_layer = l_tone in ('pass', 'promoted', 'warn', 'reject', 'rollback', 'neutral', 'baseline')
+                cap_c = pal_t.get('stripe') or '#D0E516'
+                badge_bg = '#52504C' if l_tone in ('neutral', 'baseline') else '#18181B'
+                badge_fg = '#FFFFFF' if l_tone in ('neutral', 'baseline') else (cap_c if l_tone in ('warn', 'reject', 'rollback') else '#D0E516')
+                card_bg = pal_t['bg'] if is_sem_layer else '#FFFFFF'
+                card_bd = pal_t['border'] if is_sem_layer else '#27272A'
+                glow_c = cap_c if is_sem_layer else '#D0E516'
+                glow_a = 0.14 if is_sem_layer else 0.20
+
                 children.append(_make_child_shape(
                     cid, next_idx(), 'badge', f'badge_{i+1}', bx, by,
-                    0.0, cur_y, badge_w, layer_h, geom='rect', fill='#18181B', border_width=0.0, shadow=True,
+                    0.0, cur_y, badge_w, layer_h, geom='rect', fill=badge_bg, border_width=0.0, shadow=True,
                     text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 4.0, 'top': 2.0, 'right': 4.0, 'bottom': 2.0},
-                               'paragraphs': [make_para([make_run(tag_txt, min(title_sz, 12.0), True, '#D0E516', font)], align='center', spaceAfter=0.0)]}
+                               'paragraphs': [make_para([make_run(tag_txt, min(title_sz, 12.0), True, badge_fg, font)], align='center', spaceAfter=0.0)]}
                 ))
                 children.append(_make_child_shape(
                     cid, next_idx(), 'shape', f'badge-cap_{i+1}', bx, by,
-                    0.0, cur_y, badge_w, 4.0, geom='rect', fill='#D0E516', border_width=0.0
+                    0.0, cur_y, badge_w, 4.0, geom='rect', fill=cap_c if is_sem_layer else '#D0E516', border_width=0.0
                 ))
                 children.append(_make_child_shape(
                     cid, next_idx(), 'layer-card', f'layer-card_{i+1}', bx, by,
-                    card_x, cur_y, card_w, layer_h, geom='rect', fill='#FFFFFF', fill_alpha=0.90,
-                    border_color='#27272A', border_width=0.9, border_alpha=0.28, shadow=True
+                    card_x, cur_y, card_w, layer_h, geom='rect', fill=card_bg, fill_alpha=0.92,
+                    border_color=card_bd, border_width=0.95, border_alpha=0.45 if is_sem_layer else 0.28, shadow=True
                 ))
+                if is_sem_layer:
+                    children.append(_make_child_shape(
+                        cid, next_idx(), 'shape', f'layer-bar_{i+1}', bx, by,
+                        card_x, cur_y, 5.0, layer_h, geom='rect', fill=cap_c, border_width=0.0
+                    ))
                 children.append(_make_child_shape(
                     cid, next_idx(), 'shape', f'layer-glow_{i+1}', bx, by,
-                    card_x, cur_y, card_w, round(layer_h * 0.45, 1), geom='rect',
-                    fill=None, border_width=0.0, grad_fill=_terra_glow('#D0E516', 0.22, angle=0.0)
+                    card_x + (5.0 if is_sem_layer else 0.0), cur_y, round(card_w - (5.0 if is_sem_layer else 0.0), 2), round(layer_h * 0.42, 1), geom='rect',
+                    fill=None, border_width=0.0, grad_fill=_terra_glow(glow_c, glow_a, angle=0.0)
                 ))
                 paras = []
                 if l_title:
-                    paras.append(make_para([make_run(l_title, max(10.5, title_sz - 0.5), True, '#141413', font)], spaceAfter=2.5))
+                    paras.append(make_para([make_run(l_title, max(10.5, title_sz - 0.5), True, pal_t['title'] if is_sem_layer else '#141413', font)], spaceAfter=2.5))
                 if l_desc:
-                    paras.append(make_para([make_run(l_desc, min(10.0, body_sz), False, '#2E2D2A', font)], spaceAfter=0.0))
+                    paras.append(make_para([make_run(l_desc, min(10.0, body_sz), False, pal_t['body'], font)], spaceAfter=0.0))
                 children.append(_make_child_shape(
                     cid, next_idx(), 'body', f'layer-text_{i+1}', bx, by,
-                    card_x + 4.0, cur_y, round(card_w - 8.0, 2), layer_h, geom='rect', fill=None, border_width=0.0,
+                    card_x + (8.0 if is_sem_layer else 4.0), cur_y, round(card_w - (12.0 if is_sem_layer else 8.0), 2), layer_h, geom='rect', fill=None, border_width=0.0,
                     text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 8.0, 'top': 4.0, 'right': 8.0, 'bottom': 4.0}, 'paragraphs': paras}
                 ))
             else:
@@ -1570,7 +1638,7 @@ def compile_component(comp, template=None):
                 cid, next_idx(), 'branch-card', f'branch-card_{i+1}', bx, by,
                 bx_rel, round(card_top + badge_h + 3.0, 2), bw, round(card_h - badge_h - 3.0, 2),
                 geom='rect' if is_terra else 'roundRect', fill=pal_t['bg'], border_color=pal_t['border'],
-                border_width=1.2, shadow=is_terra,
+                border_width=1.05, border_alpha=0.55 if is_terra else 1.0, dash_style=dash, shadow=is_terra,
                 text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 9.0, 'top': 7.0, 'right': 9.0, 'bottom': 6.0}, 'paragraphs': paras},
                 adj=8000
             ))
@@ -1612,7 +1680,7 @@ def compile_component(comp, template=None):
         box_h = round(max(40.0, mid_h - chev_h - 4.0), 2)
 
         for i, st in enumerate(stages):
-            pal_t = get_tone(st.get('tone'), tpl, 'navy')
+            pal_t = get_tone(st.get('tone'), tpl, 'info')
             sx_rel = round(i * (sw + gap), 2)
             head_txt = f"{st.get('code', '')} {st.get('name', '')}".strip()
 
@@ -1632,13 +1700,25 @@ def compile_component(comp, template=None):
             if not paras:
                 paras.append(make_para([make_run(' ', body_sz, False, pal_t['body'], font)], spaceAfter=0.0))
 
-            children.append(_make_child_shape(
-                cid, next_idx(), 'stage-box', f'stage-box_{i+1}', bx, by,
-                sx_rel, box_y, sw, box_h, geom='rect' if is_terra else 'roundRect',
-                fill=pal_t['bg'], border_color=pal_t['border'], border_width=1.1, shadow=is_terra,
-                text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 7.0, 'top': 6.0, 'right': 7.0, 'bottom': 6.0}, 'paragraphs': paras},
-                adj=8000
-            ))
+            if is_terra:
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'stage-box', f'stage-box_{i+1}', bx, by,
+                    sx_rel, box_y, sw, box_h, geom='rect',
+                    fill=pal_t['bg'], fill_alpha=0.92, border_color=pal_t['border'], border_width=0.95, border_alpha=0.40, shadow=True,
+                    text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 7.0, 'top': 9.0, 'right': 7.0, 'bottom': 6.0}, 'paragraphs': paras}
+                ))
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'shape', f'stage-top-bar_{i+1}', bx, by,
+                    sx_rel, box_y, sw, 3.5, geom='rect', fill=pal_t.get('stripe') or pal_t['badgeBg'], border_width=0.0
+                ))
+            else:
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'stage-box', f'stage-box_{i+1}', bx, by,
+                    sx_rel, box_y, sw, box_h, geom='roundRect',
+                    fill=pal_t['bg'], border_color=pal_t['border'], border_width=1.1,
+                    text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 7.0, 'top': 6.0, 'right': 7.0, 'bottom': 6.0}, 'paragraphs': paras},
+                    adj=8000
+                ))
 
             if i < m - 1:
                 children.append(_make_child_shape(
@@ -1680,14 +1760,17 @@ def compile_component(comp, template=None):
         lw = round((w - max(0, l_cnt - 1) * gap) / l_cnt, 2)
 
         for i, ln in enumerate(lanes):
-            pal_t = get_tone(ln.get('tone'), tpl, 'baseline')
+            l_tone = str(ln.get('tone') or 'neutral').lower()
+            pal_t = get_tone(l_tone, tpl, 'neutral')
             lx_rel = round(i * (lw + gap), 2)
+            is_rb_lane = l_tone in ('rollback', 'reject')
+            is_pass_lane = l_tone in ('pass', 'promoted')
 
             paras = []
             if ln.get('title'):
                 paras.append(make_para([make_run(str(ln['title']), max(10.5, title_sz - 0.5), True, pal_t['title'], font)], spaceAfter=4.0))
             if ln.get('metric'):
-                m_c = '#141413' if (is_terra and pal_t['badgeBg'] == '#D0E516') else pal_t['badgeBg']
+                m_c = '#364204' if (is_terra and is_pass_lane) else pal_t['title']
                 paras.append(make_para([make_run(str(ln['metric']), max(10.5, title_sz), True, m_c, font)], spaceAfter=5.0))
             for it in (ln.get('items') or []):
                 paras.append(make_para([make_run(str(it), max(9.5, body_sz), False, pal_t['body'], font)], spaceAfter=3.5))
@@ -1696,22 +1779,53 @@ def compile_component(comp, template=None):
             if not paras:
                 paras.append(make_para([make_run(' ', body_sz, False, pal_t['body'], font)], spaceAfter=0.0))
 
-            children.append(_make_child_shape(
-                cid, next_idx(), 'lane-card', f'lane-card_{i+1}', bx, by,
-                lx_rel, 0.0, lw, lane_h, geom='rect' if is_terra else 'roundRect',
-                fill=pal_t['bg'], border_color=pal_t['border'], border_width=1.2, shadow=is_terra,
-                text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 8.0, 'top': 32.0, 'right': 8.0, 'bottom': 6.0}, 'paragraphs': paras},
-                adj=8000
-            ))
-
-            children.append(_make_child_shape(
-                cid, next_idx(), 'badge', f'badge_{i+1}', bx, by,
-                lx_rel, 0.0, lw, 26.0, geom='rect' if is_terra else 'roundRect',
-                fill=pal_t['badgeBg'], border_width=0.0,
-                text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 6.0, 'top': 1.0, 'right': 6.0, 'bottom': 1.0},
-                           'paragraphs': [make_para([make_run(str(ln.get('round', f'R{i}')), max(9.5, body_sz), True, pal_t['badgeFg'], font)], align='center', spaceAfter=0.0)]},
-                adj=8000
-            ))
+            if is_terra:
+                stripe_c = pal_t.get('stripe') or pal_t['badgeBg']
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'lane-card', f'lane-card_{i+1}', bx, by,
+                    lx_rel, 0.0, lw, lane_h, geom='rect',
+                    fill=pal_t['bg'], fill_alpha=0.92,
+                    border_color=pal_t['border'], border_width=1.0, border_alpha=0.52 if (is_rb_lane or is_pass_lane) else 0.35,
+                    dash_style='dash' if is_rb_lane else None, shadow=True,
+                    text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 14.0, 'top': 34.0, 'right': 10.0, 'bottom': 6.0}, 'paragraphs': paras}
+                ))
+                # 左侧 5px 机能竖条
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'divider', f'lane-stripe_{i+1}', bx, by,
+                    lx_rel, 26.0, 5.0, round(max(20.0, lane_h - 26.0), 2), geom='rect',
+                    fill=stripe_c, border_width=0.0
+                ))
+                # 顶部 PRTS 铭牌头：R2 回退用深炭暗绯头配左红信号块；R3 定稿用青柠头配左黑锚块；其余用黑/灰铭牌
+                hdr_bg = '#261919' if is_rb_lane else pal_t['badgeBg']
+                hdr_fg = '#F5E6E4' if is_rb_lane else pal_t['badgeFg']
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'badge', f'badge_{i+1}', bx, by,
+                    lx_rel, 0.0, lw, 26.0, geom='rect', fill=hdr_bg, border_width=0.0,
+                    text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 14.0, 'top': 1.0, 'right': 6.0, 'bottom': 1.0},
+                               'paragraphs': [make_para([make_run(str(ln.get('round', f'R{i}')), max(9.5, body_sz), True, hdr_fg, font)], align='center', spaceAfter=0.0)]}
+                ))
+                if is_rb_lane or is_pass_lane:
+                    children.append(_make_child_shape(
+                        cid, next_idx(), 'shape', f'badge-anchor_{i+1}', bx, by,
+                        lx_rel, 0.0, 10.0, 26.0, geom='rect',
+                        fill='#A63429' if is_rb_lane else '#18181B', border_width=0.0
+                    ))
+            else:
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'lane-card', f'lane-card_{i+1}', bx, by,
+                    lx_rel, 0.0, lw, lane_h, geom='roundRect',
+                    fill=pal_t['bg'], border_color=pal_t['border'], border_width=1.2,
+                    text_body={'valign': 'top', 'wrap': True, 'padding': {'left': 8.0, 'top': 32.0, 'right': 8.0, 'bottom': 6.0}, 'paragraphs': paras},
+                    adj=8000
+                ))
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'badge', f'badge_{i+1}', bx, by,
+                    lx_rel, 0.0, lw, 26.0, geom='roundRect',
+                    fill=pal_t['badgeBg'], border_width=0.0,
+                    text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 6.0, 'top': 1.0, 'right': 6.0, 'bottom': 1.0},
+                               'paragraphs': [make_para([make_run(str(ln.get('round', f'R{i}')), max(9.5, body_sz), True, pal_t['badgeFg'], font)], align='center', spaceAfter=0.0)]},
+                    adj=8000
+                ))
 
             if i < l_cnt - 1:
                 next_tone = str(lanes[i + 1].get('tone', '')).lower()
@@ -1720,7 +1834,7 @@ def compile_component(comp, template=None):
                     cid, next_idx(), 'connector', f'connector_{i+1}', bx, by,
                     round(lx_rel + lw + 2.0, 2), round(lane_h / 2.0, 2),
                     round(max(4.0, gap - 4.0), 2), 0.0, geom='line',
-                    border_color='#DC2626' if is_rb else ('#18181B' if is_terra else tpl_primary),
+                    border_color=('#A63429' if is_terra else '#8C2D3C') if is_rb else ('#18181B' if is_terra else tpl_primary),
                     border_width=1.6, tail_end='triangle', dash_style='dash' if is_rb else None
                 ))
 
@@ -1779,19 +1893,26 @@ def compile_component(comp, template=None):
         row_h = round((avail_h - max(0, r_cnt - 1) * gap) / r_cnt, 2)
 
         for i, r in enumerate(rows):
-            pal_t = get_tone(r.get('tone'), tpl, 'navy')
+            r_tone = str(r.get('tone') or 'info').lower()
+            pal_t = get_tone(r_tone, tpl, 'info')
             is_kv = (mode == 'kv-matrix')
             badge_w = min(98.0, round(w * 0.28, 1)) if is_kv else min(30.0, row_h)
             badge_h = row_h if is_kv else badge_w
             badge_y = round(cur_y + (row_h - badge_h) / 2.0, 2)
             badge_geom = ('plaque' if is_terra else 'roundRect') if is_kv else ('hexagon' if is_terra else 'oval')
 
+            # terra_quest 下“准/PASS”徽章采用曜石黑底+亮青柠字，与“禁(暗绯)/警(黄铜)”形成克制统一工业矩阵
+            if is_terra and not is_kv and r_tone in ('pass', 'promoted'):
+                b_bg, b_fg = '#18181B', '#D0E516'
+            else:
+                b_bg, b_fg = pal_t['badgeBg'], pal_t['badgeFg']
+
             children.append(_make_child_shape(
                 cid, next_idx(), 'badge', f'badge_{i+1}', bx, by,
                 px, badge_y, badge_w, badge_h, geom=badge_geom,
-                fill=pal_t['badgeBg'], border_width=0.0,
+                fill=b_bg, border_width=0.0,
                 text_body={'valign': 'middle', 'wrap': False, 'padding': {'left': 3.0, 'top': 1.0, 'right': 3.0, 'bottom': 1.0},
-                           'paragraphs': [make_para([make_run(str(r.get('badge', '•')), max(9.5, body_sz), True, pal_t['badgeFg'], font)], align='center', spaceAfter=0.0)]},
+                           'paragraphs': [make_para([make_run(str(r.get('badge', '•')), max(9.5, body_sz), True, b_fg, font)], align='center', spaceAfter=0.0)]},
                 adj=10000
             ))
 
@@ -1801,18 +1922,25 @@ def compile_component(comp, template=None):
             if r_title:
                 runs.append(make_run(f"{r_title}：", max(9.5, body_sz), True, pal_t['title'], font))
             if r_desc or not runs:
-                runs.append(make_run(r_desc or ' ', max(9.5, body_sz), False, '#2E2D2A' if is_terra else '#334155', font))
+                runs.append(make_run(r_desc or ' ', max(9.5, body_sz), False, pal_t['body'] if is_terra else '#334155', font))
 
             item_x = round(px + badge_w + 8.0, 2)
             item_w = round(max(40.0, w - px - item_x), 2)
             children.append(_make_child_shape(
                 cid, next_idx(), 'rule-item', f'rule-item_{i+1}', bx, by,
                 item_x, cur_y, item_w, row_h, geom='rect' if is_terra else 'roundRect',
-                fill='#F7F4EB' if is_terra else '#FFFFFF', border_color='#E2E8F0', border_width=0.9,
-                text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 8.0, 'top': 3.0, 'right': 8.0, 'bottom': 3.0},
+                fill='#F7F5EC' if is_terra else '#FFFFFF',
+                border_color='#DCD8CC' if is_terra else '#E2E8F0', border_width=0.9,
+                text_body={'valign': 'middle', 'wrap': True, 'padding': {'left': 10.0 if is_terra else 8.0, 'top': 3.0, 'right': 8.0, 'bottom': 3.0},
                            'paragraphs': [make_para(runs, spaceAfter=0.0)]},
                 adj=8000
             ))
+            if is_terra and not is_kv:
+                children.append(_make_child_shape(
+                    cid, next_idx(), 'divider', f'rule-stripe_{i+1}', bx, by,
+                    item_x, cur_y, 3.5, row_h, geom='rect',
+                    fill=pal_t.get('stripe') or pal_t['badgeBg'], border_width=0.0
+                ))
             cur_y = round(cur_y + row_h + gap, 2)
 
         comp['children'] = children
@@ -1857,9 +1985,10 @@ def compile_component(comp, template=None):
                     cid, next_idx(), 'badge', f'step-dot_{i+1}', bx, by,
                     round(sx_rel + 10.0, 2), 8.0, 22.0, 22.0, geom='oval', fill='#18181B', border_color='#D0E516', border_width=1.2
                 ))
+                lime_icons = _get_icon_paths(tpl, 'lime')
                 children.append(_make_child_image(
                     cid, next_idx(), 'image', f'step-ico_{i+1}', bx, by,
-                    round(sx_rel + 14.0, 2), 12.0, 14.0, 14.0, TERRA_ICONS_LIME[i % len(TERRA_ICONS_LIME)]
+                    round(sx_rel + 14.0, 2), 12.0, 14.0, 14.0, lime_icons[i % len(lime_icons)]
                 ))
                 children.append(_make_child_shape(
                     cid, next_idx(), 'title', f'step-title_{i+1}', bx, by,
@@ -2164,9 +2293,9 @@ def create_default_component(comp_type, comp_id=None, template_id=None):
             'content': {
                 'lanes': [
                     {'round': 'R0 · 基线', 'tone': 'baseline', 'title': '冷启动默认参数', 'metric': '命中 68 / 100', 'items': ['• 默认周期窗口快照', '• 全局极值截尾标准化', '• 未启用缓冲机制'], 'verdict': '首处分歧：样本池偏差'},
-                    {'round': 'R1 · 晋升', 'tone': 'promoted', 'title': '修正 S2 样本边界', 'metric': '命中 84 / 100 (+16)', 'items': ['• 对齐公告日历边界', '• 引入尾部流动性剔除', '• 冻结下游其余超参数'], 'verdict': '状态：PROMOTED（新锚点）'},
+                    {'round': 'R1 · 晋升', 'tone': 'info', 'title': '修正 S2 样本边界', 'metric': '命中 84 / 100 (+16)', 'items': ['• 对齐公告日历边界', '• 引入尾部流动性剔除', '• 冻结下游其余超参数'], 'verdict': '状态：PROMOTED（新锚点）'},
                     {'round': 'R2 · 回退', 'tone': 'rollback', 'title': '盲试放宽约束上限', 'metric': '命中 82 / 100 (-2)', 'items': ['• 上限由 5% 放宽至 8%', '• 触发回退红线（跌 2 项）', '• 权重偏差同步放大'], 'verdict': '状态：REJECT（强制回退 R1）'},
-                    {'round': 'R3 · 终态', 'tone': 'final', 'title': '启用分组中性 + 缓冲', 'metric': '命中 97 / 100 (+13)', 'items': ['• 基于 R1 锚点叠加中性化', '• 启用 20% 优先保留带', '• 权重重合度达 96.4%'], 'verdict': '状态：FINAL（满足验收门禁）'}
+                    {'round': 'R3 · 终态', 'tone': 'pass', 'title': '启用分组中性 + 缓冲', 'metric': '命中 97 / 100 (+13)', 'items': ['• 基于 R1 锚点叠加中性化', '• 启用 20% 优先保留带', '• 权重重合度达 96.4%'], 'verdict': '状态：FINAL（满足验收门禁）'}
                 ],
                 'topology': '版本演进拓扑：R0 (68) -> R1 (84, 锚点晋升) -> R2 (82, 触发红线回退至 R1) -> R3 (97, 验收交付)'
             },
@@ -2185,7 +2314,7 @@ def create_default_component(comp_type, comp_id=None, template_id=None):
                 'mode': 'checklist',
                 'rows': [
                     {'badge': '准', 'tone': 'pass', 'title': '单变量受控消融', 'desc': '每次试验仅改动 1 个优先级规则，确保收益可归因'},
-                    {'badge': '准', 'tone': 'blue', 'title': '多期样本外交叉验真', 'desc': '至少覆盖最近 3 个连续评估窗口，防止单期过拟合'},
+                    {'badge': '准', 'tone': 'pass', 'title': '多期样本外交叉验真', 'desc': '至少覆盖最近 3 个连续评估窗口，防止单期过拟合'},
                     {'badge': '警', 'tone': 'warn', 'title': '收益衰减即停阈值', 'desc': '若连续两轮提升低于阈值或误差扩大则切换排错路径'},
                     {'badge': '禁', 'tone': 'reject', 'title': '严禁引入未来信息', 'desc': '禁止使用决策时点之后的观测数据逆向拟合参数'},
                     {'badge': '禁', 'tone': 'reject', 'title': '严禁样本特判硬编码', 'desc': '不得针对个体样本打补丁，规则必须保持通用可解释性'}

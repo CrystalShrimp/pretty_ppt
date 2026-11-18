@@ -1,0 +1,97 @@
+{
+  "id": "emerald_research",
+  "name": "森系智库绿",
+  "description": "宏观政策/专题研究风格：#0D9488 翡翠绿 + #B45309 琥珀点缀，层次清晰且阅读柔和。",
+  "commercial": true,
+  "isDefault": false,
+  "canvas": {
+    "width": 1020.67,
+    "height": 680.33,
+    "emuCx": 9721850,
+    "emuCy": 6480175
+  },
+  "palette": {
+    "primary": "#0D9488",
+    "secondary": "#0F766E",
+    "accent": "#B45309",
+    "titleColor": "#134E4A",
+    "bodyColor": "#334155",
+    "mutedColor": "#64748B",
+    "cardBg": "#F0FDFA",
+    "cardAltBg": "#FEF3C7",
+    "cardBorder": "#99F6E4",
+    "bannerBg": "#F0FDFA",
+    "bannerBorder": "#0D9488",
+    "tableHeaderBg": "#0D9488",
+    "tableHeaderFg": "#FFFFFF",
+    "tableStripeBg": "#F8FAFC",
+    "fontFamily": "微软雅黑",
+    "semantic": {
+      "pass": {
+        "bg": "#F2FAF7",
+        "border": "#0D9488",
+        "stripe": "#0D9488",
+        "badgeBg": "#0D9488",
+        "badgeFg": "#FFFFFF",
+        "title": "#0F766E",
+        "body": "#334155"
+      },
+      "warn": {
+        "bg": "#FAF6EE",
+        "border": "#B45309",
+        "stripe": "#C26D18",
+        "badgeBg": "#B45309",
+        "badgeFg": "#FFFFFF",
+        "title": "#8C420A",
+        "body": "#334155"
+      },
+      "reject": {
+        "bg": "#FAF3F2",
+        "border": "#A23B32",
+        "stripe": "#A23B32",
+        "badgeBg": "#A23B32",
+        "badgeFg": "#FFFFFF",
+        "title": "#7F2A22",
+        "body": "#334155"
+      },
+      "info": {
+        "bg": "#F3F8F8",
+        "border": "#2C6B74",
+        "stripe": "#1E555E",
+        "badgeBg": "#1E555E",
+        "badgeFg": "#FFFFFF",
+        "title": "#134E4A",
+        "body": "#334155"
+      },
+      "neutral": {
+        "bg": "#F7F9F8",
+        "border": "#889996",
+        "stripe": "#5C6E6B",
+        "badgeBg": "#465653",
+        "badgeFg": "#FFFFFF",
+        "title": "#2F3D3B",
+        "body": "#4E5F5C"
+      }
+    }
+  },
+  "backgrounds": {
+    "cover": {
+      "type": "color",
+      "color": "#FFFFFF",
+      "image": null
+    },
+    "body": {
+      "type": "color",
+      "color": "#FFFFFF",
+      "image": null
+    }
+  },
+  "skeleton": {
+    "coverStyle": "academic_banner",
+    "headerStyle": "academic_ribbon",
+    "cardTopBar": true,
+    "defaultMarginX": 48.0,
+    "contentTopY": 134.0,
+    "footerY": 596.0
+  }
+}

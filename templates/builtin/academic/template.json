@@ -1,0 +1,97 @@
+{
+  "id": "academic",
+  "name": "学术深蓝 (默认)",
+  "description": "自用学术汇报/答辩默认风格：#1B365D 深蓝主色 + #7A2048 酒红强调 + 纯白底色与双段顶栏矢量页眉，零外部图片依赖。",
+  "commercial": true,
+  "isDefault": true,
+  "canvas": {
+    "width": 1020.67,
+    "height": 680.33,
+    "emuCx": 9721850,
+    "emuCy": 6480175
+  },
+  "palette": {
+    "primary": "#1B365D",
+    "secondary": "#2B547E",
+    "accent": "#7A2048",
+    "titleColor": "#1B365D",
+    "bodyColor": "#334155",
+    "mutedColor": "#64748B",
+    "cardBg": "#F6F8FB",
+    "cardAltBg": "#FAF4F6",
+    "cardBorder": "#CBD5E1",
+    "bannerBg": "#EDF2F8",
+    "bannerBorder": "#1B365D",
+    "tableHeaderBg": "#1B365D",
+    "tableHeaderFg": "#FFFFFF",
+    "tableStripeBg": "#F4F6F9",
+    "fontFamily": "微软雅黑",
+    "semantic": {
+      "pass": {
+        "bg": "#F6FAF8",
+        "border": "#2E6F54",
+        "stripe": "#2E6F54",
+        "badgeBg": "#2E6F54",
+        "badgeFg": "#FFFFFF",
+        "title": "#1E523C",
+        "body": "#334155"
+      },
+      "warn": {
+        "bg": "#FAF7F2",
+        "border": "#A1681E",
+        "stripe": "#B87A28",
+        "badgeBg": "#A1681E",
+        "badgeFg": "#FFFFFF",
+        "title": "#7C4E12",
+        "body": "#334155"
+      },
+      "reject": {
+        "bg": "#FAF4F5",
+        "border": "#8C2D3C",
+        "stripe": "#8C2D3C",
+        "badgeBg": "#8C2D3C",
+        "badgeFg": "#FFFFFF",
+        "title": "#7A2048",
+        "body": "#334155"
+      },
+      "info": {
+        "bg": "#F4F7FB",
+        "border": "#2B547E",
+        "stripe": "#1B365D",
+        "badgeBg": "#1B365D",
+        "badgeFg": "#FFFFFF",
+        "title": "#1B365D",
+        "body": "#334155"
+      },
+      "neutral": {
+        "bg": "#F8FAFC",
+        "border": "#94A3B8",
+        "stripe": "#64748B",
+        "badgeBg": "#475569",
+        "badgeFg": "#FFFFFF",
+        "title": "#334155",
+        "body": "#475569"
+      }
+    }
+  },
+  "backgrounds": {
+    "cover": {
+      "type": "color",
+      "color": "#FFFFFF",
+      "image": null
+    },
+    "body": {
+      "type": "color",
+      "color": "#FFFFFF",
+      "image": null
+    }
+  },
+  "skeleton": {
+    "coverStyle": "academic_banner",
+    "headerStyle": "academic_ribbon",
+    "cardTopBar": true,
+    "defaultMarginX": 48.0,
+    "contentTopY": 134.0,
+    "footerY": 596.0
+  }
+}
